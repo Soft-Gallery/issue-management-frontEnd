@@ -19,7 +19,7 @@ const LayoutContainer = styled.main`
   align-items: center;
 
   width: 100%;
-  min-height: 100vh;
+  height: 100vh;
 
   background-color: ${({ theme: { color } }) => color.background};
 `;
