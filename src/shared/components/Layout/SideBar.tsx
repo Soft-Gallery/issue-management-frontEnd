@@ -33,6 +33,10 @@ const Container = styled.div<ContainerProps>`
   transition: transform 1s;
   flex-direction: column;
   align-items: flex-start;
+
+  border-top-right-radius: 20px;
+  border-bottom-right-radius: 20px;
+  
   background-color: ${({ theme: { color } }) => color.white};
-  transform: ${({ isActive }) => isActive ? 'translateX(0)' : 'translateX(-100%)'};
+  transform: ${({ isActive }) => isActive ? 'translateX(0%)' : 'translateX(-90%)'};
 `;

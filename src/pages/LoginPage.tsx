@@ -1,10 +1,9 @@
 import { useNavigate } from "react-router-dom";
 import React from 'react';
-
-const AdminPage = () => {
+const LoginPage = () => {
   const navigate = useNavigate();
 
-  return <div><h1></h1></div>;
-};
+  return <div><h1>로그인</h1></div>;
+}
 
-export default AdminPage;
+export default LoginPage;
