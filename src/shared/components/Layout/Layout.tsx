@@ -32,16 +32,19 @@ const Layout = () => {
 export default Layout;
 
 const LayoutContainer = styled.main<LayOutContainerProps>`
+  box-sizing: border-box;
   display: flex;
   flex-direction: column;
   align-items: center;
 
-  transition: margin-left 1s ease-in-out, width 1s ease-in-out;
+  transition: transform 1s, width 1s ease-in-out, margin-left 1s ease-in-out;
 
   width: ${({ isActive }) => isActive ? 'calc(100% - 240px)' : '100%'};
   height: 100vh;
 
-  margin-left: ${({ isActive }) => isActive ? '240px' : '0px'};  // 사이드바 활성화 시 오른쪽으로 밀기
+  margin-left: ${({ isActive }) => isActive ? '240px' : '0px'};
+  padding-left: 40px;
+  padding-right: 8px;
 
   border-top-right-radius: 20px;
   border-bottom-right-radius: 20px;
