@@ -42,6 +42,8 @@ const Container = styled.div<ContainerProps>`
   border-top-right-radius: 20px;
   border-bottom-right-radius: 20px;
 
+  border: 1px solid ${({ theme: { color } }) => color.black200};
+
   background-color: ${({ theme: { color } }) => color.white};
   transform: ${({ isActive }) => isActive ? 'translateX(0%)' : 'translateX(-90%)'};
 `;
