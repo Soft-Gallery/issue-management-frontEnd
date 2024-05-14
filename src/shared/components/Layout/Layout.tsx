@@ -1,11 +1,12 @@
 import { Outlet } from 'react-router-dom';
 import styled from 'styled-components';
 import SideBar from './SideBar';
+import AdminSideBarMenu from '../../../feature/admin/layout/AdminSideBarMenu';
 
 const Layout = () => {
   return (
     <>
-      <SideBar />
+      <SideBar SideBarMenu={<AdminSideBarMenu />}/>
       <LayoutContainer>
         <Outlet />
       </LayoutContainer>
