@@ -21,42 +21,54 @@ const LoginPage: React.FC = () => {
   }
 
   return (
-    <LoginContainer>
-      <h2>Login</h2>
-      <Form onSubmit={loginSubmit}>
-        <FormElement>
-          <label htmlFor="username">Username : </label>
-          <input
-            type="text"
-            id="username"
-            value={username}
-            onChange={(e) => setUsername(e.target.value)}
-            required
-          />
-        </FormElement>
-        <FormElement>
-          <label htmlFor="password">Password : </label>
-          <input
-            type="password"
-            id="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            required
-          />
-        </FormElement>
-        <Button type="submit">Login</Button>
-      </Form>
-      <SignUp>
-        <p>Don&apos;t you have an account? </p>
-        <a onClick={signUpClick}>Create account</a>
-      </SignUp>
-    </LoginContainer>
+    <Container>
+      <LoginContainer>
+        <h2>Login</h2>
+        <Form onSubmit={loginSubmit}>
+          <FormElement>
+            <label htmlFor="username">Username : </label>
+            <input
+              type="text"
+              id="username"
+              value={username}
+              onChange={(e) => setUsername(e.target.value)}
+              required
+            />
+          </FormElement>
+          <FormElement>
+            <label htmlFor="password">Password : </label>
+            <input
+              type="password"
+              id="password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              required
+            />
+          </FormElement>
+          <Button type="submit">Login</Button>
+        </Form>
+        <SignUp>
+          <p>Don&apos;t you have an account? </p>
+          <a onClick={signUpClick}>Create account</a>
+        </SignUp>
+      </LoginContainer>
+      <ImageContainer>
+      </ImageContainer>
+    </Container>
+
   );
 }
 
-const LoginContainer = styled.div`
-    width: 100%;
+const Container = styled.div`
+    width: 100vw;
     height: 100vh;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+`
+const LoginContainer = styled.div`
+    margin: 20px;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -105,5 +117,10 @@ const SignUp = styled.div`
     }
 `;
 
-
+const ImageContainer = styled.div`
+    width: 450px;
+    height: 450px;
+    margin: 20px;
+    background-color: ${({ theme: { color } }) => color.indigo};
+`
 export default LoginPage;
