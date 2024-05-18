@@ -24,6 +24,7 @@ const AdminPage = () => {
 const Container = styled.div`
   width: 100%;
   display: flex;
+  padding: 24px;
   
   flex-direction: column;
   align-items: center;

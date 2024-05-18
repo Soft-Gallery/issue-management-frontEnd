@@ -16,11 +16,13 @@ const ElementContainer = ({ children }: ElementContainerProps) => {
 
 const Container = styled.div`
   width: 100%;
+  box-sizing: border-box;
+  padding: 24px;
   display: flex;
-  border-radius: 30px;
+  border-radius: 12px;
   
   flex-direction: column;
-  align-items: center;
+  align-items: flex-start;
   justify-content: center;
 
   border: 1px solid ${({ theme: { color } }) => color.black200};

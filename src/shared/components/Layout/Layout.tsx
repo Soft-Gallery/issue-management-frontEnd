@@ -43,8 +43,8 @@ const LayoutContainer = styled.main<LayOutContainerProps>`
   height: 100vh;
 
   margin-left: ${({ isActive }) => isActive ? '240px' : '0px'};
-  padding-left: 44px;
-  padding-right: 12px;
+  padding-left: 60px;
+  padding-right: 28px;
 
   border-top-right-radius: 20px;
   border-bottom-right-radius: 20px;
