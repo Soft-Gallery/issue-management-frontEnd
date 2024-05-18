@@ -1,28 +1,31 @@
-import { createBrowserRouter } from "react-router-dom";
+import { createBrowserRouter, RouteObject } from "react-router-dom";
 import Layout from './shared/components/Layout/Layout';
 import React from 'react';
 import AdminPage from './pages/AdminPage';
 import LoginPage from './pages/LoginPage';
+import ProtectedRoute from "./shared/components/ProtectedRoute";
 
-const router = createBrowserRouter([
+const routes: RouteObject[] = [
   {
     path: "/",
-    element: (
-      <Layout />
-    ),
+    element: <Layout />,
     children: [
       {
         index: true,
-        element: <AdminPage />,
+        element: (
+          <ProtectedRoute allowedRoles={['admin']}>
+            <AdminPage />
+          </ProtectedRoute>
+        ),
       },
     ],
   },
   {
     path: "/login",
-    element: (
-      <LoginPage />
-    ),
+    element: <LoginPage />,
   },
-]);
+];
+
+const router = createBrowserRouter(routes);
 
 export default router;
