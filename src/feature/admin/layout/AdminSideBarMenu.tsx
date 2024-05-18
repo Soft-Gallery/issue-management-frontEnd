@@ -1,12 +1,19 @@
 import React, { ReactNode, useState } from 'react';
 import styled from 'styled-components';
+import { useRecoilState } from 'recoil';
+import { adminPageViewState } from '../../../recoil/admin/atom';
 
 const AdminSideBarMenu = (): JSX.Element => {
   const [showProjects, setShowProjects] = useState<boolean>(false);
+  const [currentView, setCurrentView] = useRecoilState(adminPageViewState);
+
+  const handleButtonClick = (view: string) => {
+    setCurrentView(view);
+  };
 
   return(
     <div>
-      <StyledButton>Add Project</StyledButton>
+      <StyledButton onClick={() => handleButtonClick('addProject')}>Add Project</StyledButton>
       <StyledButton
         onClick={() => setShowProjects(!showProjects)}
       >

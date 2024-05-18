@@ -2,21 +2,18 @@ import { useNavigate } from "react-router-dom";
 import React from 'react';
 import styled from 'styled-components';
 import ElementContainer from '../shared/components/ElementContainer';
+import { useRecoilValue } from 'recoil';
+import { adminPageViewState } from '../recoil/admin/atom';
+import AddProjectItem from '../feature/admin/components/AddProjectItem';
 
 const AdminPage = () => {
   const navigate = useNavigate();
+  const currentView = useRecoilValue(adminPageViewState);
 
   return (
     <Container>
-      <ElementContainer>
-        <div>어쩔저쩔</div>
-      </ElementContainer>
-      <ElementContainer>
-        <div>어쩔저쩔</div>
-      </ElementContainer>
-      <ElementContainer>
-        <div>어쩔저쩔</div>
-      </ElementContainer>
+      {currentView === 'addProject' && <AddProjectItem />}
+      {currentView === 'none' && null}
     </Container>
   );
 };
