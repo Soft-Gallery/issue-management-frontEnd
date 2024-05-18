@@ -2,14 +2,14 @@ import ElementContainer from '../../../shared/components/ElementContainer';
 import React from 'react';
 import styled from 'styled-components';
 
-const AddProjectItem = () => {
+const ProjectDetailItem = () => {
   return (
     <Container>
       <ElementContainer>
-        <div>어쩔저쩔</div>
+        <div>디테일이다</div>
       </ElementContainer>
       <ElementContainer>
-        <div>어쩔저쩔</div>
+        <div>디테일이야</div>
       </ElementContainer>
       <ElementContainer>
         <div>어쩔저쩔</div>
@@ -29,4 +29,4 @@ const Container = styled.div`
   justify-content: center;
 `
 
-export default AddProjectItem;
+export default ProjectDetailItem;

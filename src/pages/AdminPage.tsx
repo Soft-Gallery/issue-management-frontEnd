@@ -5,6 +5,8 @@ import ElementContainer from '../shared/components/ElementContainer';
 import { useRecoilValue } from 'recoil';
 import { adminPageViewState } from '../recoil/admin/atom';
 import AddProjectItem from '../feature/admin/components/AddProjectItem';
+import ProjectDetailItem from '../feature/admin/components/ProjectDetailItem';
+import { CURRENT_VIEW_STATES } from '../recoil/admin/constants/constants';
 
 const AdminPage = () => {
   const navigate = useNavigate();
@@ -12,8 +14,9 @@ const AdminPage = () => {
 
   return (
     <Container>
-      {currentView === 'addProject' && <AddProjectItem />}
-      {currentView === 'none' && null}
+      {currentView === CURRENT_VIEW_STATES.ADD_PROJECT && <AddProjectItem />}
+      {currentView === CURRENT_VIEW_STATES.VIEW_PROJECTS && <ProjectDetailItem />}
+      {currentView === CURRENT_VIEW_STATES.NONE && null}
     </Container>
   );
 };
@@ -21,8 +24,6 @@ const AdminPage = () => {
 const Container = styled.div`
   width: 100%;
   display: flex;
-  gap: 12px;
-  border-radius: 30px;
   
   flex-direction: column;
   align-items: center;
