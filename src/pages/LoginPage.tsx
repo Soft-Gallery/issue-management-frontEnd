@@ -146,17 +146,17 @@ const FormElement = styled.div`
 
 const SignUp = styled.div`
   p {
-    display: inline; /* 문장을 인라인 요소로 설정합니다. */
+    display: inline;
   }
   a {
-    display: inline-block; /* 링크를 인라인 블록 요소로 설정합니다. */
-    margin-left: 5px; /* 링크와 문장 사이에 간격을 추가합니다. */
+    display: inline-block;
+    margin-left: 5px;
     color: ${({ theme: { color } }) => color.indigo};
-    cursor: pointer; /* 마우스 호버 시 손 모양으로 변경합니다. */
+    cursor: pointer;
   }
 
   a:hover {
-    text-decoration: underline; /* 호버 시에 밑줄 효과 추가합니다. */
+    text-decoration: underline;
   }
 `;
 
