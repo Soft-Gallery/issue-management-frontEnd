@@ -57,8 +57,8 @@ const LoginPage: React.FC = () => {
               </ToggleSwitch>
             </PasswordInputContainer>
           </FormElement>
+          <LoginButton type="submit">Log In</LoginButton>
         </Form>
-        <LoginButton type="submit">Login</LoginButton>
         <SignUp>
           <span>Don&apos;t you have an account? </span>
           <a onClick={signUpClick}>Create account</a>
@@ -127,6 +127,12 @@ const LoginButton = styled.button`
     border-radius: 5px;
     background-color: ${({ theme: { color } }) => color.indigo};
     color: white;
+    cursor: pointer;
+    transition: transform 0.2s;
+
+    &:hover {
+        transform: scale(1.1);
+    }
 `;
 
 const Form = styled.form`
@@ -138,26 +144,26 @@ const Form = styled.form`
 `;
 
 const FormElement = styled.div`
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  margin: 5px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    margin: 5px;
 `;
 
 const SignUp = styled.div`
-  p {
-    display: inline;
-  }
-  a {
-    display: inline-block;
-    margin-left: 5px;
-    color: ${({ theme: { color } }) => color.indigo};
-    cursor: pointer;
-  }
+    p {
+        display: inline;
+    }
+    a {
+        display: inline-block;
+        margin-left: 5px;
+        color: ${({ theme: { color } }) => color.indigo};
+        cursor: pointer;
+    }
 
-  a:hover {
-    text-decoration: underline;
-  }
+    a:hover {
+        text-decoration: underline;
+    }
 `;
 
 const ImageContainer = styled.div`
