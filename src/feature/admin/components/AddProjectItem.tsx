@@ -13,7 +13,7 @@ const AddProjectItem = () => {
         <DescriptionTextInput placeholder="프로젝트 설명을 입력하세요" />
       </ElementContainer>
       <ElementContainer>
-        <div>어쩔저쩔</div>
+        <ElementTitleText>PL 정보</ElementTitleText>
       </ElementContainer>
       <ElementContainer>
         <div>어쩔저쩔</div>
@@ -25,7 +25,7 @@ const AddProjectItem = () => {
 const Container = styled.div`
   width: 100%;
   display: flex;
-  gap: 12px;
+  gap: 20px;
   border-radius: 30px;
   
   flex-direction: column;
