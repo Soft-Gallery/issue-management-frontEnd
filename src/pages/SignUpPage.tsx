@@ -8,11 +8,17 @@ const SignUpPage: React.FC = () => {
 
   const [username, setUsername] = useState<string>('');
   const [password, setPassword] = useState<string>('');
+  const [email, setEmail] = useState<string>('');
   const [passwordVisible, setPasswordVisible] = useState<boolean>(false);
-  const [errors, setErrors] = useState<{ username?: string; password?: string }>({});
+  const [errors, setErrors] = useState<{ username?: string; password?: string; email?: string }>({});
+  const [selectedValue, setSelectedValue] = useState<string>('ADMIN');
+
+  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setSelectedValue(event.target.value);
+  };
 
   const validateForm = () => {
-    const newErrors: { username?: string; password?: string } = {};
+    const newErrors: { username?: string; password?: string; email?: string } = {};
 
     if (!username) {
       newErrors.username = '아이디 입력란을 채워주세요';
@@ -26,6 +32,12 @@ const SignUpPage: React.FC = () => {
       newErrors.password = '비밀번호는 영문+숫자 8~16자리여야 합니다';
     }
 
+    if (!email) {
+      newErrors.email = '이메일 입력란을 채워주세요';
+    } else if (!/\S+@\S+\.\S+/.test(email)) {
+      newErrors.email = '유효한 이메일 주소를 입력해주세요';
+    }
+
     return newErrors;
   };
 
@@ -37,9 +49,11 @@ const SignUpPage: React.FC = () => {
       setErrors(validationErrors);
     } else {
       setErrors({});
-      const message = `Username: ${username}\nPassword: ${password}`;
+      const message = `Username: ${username}\nPassword: ${password}\nEmail: ${email}\nRole: ${selectedValue}`;
       setUsername('');
       setPassword('');
+      setEmail('');
+      setSelectedValue('ADMIN');
       alert(message);
     }
   };
@@ -56,8 +70,10 @@ const SignUpPage: React.FC = () => {
     <Container>
       <ImageContainer />
       <SignUpContainer>
-        <h2 style={{ marginBottom: 50 }}>Welcome!</h2>
+        <h2 style={{ marginBottom: 40 }}>Welcome!</h2>
         <Form onSubmit={signUpSubmit}>
+
+           {/*아이디*/}
           <FormElement>
             <Input
               type="text"
@@ -67,8 +83,10 @@ const SignUpPage: React.FC = () => {
               placeholder="Create ID"
               required
             />
-            <InstructionText error={!!errors.username}>영문+숫자 4~8자리</InstructionText>
+            <InstructionText error={!!errors.username}>{errors.username || '영문+숫자 4~8자리'}</InstructionText>
           </FormElement>
+
+          {/*패스워드*/}
           <FormElement>
             <PasswordInputContainer>
               <Input
@@ -83,7 +101,36 @@ const SignUpPage: React.FC = () => {
                 {passwordVisible ? <StyledBsEyeFill /> : <StyledBsEyeSlashFill />}
               </ToggleSwitch>
             </PasswordInputContainer>
-            <InstructionText error={!!errors.password}>영문+숫자 8~16자리</InstructionText>
+            <InstructionText error={!!errors.password}>{errors.password || '영문+숫자 8~16자리'}</InstructionText>
+          </FormElement>
+
+          {/*이메일 입력*/}
+          <FormElement>
+            <Input
+              type="email"
+              id="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              placeholder="Email address"
+              required
+            />
+            <InstructionText error={!!errors.email}>{errors.email || '유효한 이메일 주소'}</InstructionText>
+          </FormElement>
+          <FormElement>
+            <Role>
+              <label>
+                <input type="radio" name="role" value="ADMIN" checked={selectedValue === 'ADMIN'} onChange={handleChange} />ADMIN
+              </label>
+              <label>
+                <input type="radio" name="role" value="PL" checked={selectedValue === 'PL'} onChange={handleChange} />PL
+              </label>
+              <label>
+                <input type="radio" name="role" value="DEV" checked={selectedValue === 'DEV'} onChange={handleChange} />DEV
+              </label>
+              <label>
+                <input type="radio" name="role" value="TESTER" checked={selectedValue === 'TESTER'} onChange={handleChange} />TESTER
+              </label>
+            </Role>
           </FormElement>
           <BtnRow>
             <Button type="submit">Sign Up</Button>
@@ -112,8 +159,8 @@ const Container = styled.div`
 `;
 
 const SignUpContainer = styled.div`
-    width: 400px;
-    height: 450px;
+    width: 500px;
+    height: 500px;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -124,7 +171,7 @@ const SignUpContainer = styled.div`
 
 const Input = styled.input`
     height: 25px;
-    width: 260px;
+    width: 280px;
     border: 2px solid rgba(0, 0, 0, 0.23);
     border-radius: 5px;
     color: ${({ theme: { color } }) => color.gray1};
@@ -133,7 +180,7 @@ const Input = styled.input`
 
 const PasswordInputContainer = styled.div`
     position: relative;
-    width: 284px;
+    width: 304px;
 `;
 
 const ToggleSwitch = styled.span`
@@ -188,7 +235,7 @@ const FormElement = styled.div`
 `;
 
 const InstructionText = styled.p<{ error: boolean }>`
-    margin-top: 8px;
+    margin-top: 5px;
     margin-left: 5px;
     font-size: 12px;
     color: ${({ error }) => (error ? 'red' : 'gray')};
@@ -196,10 +243,15 @@ const InstructionText = styled.p<{ error: boolean }>`
 `;
 
 const ImageContainer = styled.div`
-    width: 450px;
-    height: 450px;
+    width: 500px;
+    height: 500px;
     background-color: ${({ theme: { color } }) => color.indigo};
     border-radius: 0 5px 5px 0;
+`;
+
+const Role = styled.div`
+    display: flex;
+    flex-direction: row;
 `;
 
 export default SignUpPage;
