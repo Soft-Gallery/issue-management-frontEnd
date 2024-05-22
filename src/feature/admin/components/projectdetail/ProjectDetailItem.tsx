@@ -1,4 +1,4 @@
-import ElementContainer from '../../../shared/components/ElementContainer';
+import ElementContainer from '../../../../shared/components/ElementContainer';
 import React from 'react';
 import styled from 'styled-components';
 

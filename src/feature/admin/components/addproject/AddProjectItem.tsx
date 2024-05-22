@@ -1,26 +1,17 @@
-import ElementContainer from '../../../shared/components/ElementContainer';
 import React from 'react';
 import styled from 'styled-components';
+import ProjectInfoItem from './ProjectInfoItem';
+import PLInfoItem from './PLInfoItem';
+import DevInfoItem from './DevInfoItem';
+import TesterInfoItem from './TesterInfoItem';
 
 const AddProjectItem = () => {
   return (
     <Container>
-      <ElementContainer>
-        <ElementTitleText>프로젝트 정보</ElementTitleText>
-        <ElementSubTitleText>프로젝트 제목</ElementSubTitleText>
-        <TitleTextInput placeholder="프로젝트 제목을 입력하세요" />
-        <ElementSubTitleText>프로젝트 설명</ElementSubTitleText>
-        <DescriptionTextInput placeholder="프로젝트 설명을 입력하세요" />
-      </ElementContainer>
-      <ElementContainer>
-        <ElementTitleText>프로젝트 리더 정보</ElementTitleText>
-      </ElementContainer>
-      <ElementContainer>
-        <ElementTitleText>개발자 정보</ElementTitleText>
-      </ElementContainer>
-      <ElementContainer>
-        <ElementTitleText>테스터 정보</ElementTitleText>
-      </ElementContainer>
+      <ProjectInfoItem />
+      <PLInfoItem />
+      <DevInfoItem />
+      <TesterInfoItem />
     </Container>
   )
 }
