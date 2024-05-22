@@ -1,15 +1,41 @@
 import React from 'react';
 import styled from 'styled-components';
 import ElementContainer from '../../../../shared/components/ElementContainer';
+import { adminPageAddProjectState } from '../../../../recoil/admin/atom';
+import { useRecoilState } from 'recoil';
 
 const ProjectInfoItem = () => {
+  const [projectState, setProjectState] = useRecoilState(adminPageAddProjectState);
+
+  const handleTitleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setProjectState((prev) => ({
+      ...prev,
+      title: e.target.value,
+    }));
+  };
+
+  const handleDescriptionChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setProjectState((prev) => ({
+      ...prev,
+      description: e.target.value,
+    }));
+  };
+
   return (
     <ElementContainer>
       <ElementTitleText>프로젝트 정보</ElementTitleText>
       <ElementSubTitleText>프로젝트 제목</ElementSubTitleText>
-      <TitleTextInput placeholder="프로젝트 제목을 입력하세요" />
+      <TitleTextInput
+        placeholder="프로젝트 제목을 입력하세요"
+        value={projectState.title}
+        onChange={handleTitleChange}
+      />
       <ElementSubTitleText>프로젝트 설명</ElementSubTitleText>
-      <DescriptionTextInput placeholder="프로젝트 설명을 입력하세요" />
+      <DescriptionTextInput
+        placeholder="프로젝트 설명을 입력하세요"
+        value={projectState.description}
+        onChange={handleDescriptionChange}
+      />
     </ElementContainer>
   )
 }
