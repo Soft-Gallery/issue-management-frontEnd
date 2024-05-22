@@ -5,7 +5,7 @@ import ElementContainer from '../../../../shared/components/ElementContainer';
 const DevInfoItem = () => {
   return (
     <ElementContainer>
-      <ElementTitleText>프로젝트 정보</ElementTitleText>
+      <ElementTitleText>개발자 정보</ElementTitleText>
       <ElementSubTitleText>프로젝트 제목</ElementSubTitleText>
       <TitleTextInput placeholder="프로젝트 제목을 입력하세요" />
       <ElementSubTitleText>프로젝트 설명</ElementSubTitleText>
