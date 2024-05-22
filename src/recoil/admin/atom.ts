@@ -1,5 +1,5 @@
 import { atom } from 'recoil';
-import { CURRENT_VIEW_STATES } from './constants/constants';
+import { ADD_PROJECT_STATE, CURRENT_VIEW_STATES } from './constants/constants';
 import { Project } from '../../shared/types/project';
 export const adminPageViewState = atom<string>({
   key: 'currentViewState',
@@ -8,12 +8,5 @@ export const adminPageViewState = atom<string>({
 
 export const adminPageAddProjectState = atom<Project>({
   key: 'addProjectState',
-  default: {
-    title: '',
-    description: '',
-    pl: [],
-    dev: [],
-    tester: [],
-    issues: [],
-  },
+  default: ADD_PROJECT_STATE,
 })
