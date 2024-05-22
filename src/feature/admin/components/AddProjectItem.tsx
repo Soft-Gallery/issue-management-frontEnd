@@ -13,10 +13,13 @@ const AddProjectItem = () => {
         <DescriptionTextInput placeholder="프로젝트 설명을 입력하세요" />
       </ElementContainer>
       <ElementContainer>
-        <ElementTitleText>PL 정보</ElementTitleText>
+        <ElementTitleText>프로젝트 리더 정보</ElementTitleText>
       </ElementContainer>
       <ElementContainer>
-        <div>어쩔저쩔</div>
+        <ElementTitleText>개발자 정보</ElementTitleText>
+      </ElementContainer>
+      <ElementContainer>
+        <ElementTitleText>테스터 정보</ElementTitleText>
       </ElementContainer>
     </Container>
   )
