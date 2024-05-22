@@ -2,20 +2,32 @@ import { useNavigate } from "react-router-dom";
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import { BsEyeFill, BsEyeSlashFill } from "react-icons/bs";
+import postLogin from '../feature/auth/remotes/postLogin';
+import saveTokenToLocalStorage from '../feature/auth/function/saveTokenToLocalStorage';
 
 const LoginPage: React.FC = () => {
   const navigate = useNavigate();
 
-  const [id, setid] = useState<string>('');
+  const [id, setId] = useState<string>('');
   const [password, setPassword] = useState<string>('');
   const [passwordVisible, setPasswordVisible] = useState<boolean>(false);
 
-  const loginSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+  const loginSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    const message = `id: ${id}\nPassword: ${password}`;
-    setid('');
+    setId('');
     setPassword('');
-    alert(message);
+    setPasswordVisible(false);
+
+    const postResult = await postLogin(id, password);
+
+    if (postResult != false) {
+      const userToken = postResult.headers.authorization;
+      saveTokenToLocalStorage(userToken);
+      alert('로그인 성공!');
+      navigate('/');
+    } else {
+      alert('로그인 실패');
+    }
   };
 
   const signUpClick = () => {
@@ -37,7 +49,7 @@ const LoginPage: React.FC = () => {
               type="text"
               id="id"
               value={id}
-              onChange={(e) => setid(e.target.value)}
+              onChange={(e) => setId(e.target.value)}
               placeholder="id"
               required
             />

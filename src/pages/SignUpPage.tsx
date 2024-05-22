@@ -19,7 +19,6 @@ const SignUpPage: React.FC = () => {
 
   const signUpSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-
     const validationErrors = validateForm(id, password, username, email, role);
 
     if (Object.keys(validationErrors).length > 0) {
@@ -27,15 +26,16 @@ const SignUpPage: React.FC = () => {
     } else {
       setValidateErrors(validationErrors);
 
-      const message = `Id: ${id}\nPassword: ${password}\nUsername: ${username}\nEmail: ${email}\nRole: ${role}`;
-      // setId('');
-      // setPassword('');
-      // setUsername('');
-      // setEmail('');
-      // setRole('ADMIN');
-      console.log(message);
+      setId('');
+      setPassword('');
+      setUsername('');
+      setEmail('');
+      setRole('ADMIN');
+      setPasswordVisible(false);
 
       const postResult = await postSignUp(id, password, username, email, role);
+
+      // 회원가입 확인용 alert
       if (postResult) {
         alert('회원가입 성공!');
       } else {
@@ -52,7 +52,6 @@ const SignUpPage: React.FC = () => {
   const handleRoleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setRole(event.target.value);
   };
-
 
   const togglePasswordVisibility = () => {
     setPasswordVisible(!passwordVisible);
@@ -121,6 +120,8 @@ const SignUpPage: React.FC = () => {
             />
             <InstructionText error={!!validateErrors.email}>{validateErrors.email || '유효한 이메일 주소'}</InstructionText>
           </FormElement>
+
+          {/*역할*/}
           <FormElement>
             <Role>
               <label>
@@ -137,6 +138,8 @@ const SignUpPage: React.FC = () => {
               </label>
             </Role>
           </FormElement>
+
+          {/*제출 버튼*/}
           <BtnRow>
             <Button type="submit">Sign Up</Button>
             <TransparentButton type="button" onClick={loginClick}>Log In</TransparentButton>

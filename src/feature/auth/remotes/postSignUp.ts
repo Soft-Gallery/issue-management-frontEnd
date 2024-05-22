@@ -1,7 +1,5 @@
-import axios from 'axios';
 import { client } from '../../../shared/remotes/axios';
 import { UserAccountType } from '../type/types';
-import { useState } from 'react';
 
 export default function postSignUp(id: string, password: string, name: string, email: string, role: string) {
   if(role === "ADMIN"){
@@ -26,10 +24,10 @@ export default function postSignUp(id: string, password: string, name: string, e
     try {
       const response = await client.post('/user/signup', userData);
       console.log('User registered successfully:', response.data);
-      return true; // indicate success
+      return true;
     } catch (error) {
       console.error('Error registering user:');
-      return false; // indicate failure
+      return false;
     }
   };
 
