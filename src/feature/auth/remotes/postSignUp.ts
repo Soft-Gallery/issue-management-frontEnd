@@ -3,7 +3,7 @@ import { client } from '../../../shared/remotes/axios';
 import { UserAccountType } from '../type/types';
 import { useState } from 'react';
 
-export default function postSignUp(id: string, password: string, username: string, email: string, role: string) {
+export default function postSignUp(id: string, password: string, name: string, email: string, role: string) {
   if(role === "ADMIN"){
     role = "ROLE_ADMIN";
   } else if(role === "PL"){
@@ -16,9 +16,9 @@ export default function postSignUp(id: string, password: string, username: strin
 
   const userData = {
     "id": id,
-    "password": password,
-    "username": username,
+    "name": name,
     "email": email,
+    "password": password,
     "role": role,
   }
 
