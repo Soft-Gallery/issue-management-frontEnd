@@ -8,8 +8,8 @@ export interface ValidationErrorType {
 
 export interface UserAccountType {
   id: string;
-  password: string;
-  username: string;
+  name: string;
   email: string;
+  password: string;
   role: string;
 }
