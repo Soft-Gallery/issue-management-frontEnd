@@ -6,14 +6,14 @@ import { BsEyeFill, BsEyeSlashFill } from "react-icons/bs";
 const LoginPage: React.FC = () => {
   const navigate = useNavigate();
 
-  const [username, setUsername] = useState<string>('');
+  const [id, setid] = useState<string>('');
   const [password, setPassword] = useState<string>('');
   const [passwordVisible, setPasswordVisible] = useState<boolean>(false);
 
   const loginSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    const message = `Username: ${username}\nPassword: ${password}`;
-    setUsername('');
+    const message = `id: ${id}\nPassword: ${password}`;
+    setid('');
     setPassword('');
     alert(message);
   };
@@ -35,9 +35,9 @@ const LoginPage: React.FC = () => {
           <FormElement>
             <Input
               type="text"
-              id="username"
-              value={username}
-              onChange={(e) => setUsername(e.target.value)}
+              id="id"
+              value={id}
+              onChange={(e) => setid(e.target.value)}
               placeholder="id"
               required
             />

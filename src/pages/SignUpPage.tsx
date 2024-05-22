@@ -1,66 +1,58 @@
-import { useNavigate } from "react-router-dom";
 import React, { useState } from 'react';
+import { useNavigate } from "react-router-dom";
 import styled, { css } from 'styled-components';
 import { BsEyeFill, BsEyeSlashFill } from "react-icons/bs";
+import { ValidationErrorType } from '../feature/auth/type/types';
+import validateForm from '../feature/auth/function/validateForm';
+import postSignUp from '../feature/auth/remotes/postSignUp';
 
 const SignUpPage: React.FC = () => {
   const navigate = useNavigate();
 
-  const [username, setUsername] = useState<string>('');
+  const [id, setId] = useState<string>('');
   const [password, setPassword] = useState<string>('');
+  const [username, setUsername] = useState<string>('');
   const [email, setEmail] = useState<string>('');
+  const [role, setRole] = useState<string>('ADMIN');
   const [passwordVisible, setPasswordVisible] = useState<boolean>(false);
-  const [errors, setErrors] = useState<{ username?: string; password?: string; email?: string }>({});
-  const [selectedValue, setSelectedValue] = useState<string>('ADMIN');
+  const [validateErrors, setValidateErrors] = useState<ValidationErrorType>({});
 
-  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setSelectedValue(event.target.value);
-  };
-
-  const validateForm = () => {
-    const newErrors: { username?: string; password?: string; email?: string } = {};
-
-    if (!username) {
-      newErrors.username = '아이디 입력란을 채워주세요';
-    } else if (!/^[a-zA-Z0-9]{4,8}$/.test(username)) {
-      newErrors.username = '아이디는 영문+숫자 4~8자리여야 합니다';
-    }
-
-    if (!password) {
-      newErrors.password = '비밀번호 입력란을 채워주세요';
-    } else if (!/^[a-zA-Z0-9]{8,16}$/.test(password)) {
-      newErrors.password = '비밀번호는 영문+숫자 8~16자리여야 합니다';
-    }
-
-    if (!email) {
-      newErrors.email = '이메일 입력란을 채워주세요';
-    } else if (!/\S+@\S+\.\S+/.test(email)) {
-      newErrors.email = '유효한 이메일 주소를 입력해주세요';
-    }
-
-    return newErrors;
-  };
-
-  const signUpSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+  const signUpSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    const validationErrors = validateForm();
+
+    const validationErrors = validateForm(id, password, username, email, role);
 
     if (Object.keys(validationErrors).length > 0) {
-      setErrors(validationErrors);
+      setValidateErrors(validationErrors);
     } else {
-      setErrors({});
-      const message = `Username: ${username}\nPassword: ${password}\nEmail: ${email}\nRole: ${selectedValue}`;
-      setUsername('');
-      setPassword('');
-      setEmail('');
-      setSelectedValue('ADMIN');
-      alert(message);
+      setValidateErrors(validationErrors);
+
+      const message = `Id: ${id}\nPassword: ${password}\nUsername: ${username}\nEmail: ${email}\nRole: ${role}`;
+      // setId('');
+      // setPassword('');
+      // setUsername('');
+      // setEmail('');
+      // setRole('ADMIN');
+      console.log(message);
+
+      const postResult = await postSignUp(id, password, username, email, role);
+      if (postResult) {
+        alert('회원가입 성공!');
+      } else {
+        alert('회원가입 실패');
+      }
+
     }
   };
 
   const loginClick = () => {
     navigate('/login');
   };
+
+  const handleRoleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setRole(event.target.value);
+  };
+
 
   const togglePasswordVisibility = () => {
     setPasswordVisible(!passwordVisible);
@@ -77,13 +69,13 @@ const SignUpPage: React.FC = () => {
           <FormElement>
             <Input
               type="text"
-              id="username"
-              value={username}
-              onChange={(e) => setUsername(e.target.value)}
+              id="id"
+              value={id}
+              onChange={(e) => setId(e.target.value)}
               placeholder="Create ID"
               required
             />
-            <InstructionText error={!!errors.username}>{errors.username || '영문+숫자 4~8자리'}</InstructionText>
+            <InstructionText error={!!validateErrors.id}>{validateErrors.id || '영문+숫자 4~8자리'}</InstructionText>
           </FormElement>
 
           {/*패스워드*/}
@@ -101,7 +93,20 @@ const SignUpPage: React.FC = () => {
                 {passwordVisible ? <StyledBsEyeFill /> : <StyledBsEyeSlashFill />}
               </ToggleSwitch>
             </PasswordInputContainer>
-            <InstructionText error={!!errors.password}>{errors.password || '영문+숫자 8~16자리'}</InstructionText>
+            <InstructionText error={!!validateErrors.password}>{validateErrors.password || '영문+숫자 8~16자리'}</InstructionText>
+          </FormElement>
+
+          {/*사용자 이름*/}
+          <FormElement>
+            <Input
+              type="text"
+              id="username"
+              value={username}
+              onChange={(e) => setUsername(e.target.value)}
+              placeholder="Set username"
+              required
+            />
+            <InstructionText error={!!validateErrors.username}>{validateErrors.username || '영문 20자 이내'}</InstructionText>
           </FormElement>
 
           {/*이메일 입력*/}
@@ -114,21 +119,21 @@ const SignUpPage: React.FC = () => {
               placeholder="Email address"
               required
             />
-            <InstructionText error={!!errors.email}>{errors.email || '유효한 이메일 주소'}</InstructionText>
+            <InstructionText error={!!validateErrors.email}>{validateErrors.email || '유효한 이메일 주소'}</InstructionText>
           </FormElement>
           <FormElement>
             <Role>
               <label>
-                <input type="radio" name="role" value="ADMIN" checked={selectedValue === 'ADMIN'} onChange={handleChange} />ADMIN
+                <input type="radio" name="role" value="ADMIN" checked={role === 'ADMIN'} onChange={handleRoleChange} />ADMIN
               </label>
               <label>
-                <input type="radio" name="role" value="PL" checked={selectedValue === 'PL'} onChange={handleChange} />PL
+                <input type="radio" name="role" value="PL" checked={role === 'PL'} onChange={handleRoleChange} />PL
               </label>
               <label>
-                <input type="radio" name="role" value="DEV" checked={selectedValue === 'DEV'} onChange={handleChange} />DEV
+                <input type="radio" name="role" value="DEV" checked={role === 'DEV'} onChange={handleRoleChange} />DEV
               </label>
               <label>
-                <input type="radio" name="role" value="TESTER" checked={selectedValue === 'TESTER'} onChange={handleChange} />TESTER
+                <input type="radio" name="role" value="TESTER" checked={role === 'TESTER'} onChange={handleRoleChange} />TESTER
               </label>
             </Role>
           </FormElement>
