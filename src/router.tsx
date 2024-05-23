@@ -3,6 +3,7 @@ import Layout from './shared/components/Layout/Layout';
 import React from 'react';
 import AdminPage from './pages/AdminPage';
 import LoginPage from './pages/LoginPage';
+import SignUpPage from './pages/SignUpPage';
 import ProtectedRoute from "./shared/components/ProtectedRoute";
 
 const routes: RouteObject[] = [
@@ -23,6 +24,12 @@ const routes: RouteObject[] = [
   {
     path: "/login",
     element: <LoginPage />,
+  },
+  {
+    path: "/signUp",
+    element: (
+      <SignUpPage />
+    ),
   },
 ];
 

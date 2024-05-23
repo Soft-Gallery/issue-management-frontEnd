@@ -8,6 +8,7 @@ import AddProjectItem from '../feature/admin/components/addproject/AddProjectIte
 import ProjectDetailItem from '../feature/admin/components/projectdetail/ProjectDetailItem';
 import { CURRENT_VIEW_STATES } from '../recoil/admin/constants/constants';
 
+
 const AdminPage = () => {
   const navigate = useNavigate();
   const currentView = useRecoilValue(adminPageViewState);
