@@ -14,7 +14,7 @@ const ProjectInfoItem = () => {
     }));
   };
 
-  const handleDescriptionChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleDescriptionChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     setProjectState((prev) => ({
       ...prev,
       description: e.target.value,
@@ -23,16 +23,16 @@ const ProjectInfoItem = () => {
 
   return (
     <ElementContainer>
-      <ElementTitleText>프로젝트 정보</ElementTitleText>
-      <ElementSubTitleText>프로젝트 제목</ElementSubTitleText>
+      <ElementTitleText>Project Information</ElementTitleText>
+      <ElementSubTitleText>Title</ElementSubTitleText>
       <TitleTextInput
-        placeholder="프로젝트 제목을 입력하세요"
+        placeholder="title"
         value={projectState.title}
         onChange={handleTitleChange}
       />
-      <ElementSubTitleText>프로젝트 설명</ElementSubTitleText>
+      <ElementSubTitleText>Description</ElementSubTitleText>
       <DescriptionTextInput
-        placeholder="프로젝트 설명을 입력하세요"
+        placeholder="description"
         value={projectState.description}
         onChange={handleDescriptionChange}
       />
@@ -66,7 +66,7 @@ const TitleTextInput = styled.input`
   font-size: 14px;
 `;
 
-const DescriptionTextInput = styled.input`
+const DescriptionTextInput = styled.textarea`
   width: 100%;
   box-sizing: border-box;
   padding: 8px;
@@ -76,6 +76,6 @@ const DescriptionTextInput = styled.input`
   font-size: 14px;
   height: 100px;
   vertical-align: top;
+  resize: none;
 `;
-
 export default ProjectInfoItem;
