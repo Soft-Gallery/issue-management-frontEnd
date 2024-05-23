@@ -4,9 +4,9 @@ export interface UserInfo {
   email: string;
 }
 
-type UserRole = 'admin' | 'pl' | 'dev' | 'tester';
+export type UserRole = 'admin' | 'pl' | 'dev' | 'tester';
 
-type UserWithRole<T extends UserRole> = UserInfo & {
+export type UserWithRole<T extends UserRole> = UserInfo & {
   role: T;
 };
 
