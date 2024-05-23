@@ -125,16 +125,16 @@ const SignUpPage: React.FC = () => {
           <FormElement>
             <Role>
               <label>
-                <input type="radio" name="role" value="ADMIN" checked={role === 'ADMIN'} onChange={handleRoleChange} />ADMIN
+                <input type="radio" name="role" value="ROLE_ADMIN" checked={role === 'ROLE_ADMIN'} onChange={handleRoleChange} />ADMIN
               </label>
               <label>
-                <input type="radio" name="role" value="PL" checked={role === 'PL'} onChange={handleRoleChange} />PL
+                <input type="radio" name="role" value="ROLE_PL" checked={role === 'ROLE_PL'} onChange={handleRoleChange} />PL
               </label>
               <label>
-                <input type="radio" name="role" value="DEV" checked={role === 'DEV'} onChange={handleRoleChange} />DEV
+                <input type="radio" name="role" value="ROLE_DEV" checked={role === 'ROLE_DEV'} onChange={handleRoleChange} />DEV
               </label>
               <label>
-                <input type="radio" name="role" value="TESTER" checked={role === 'TESTER'} onChange={handleRoleChange} />TESTER
+                <input type="radio" name="role" value="ROLE_TESTER" checked={role === 'ROLE_TESTER'} onChange={handleRoleChange} />TESTER
               </label>
             </Role>
           </FormElement>

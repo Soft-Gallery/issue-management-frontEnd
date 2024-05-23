@@ -20,13 +20,8 @@ const LoginPage: React.FC = () => {
 
     const postResult = await postLogin(id, password);
 
-    if (postResult != false) {
-      const userToken = postResult.headers.authorization;
-      saveTokenToLocalStorage(userToken);
-      alert('로그인 성공!');
+    if (postResult) {
       navigate('/');
-    } else {
-      alert('로그인 실패');
     }
   };
 
@@ -41,8 +36,7 @@ const LoginPage: React.FC = () => {
   return (
     <Container>
       <LoginContainer>
-        <p>로고 이미지</p>
-        <h2 style={{ marginBottom: 50 }}>Program Pasooggun</h2>
+        <p style={{ marginBottom: 50 }}>프로그램 판다 텍스트 이미지 </p>
         <Form onSubmit={loginSubmit}>
           <FormElement>
             <Input
