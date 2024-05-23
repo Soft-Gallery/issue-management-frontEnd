@@ -1,12 +1,21 @@
 import React, { ReactNode, useState } from 'react';
 import styled from 'styled-components';
 
+import { useRecoilState } from 'recoil';
+import { adminPageViewState } from '../../../recoil/admin/atom';
+import { CURRENT_VIEW_STATES } from '../../../recoil/admin/constants/constants';
+
 const AdminSideBarMenu = (): JSX.Element => {
   const [showProjects, setShowProjects] = useState<boolean>(false);
+  const [currentView, setCurrentView] = useRecoilState(adminPageViewState);
+
+  const handleButtonClick = (view: string) => {
+    setCurrentView(view);
+  };
 
   return(
     <div>
-      <StyledButton>Add Project</StyledButton>
+      <StyledButton onClick={() => handleButtonClick(CURRENT_VIEW_STATES.ADD_PROJECT)}>Add Project</StyledButton>
       <StyledButton
         onClick={() => setShowProjects(!showProjects)}
       >
@@ -14,7 +23,7 @@ const AdminSideBarMenu = (): JSX.Element => {
       </StyledButton>
       {showProjects && (
         <div>
-          <StyledButton>
+          <StyledButton onClick={() => handleButtonClick(CURRENT_VIEW_STATES.VIEW_PROJECTS)}>
             Project 1
           </StyledButton>
           <StyledButton>
