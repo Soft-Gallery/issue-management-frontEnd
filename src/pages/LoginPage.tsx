@@ -3,7 +3,6 @@ import React, { useState } from 'react';
 import styled from 'styled-components';
 import { BsEyeFill, BsEyeSlashFill } from "react-icons/bs";
 import postLogin from '../feature/auth/remotes/postLogin';
-import saveTokenToLocalStorage from '../feature/auth/function/saveTokenToLocalStorage';
 
 const LoginPage: React.FC = () => {
   const navigate = useNavigate();
@@ -14,6 +13,7 @@ const LoginPage: React.FC = () => {
 
   const loginSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+
     setId('');
     setPassword('');
     setPasswordVisible(false);

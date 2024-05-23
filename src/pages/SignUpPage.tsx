@@ -60,7 +60,7 @@ const SignUpPage: React.FC = () => {
     <Container>
       <PandaImg src={projectPandaImg} alt="프로젝트 판다 캐릭터" />
       <SignUpContainer>
-        <h2 style={{ marginTop: 20, marginBottom: 20 }}>Welcome!</h2>
+        <h2 style={{ marginTop: 20, marginBottom: 20 }}>Welcome :)</h2>
         <Form onSubmit={signUpSubmit}>
 
            {/*아이디*/}
@@ -145,19 +145,6 @@ const SignUpPage: React.FC = () => {
   );
 };
 
-const PandaImg = styled.img`
-    width: 550px;
-    height: 550px;
-    border-radius: 5px 0 0 5px;
-`
-
-const BtnRow = styled.div`
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: center;
-`;
-
 const Container = styled.div`
     width: 100vw;
     height: 100vh;
@@ -166,6 +153,12 @@ const Container = styled.div`
     align-items: center;
     justify-content: center;
     background-color: ${({ theme: { color } }) => color.black200};
+`;
+
+const PandaImg = styled.img`
+    width: 550px;
+    height: 550px;
+    border-radius: 5px 0 0 5px;
 `;
 
 const SignUpContainer = styled.div`
@@ -182,7 +175,7 @@ const SignUpContainer = styled.div`
 const Input = styled.input`
     height: 25px;
     width: 280px;
-    border: 2px solid rgba(0, 0, 0, 0.23);
+    border: 2px solid rgba(0, 0, 0, 0.2);
     border-radius: 5px;
     padding: 5px 10px;
 `;
@@ -190,14 +183,6 @@ const Input = styled.input`
 const PasswordInputContainer = styled.div`
     position: relative;
     width: 304px;
-`;
-
-const ToggleSwitch = styled.span`
-    position: absolute;
-    right: 10px;
-    top: 50%;
-    transform: translateY(-50%);
-    cursor: pointer;
 `;
 
 const StyledBsEyeFill = styled(BsEyeFill)`
@@ -208,10 +193,27 @@ const StyledBsEyeSlashFill = styled(BsEyeSlashFill)`
     color: ${({ theme }) => theme.color.gray1};
 `;
 
+const ToggleSwitch = styled.span`
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    cursor: pointer;
+`;
+
+const BtnRow = styled.div`
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+`;
+
 const Button = styled.button`
     height: 35px;
-    width: 120px;
-    margin: 20px;
+    width: 130px;
+    margin-top: 20px;
+    margin-bottom: 20px;
     border: transparent;
     border-radius: 5px;
     background-color: ${({ theme: { color } }) => color.blue};
@@ -238,10 +240,11 @@ const Form = styled.form`
 `;
 
 const FormElement = styled.div`
+    width: 300px;
     display: flex;
     flex-direction: column;
-    align-items: flex-start;
-    margin: 5px;
+    align-items: center;
+    margin-bottom: 5px;
 `;
 
 const InstructionText = styled.p<{ error: boolean }>`
@@ -255,6 +258,10 @@ const InstructionText = styled.p<{ error: boolean }>`
 const Role = styled.div`
     display: flex;
     flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    padding: 0 10px;
 `;
 
 export default SignUpPage;
