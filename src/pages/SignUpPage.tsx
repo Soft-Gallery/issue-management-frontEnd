@@ -38,8 +38,9 @@ const SignUpPage: React.FC = () => {
       // 회원가입 확인용 alert
       if (postResult) {
         alert('회원가입 성공!');
+        navigate('/login');
       } else {
-        alert('회원가입 실패');
+        alert(`회원가입 실패!\n에러 : ${postResult}`);
       }
 
     }

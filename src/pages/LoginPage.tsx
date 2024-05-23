@@ -22,6 +22,8 @@ const LoginPage: React.FC = () => {
 
     if (postResult) {
       navigate('/');
+    } else{
+      alert(`로그인 실패!\n에러 : ${postResult}`);
     }
   };
 
