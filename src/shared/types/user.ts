@@ -2,7 +2,6 @@ export interface UserInfo {
   id: number;
   name: string;
   email: string;
-  role: string;
 }
 
 type UserRole = 'admin' | 'pl' | 'dev' | 'tester';
