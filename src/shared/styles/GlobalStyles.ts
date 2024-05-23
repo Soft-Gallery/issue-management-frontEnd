@@ -69,6 +69,7 @@ const GlobalStyles = createGlobalStyle`
     margin: 0;
     padding: 0;
     background-color: #F9F9FC;
+    font-family: 'Pretendard', sans-serif;
   }
 `;
 
