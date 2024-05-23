@@ -60,7 +60,7 @@ const SignUpPage: React.FC = () => {
     <Container>
       <PandaImg src={projectPandaImg} alt="프로젝트 판다 캐릭터" />
       <SignUpContainer>
-        <h2 style={{ marginTop: 20, marginBottom: 20 }}>Welcome :)</h2>
+        <h2 style={{ marginTop: 20, marginBottom: 20 }}>프로젝트 판다</h2>
         <Form onSubmit={signUpSubmit}>
 
            {/*아이디*/}
@@ -136,8 +136,8 @@ const SignUpPage: React.FC = () => {
 
           {/*제출 버튼*/}
           <BtnRow>
-            <Button type="submit">Sign Up</Button>
-            <TransparentButton type="button" onClick={loginClick}>Log In</TransparentButton>
+            <Button type="submit">회원가입</Button>
+            <TransparentButton type="button" onClick={loginClick}>로그인</TransparentButton>
           </BtnRow>
         </Form>
       </SignUpContainer>
@@ -221,6 +221,7 @@ const Button = styled.button`
     cursor: pointer;
     transition: transform 0.2s;
     font-size: 14px;
+    font-weight: bold;
 
     &:hover {
         transform: scale(1.1);

@@ -3,6 +3,8 @@ import React, { useState } from 'react';
 import styled from 'styled-components';
 import { BsEyeFill, BsEyeSlashFill } from "react-icons/bs";
 import postLogin from '../feature/auth/remotes/postLogin';
+import logoTextImg from '../assets/imgs/logo_text.png';
+import projectPandaImg from '../assets/imgs/project_panda.png';
 
 const LoginPage: React.FC = () => {
   const navigate = useNavigate();
@@ -20,12 +22,17 @@ const LoginPage: React.FC = () => {
 
     const postResult = await postLogin(id, password);
 
-    if (postResult) {
+    if (postResult === true) {
+      // 서버로부터 api콜해서 role, username, id 등 받아온다면
+      // username님, 환영합니다! alert창 띄우면 좋을 것 같습니다.
+      alert('환영합니다!')
       navigate('/');
-    } else{
+    } else if (postResult === false) {
+      alert('로그인 실패');
+    } else {
       alert(`로그인 실패!\n에러 : ${postResult}`);
     }
-  };
+  }
 
   const signUpClick = () => {
     navigate('/signUp');
@@ -38,7 +45,7 @@ const LoginPage: React.FC = () => {
   return (
     <Container>
       <LoginContainer>
-        <p style={{ marginBottom: 50 }}>프로그램 판다 텍스트 이미지 </p>
+        <LogoText src={logoTextImg} alt="로고 텍스트 이미지 : Project Panda"/>
         <Form onSubmit={loginSubmit}>
           <FormElement>
             <Input
@@ -46,7 +53,7 @@ const LoginPage: React.FC = () => {
               id="id"
               value={id}
               onChange={(e) => setId(e.target.value)}
-              placeholder="id"
+              placeholder="아이디 입력"
               required
             />
           </FormElement>
@@ -56,7 +63,7 @@ const LoginPage: React.FC = () => {
                 type={passwordVisible ? "text" : "password"}
                 id="password"
                 value={password}
-                placeholder="password"
+                placeholder="패스워드 입력"
                 onChange={(e) => setPassword(e.target.value)}
                 required
               />
@@ -65,14 +72,14 @@ const LoginPage: React.FC = () => {
               </ToggleSwitch>
             </PasswordInputContainer>
           </FormElement>
-          <LoginButton type="submit">Log In</LoginButton>
+          <LoginButton type="submit">로그인</LoginButton>
         </Form>
         <SignUp>
-          <span>Don&apos;t you have an account? </span>
-          <a onClick={signUpClick}>Create account</a>
+          <span>계정이 없으신가요? </span>
+          <a onClick={signUpClick}>계정 생성하기</a>
         </SignUp>
       </LoginContainer>
-      <ImageContainer />
+      <PandaImg src={projectPandaImg} alt="프로젝트 판다 캐릭터"/>
     </Container>
   );
 };
@@ -84,6 +91,7 @@ const Container = styled.div`
     flex-direction: row;
     align-items: center;
     justify-content: center;
+    background-color: ${({ theme: { color } }) => color.black200};
 `;
 
 const LoginContainer = styled.div`
@@ -92,9 +100,21 @@ const LoginContainer = styled.div`
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: center;
+    justify-content: space-evenly;
     box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.2);
     border-radius: 5px 0 0 5px;
+`;
+
+const PandaImg = styled.img`
+    width: 450px;
+    height: 450px;
+    border-radius: 0 5px 5px 0;
+`;
+
+const LogoText = styled.img`
+    width: 134px;
+    height: 100px;
+    margin-bottom: 40;
 `;
 
 const Input = styled.input`
@@ -133,10 +153,12 @@ const LoginButton = styled.button`
     margin: 20px;
     border: transparent;
     border-radius: 5px;
-    background-color: ${({ theme: { color } }) => color.indigo};
+    background-color: ${({ theme: { color } }) => color.blue};
+    font-size: 14px;
     color: white;
     cursor: pointer;
     transition: transform 0.2s;
+    font-weight: bold;
 
     &:hover {
         transform: scale(1.1);
@@ -155,7 +177,7 @@ const FormElement = styled.div`
     display: flex;
     flex-direction: row;
     align-items: center;
-    margin: 5px;
+    margin: 8px;
 `;
 
 const SignUp = styled.div`
@@ -172,13 +194,6 @@ const SignUp = styled.div`
     a:hover {
         text-decoration: underline;
     }
-`;
-
-const ImageContainer = styled.div`
-    width: 450px;
-    height: 450px;
-    background-color: ${({ theme: { color } }) => color.indigo};
-    border-radius: 0 5px 5px 0;
 `;
 
 export default LoginPage;
