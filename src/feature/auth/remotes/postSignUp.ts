@@ -14,7 +14,7 @@ export default function postSignUp(id: string, password: string, name: string, e
   const registerUser = async (userData: UserAccountType) => {
     try {
       const response = await client.post('/user/signup', userData);
-      return true;
+      return response.data;
     } catch (error) {
       return error;
     }
