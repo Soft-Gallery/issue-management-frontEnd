@@ -1,32 +1,35 @@
 import { useNavigate } from "react-router-dom";
 import React from 'react';
 import styled from 'styled-components';
+import ElementContainer from '../shared/components/ElementContainer';
+import { useRecoilValue } from 'recoil';
+import { adminPageViewState } from '../recoil/admin/atom';
+import AddProjectItem from '../feature/admin/components/addproject/AddProjectItem';
+import ProjectDetailItem from '../feature/admin/components/projectdetail/ProjectDetailItem';
+import { CURRENT_VIEW_STATES } from '../recoil/admin/constants/constants';
+
 
 const AdminPage = () => {
   const navigate = useNavigate();
+  const currentView = useRecoilValue(adminPageViewState);
 
   return (
     <Container>
-      <div>안녕</div>
-      <div>안녕</div>
-      <div>안녕</div>
+      {currentView === CURRENT_VIEW_STATES.ADD_PROJECT && <AddProjectItem />}
+      {currentView === CURRENT_VIEW_STATES.VIEW_PROJECTS && <ProjectDetailItem />}
+      {currentView === CURRENT_VIEW_STATES.NONE && null}
     </Container>
   );
 };
 
 const Container = styled.div`
   width: 100%;
-  height: 100vh;
-  margin: 12px;
-  border-radius: 30px;
+  display: flex;
+  padding: 24px;
   
   flex-direction: column;
   align-items: center;
   justify-content: center;
-
-  border: 1px solid ${({ theme: { color } }) => color.black200};
-  
-  background-color: ${({ theme: { color } }) => color.white};
 `
 
 export default AdminPage;

@@ -6,7 +6,6 @@ const AdminSideBarMenu = (): JSX.Element => {
 
   return(
     <div>
-      <StyledButton>Add Project</StyledButton>
       <StyledButton
         onClick={() => setShowProjects(!showProjects)}
       >
@@ -14,19 +13,13 @@ const AdminSideBarMenu = (): JSX.Element => {
       </StyledButton>
       {showProjects && (
         <div>
-          <StyledButton>
-            Project 1
-          </StyledButton>
-          <StyledButton>
-            Project 2
-          </StyledButton>
-          <StyledButton>
-            Project 3
-          </StyledButton>
+          <StyledButton>Project 1</StyledButton>
+          <StyledButton>Project 2</StyledButton>
+          <StyledButton>Project 3</StyledButton>
         </div>
       )}
     </div>
-  )
+  );
 }
 
 export default AdminSideBarMenu;
