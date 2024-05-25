@@ -48,7 +48,7 @@ const ElementTitleText = styled.text`
   color: ${({ theme: { color } }) => color.black};
 `;
 
-export const ElementSubTitleText = styled.text`
+const ElementSubTitleText = styled.text`
   display: flex;
   text-align: left;
   margin-top: 12px;
