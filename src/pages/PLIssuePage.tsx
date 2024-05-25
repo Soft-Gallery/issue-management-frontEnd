@@ -8,6 +8,8 @@ import ProjectDetailItem from '../feature/admin/components/projectdetail/Project
 import { CURRENT_ACTION_STATES } from '../recoil/issue/constants/constants';
 import IssueHeaderItem from '../feature/pl/components/IssueHeaderItem';
 import IssueInfoItem from '../feature/pl/components/IssueInfoItem';
+import AssigneeItem from '../feature/pl/components/AssigneeItem';
+import CommentItem from '../feature/CommentItem';
 
 const PLIssuePage = () => {
   // const currentView = useRecoilValue(plPageViewState);
@@ -16,7 +18,8 @@ const PLIssuePage = () => {
     <Container>
       <IssueHeaderItem />
       <IssueInfoItem />
-      {/*<AssigneeItem />*/}
+      <AssigneeItem />
+      <CommentItem />
     </Container>
   );
 };
