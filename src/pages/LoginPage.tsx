@@ -4,6 +4,13 @@ import styled from 'styled-components';
 import { BsEyeFill, BsEyeSlashFill } from "react-icons/bs";
 import postLogin from '../feature/auth/remotes/postLogin';
 import saveTokenToLocalStorage from '../feature/auth/function/saveTokenToLocalStorage';
+import { getUserInfo } from '../feature/auth/remotes/getUserInfo';
+import useFetch from '../shared/hooks/useFetch';
+import { useSetRecoilState } from 'recoil';
+import { Project } from '../shared/types/project';
+import { adminPageAddProjectState } from '../recoil/admin/atom';
+import { userRoleState } from '../recoil/atom';
+import getRoleConstants from '../feature/auth/function/getRoleConstants';
 
 const LoginPage: React.FC = () => {
   const navigate = useNavigate();
@@ -11,6 +18,10 @@ const LoginPage: React.FC = () => {
   const [id, setId] = useState<string>('');
   const [password, setPassword] = useState<string>('');
   const [passwordVisible, setPasswordVisible] = useState<boolean>(false);
+
+  const setUserRoleState = useSetRecoilState<string>(userRoleState);
+  const getLoginUserInfo = () => getUserInfo();
+  const {data: userLoginInfo, fetchData} = useFetch(getLoginUserInfo);
 
   const loginSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -21,7 +32,10 @@ const LoginPage: React.FC = () => {
     const postResult = await postLogin(id, password);
 
     if (postResult) {
-      navigate('/');
+      void fetchData();
+      if(userLoginInfo !== null) {
+        setUserRoleState(getRoleConstants(userLoginInfo.role));
+      }
     } else{
       alert(`로그인 실패!\n에러 : ${postResult}`);
     }
