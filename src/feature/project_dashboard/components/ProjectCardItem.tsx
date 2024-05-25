@@ -1,7 +1,9 @@
+import React from 'react';
 import styled from 'styled-components';
 import projectPandaImg from '../../../assets/imgs/project_panda.png';
 import { ProjectCardItemType } from '../../../shared/types/project';
 
+// ProjectCardItem 컴포넌트 정의
 const ProjectCardItem: React.FC<ProjectCardItemType> = ({ title, description }) => {
   return (
     <Container>
@@ -12,7 +14,7 @@ const ProjectCardItem: React.FC<ProjectCardItemType> = ({ title, description }) 
   );
 };
 
-
+// 스타일 정의
 const Container = styled.div`
     width: 300px;
     height: 450px;
@@ -38,11 +40,13 @@ const ProjectTitle = styled.h2`
     font-size: 24px;
     font-weight: bold;
     margin: 16px 0 16px;
+    text-align: center;
 `;
 
 const ProjectDescription = styled.p`
     font-size: 16px;
     margin: 0 16px;
+    text-align: center;
 `;
 
 export default ProjectCardItem;
