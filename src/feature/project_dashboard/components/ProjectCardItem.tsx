@@ -3,7 +3,6 @@ import styled from 'styled-components';
 import projectPandaImg from '../../../assets/imgs/project_panda.png';
 import { ProjectCardItemType } from '../../../shared/types/project';
 
-// ProjectCardItem 컴포넌트 정의
 const ProjectCardItem: React.FC<ProjectCardItemType> = ({ title, description }) => {
   return (
     <Container>
@@ -14,7 +13,6 @@ const ProjectCardItem: React.FC<ProjectCardItemType> = ({ title, description }) 
   );
 };
 
-// 스타일 정의
 const Container = styled.div`
     width: 300px;
     height: 450px;
