@@ -1,7 +1,12 @@
-import { ValidationErrorType } from '../type/types';
 
-export default function validateForm(id: string, password:string, username: string, email:string, role:string):ValidationErrorType {
-  const newErrors: ValidationErrorType = {};
+export default function validateForm(id: string, password:string, username: string, email:string, role:string) {
+  const newErrors= {
+    id : '',
+    password : '',
+    username : '',
+    email : '',
+    role : '',
+  };
 
   if (!id) {
     newErrors.id = '아이디 입력란을 채워주세요';

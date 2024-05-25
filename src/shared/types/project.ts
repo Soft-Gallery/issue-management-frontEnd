@@ -9,3 +9,8 @@ export interface Project {
   tester: TesterUser[];
   issues: Issue[];
 }
+
+export interface ProjectCardItemType {
+  title: string;
+  description: string;
+}
