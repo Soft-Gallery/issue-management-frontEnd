@@ -35,6 +35,7 @@ const LoginPage: React.FC = () => {
       void fetchData();
       if(userLoginInfo !== null) {
         setUserRoleState(getRoleConstants(userLoginInfo.role));
+        navigate('/');
       }
     } else{
       alert(`로그인 실패!\n에러 : ${postResult}`);
