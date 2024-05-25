@@ -2,15 +2,16 @@ export interface UserInfo {
   id: number;
   name: string;
   email: string;
+  password: string;
 }
 
-export type UserRole = 'admin' | 'pl' | 'dev' | 'tester';
+export type UserRole = 'ROLE_ADMIN' | 'ROLE_PL' | 'ROLE_DEV' | 'ROLE_TESTER';
 
 export type UserWithRole<T extends UserRole> = UserInfo & {
   role: T;
 };
 
-export type AdminUser = UserWithRole<'admin'>;
-export type PLUser = UserWithRole<'pl'>;
-export type DevUser = UserWithRole<'dev'>;
-export type TesterUser = UserWithRole<'tester'>;
+export type AdminUser = UserWithRole<'ROLE_ADMIN'>;
+export type PLUser = UserWithRole<'ROLE_PL'>;
+export type DevUser = UserWithRole<'ROLE_DEV'>;
+export type TesterUser = UserWithRole<'ROLE_TESTER'>;

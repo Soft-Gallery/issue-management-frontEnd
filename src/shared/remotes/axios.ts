@@ -1,7 +1,7 @@
 import axios, { CreateAxiosDefaults } from 'axios';
 
 const defaultConfig: CreateAxiosDefaults = {
-  baseURL: 'https://89b5f462588c.ngrok.app',
+  baseURL: 'http://localhost:8080/',
 }
 
 const client = axios.create(defaultConfig);

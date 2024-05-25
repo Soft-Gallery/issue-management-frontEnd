@@ -3,6 +3,14 @@ import React, { useState } from 'react';
 import styled from 'styled-components';
 import { BsEyeFill, BsEyeSlashFill } from "react-icons/bs";
 import postLogin from '../feature/auth/remotes/postLogin';
+import saveTokenToLocalStorage from '../feature/auth/function/saveTokenToLocalStorage';
+import { getUserInfo } from '../feature/auth/remotes/getUserInfo';
+import useFetch from '../shared/hooks/useFetch';
+import { useSetRecoilState } from 'recoil';
+import { Project } from '../shared/types/project';
+import { adminPageAddProjectState } from '../recoil/admin/atom';
+import { userRoleState } from '../recoil/atom';
+import getRoleConstants from '../feature/auth/function/getRoleConstants';
 import logoTextImg from '../assets/imgs/logo_text.png';
 import projectPandaImg from '../assets/imgs/project_panda.png';
 
@@ -13,6 +21,10 @@ const LoginPage: React.FC = () => {
   const [password, setPassword] = useState<string>('');
   const [passwordVisible, setPasswordVisible] = useState<boolean>(false);
 
+  const setUserRoleState = useSetRecoilState<string>(userRoleState);
+  const getLoginUserInfo = () => getUserInfo();
+  const {data: userLoginInfo, fetchData} = useFetch(getLoginUserInfo);
+
   const loginSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
@@ -22,15 +34,15 @@ const LoginPage: React.FC = () => {
 
     const postResult = await postLogin(id, password);
 
-    if (postResult === true) {
-      // 서버로부터 api콜해서 role, username, id 등 받아온다면
-      // username님, 환영합니다! alert창 띄우면 좋을 것 같습니다.
-      alert('환영합니다!')
-      navigate('/');
-    } else if (postResult === false) {
+    if (postResult) {
+      void fetchData();
+      if(userLoginInfo !== null) {
+        setUserRoleState(getRoleConstants(userLoginInfo.role));
+        alert('환영합니다!')
+        navigate('/');
+      }
+    } else{
       alert('로그인 실패');
-    } else {
-      alert(`로그인 실패!\n에러 : ${postResult}`);
     }
   }
 
