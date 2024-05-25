@@ -6,6 +6,7 @@ import LoginPage from './pages/LoginPage';
 import SignUpPage from './pages/SignUpPage';
 import ProtectedRoute from "./shared/components/ProtectedRoute";
 import ProjectPage from './pages/ProjectPage';
+import PLIssuePage from './pages/PLIssuePage';
 
 const routes: RouteObject[] = [
   {
@@ -37,7 +38,20 @@ const routes: RouteObject[] = [
     element: (
       <ProjectPage />
     )
-  }
+  },
+  {
+    path: "/pl",
+    element: <Layout />,
+    children: [
+      {
+        index: true,
+        element: (
+            <PLIssuePage />
+        ),
+      },
+    ],
+  },
+
 ];
 
 const router = createBrowserRouter(routes);
