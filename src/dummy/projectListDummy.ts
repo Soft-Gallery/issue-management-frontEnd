@@ -17,4 +17,13 @@ export const projectListDummy: ProjectCardItemType[] = [
     title: 'Project 4',
     description: '네번째 프로젝트',
   },
+  {
+    title: 'Project 5',
+    description: '다섯번째 프로젝트',
+  },
+  {
+    title: 'Project 6',
+    description: '여섯번째 프로젝트',
+  },
+
 ]
