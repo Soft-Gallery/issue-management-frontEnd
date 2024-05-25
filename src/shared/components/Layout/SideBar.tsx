@@ -20,7 +20,7 @@ const SideBar = ({ SideBarMenu, isActive, onMouseSideBarEnter, onMouseSideBarLea
       onMouseEnter={onMouseSideBarEnter}
       onMouseLeave={onMouseSideBarLeave}
     >
-      <ServiceLogo>Service Logo</ServiceLogo>
+      <ServiceLogo>프로젝트 판다</ServiceLogo>
       {SideBarMenu}
     </Container>
   )
@@ -39,8 +39,8 @@ const Container = styled.div<ContainerProps>`
   flex-direction: column;
   align-items: flex-start;
 
-  border-top-right-radius: 20px;
-  border-bottom-right-radius: 20px;
+  border-top-right-radius: 12px;
+  border-bottom-right-radius: 12px;
 
   border: 1px solid ${({ theme: { color } }) => color.black200};
 

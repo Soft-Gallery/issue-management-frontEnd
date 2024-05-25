@@ -5,13 +5,16 @@ import router from './router';
 import { ThemeProvider } from 'styled-components';
 import theme from './shared/styles/theme';
 import GlobalStyles from './shared/styles/GlobalStyles';
+import { RecoilRoot } from 'recoil';
 
 ReactDOM.render(
     <React.StrictMode>
-      <GlobalStyles />
-      <ThemeProvider theme={theme}>
-        <RouterProvider router={router} />
-      </ThemeProvider>
+      <RecoilRoot>
+        <GlobalStyles />
+        <ThemeProvider theme={theme}>
+          <RouterProvider router={router} />
+        </ThemeProvider>
+      </RecoilRoot>
     </React.StrictMode>,
     document.getElementById('root')
 );

@@ -1,5 +1,5 @@
 import { client } from '../../../shared/remotes/axios';
-import { UserAccountType } from '../type/types';
+import { UserAccountType } from '../type/userAccotunType';
 
 export default function postSignUp(id: string, password: string, name: string, email: string, role: string) {
 
