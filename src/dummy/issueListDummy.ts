@@ -12,8 +12,9 @@ export const issueListDummy: Issue[] = [
       {
         id: 12,
         name: '민수수',
+        password: 'garbage',
         email: 'alskdjemail',
-        role: 'dev',
+        role: 'ROLE_DEV',
       },
     ],
     comments: [
