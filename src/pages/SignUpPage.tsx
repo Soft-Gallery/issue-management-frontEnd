@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import { useNavigate } from "react-router-dom";
-import styled, { css } from 'styled-components';
+import styled from 'styled-components';
+import projectPandaImg from '../assets/imgs/project_panda.png';
 import { BsEyeFill, BsEyeSlashFill } from "react-icons/bs";
-import { ValidationErrorType } from '../feature/auth/type/types';
 import validateForm from '../feature/auth/function/validateForm';
 import postSignUp from '../feature/auth/remotes/postSignUp';
 
@@ -13,18 +13,17 @@ const SignUpPage: React.FC = () => {
   const [password, setPassword] = useState<string>('');
   const [username, setUsername] = useState<string>('');
   const [email, setEmail] = useState<string>('');
-  const [role, setRole] = useState<string>('ADMIN');
+  const [role, setRole] = useState<string>('ROLE_ADMIN');
   const [passwordVisible, setPasswordVisible] = useState<boolean>(false);
-  const [validateErrors, setValidateErrors] = useState<ValidationErrorType>({});
+  const [validateErrors, setValidateErrors] = useState({id: '', password: '', username: '', email: '', role: ''});
 
   const signUpSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    const validationErrors = validateForm(id, password, username, email, role);
 
-    if (Object.keys(validationErrors).length > 0) {
-      setValidateErrors(validationErrors);
-    } else {
-      setValidateErrors(validationErrors);
+    setValidateErrors(validateForm(id, password, username, email, role));
+
+    if (Object.values(validateErrors).every(value => value === '')) {
+      const postResult = await postSignUp(id, password, username, email, role);
 
       setId('');
       setPassword('');
@@ -33,16 +32,15 @@ const SignUpPage: React.FC = () => {
       setRole('ADMIN');
       setPasswordVisible(false);
 
-      const postResult = await postSignUp(id, password, username, email, role);
-
       // 회원가입 확인용 alert
-      if (postResult) {
+      if (postResult === true) {
         alert('회원가입 성공!');
         navigate('/login');
+      } else if(postResult === false) {
+        alert('회원가입 실패!');
       } else {
         alert(`회원가입 실패!\n에러 : ${postResult}`);
       }
-
     }
   };
 
@@ -60,9 +58,9 @@ const SignUpPage: React.FC = () => {
 
   return (
     <Container>
-      <ImageContainer />
+      <PandaImg src={projectPandaImg} alt="프로젝트 판다 캐릭터" />
       <SignUpContainer>
-        <h2 style={{ marginBottom: 40 }}>Welcome!</h2>
+        <h2 style={{ marginTop: 20, marginBottom: 20 }}>프로젝트 판다</h2>
         <Form onSubmit={signUpSubmit}>
 
            {/*아이디*/}
@@ -72,8 +70,7 @@ const SignUpPage: React.FC = () => {
               id="id"
               value={id}
               onChange={(e) => setId(e.target.value)}
-              placeholder="Create ID"
-              required
+              placeholder="사용자 아이디"
             />
             <InstructionText error={!!validateErrors.id}>{validateErrors.id || '영문+숫자 4~8자리'}</InstructionText>
           </FormElement>
@@ -85,9 +82,8 @@ const SignUpPage: React.FC = () => {
                 type={passwordVisible ? "text" : "password"}
                 id="password"
                 value={password}
-                placeholder="Create password"
+                placeholder="사용자 패스워드"
                 onChange={(e) => setPassword(e.target.value)}
-                required
               />
               <ToggleSwitch onClick={togglePasswordVisibility}>
                 {passwordVisible ? <StyledBsEyeFill /> : <StyledBsEyeSlashFill />}
@@ -103,8 +99,7 @@ const SignUpPage: React.FC = () => {
               id="username"
               value={username}
               onChange={(e) => setUsername(e.target.value)}
-              placeholder="Set username"
-              required
+              placeholder="사용자 이름"
             />
             <InstructionText error={!!validateErrors.username}>{validateErrors.username || '영문 20자 이내'}</InstructionText>
           </FormElement>
@@ -116,10 +111,9 @@ const SignUpPage: React.FC = () => {
               id="email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              placeholder="Email address"
-              required
+              placeholder="사용자 이메일 주소"
             />
-            <InstructionText error={!!validateErrors.email}>{validateErrors.email || '유효한 이메일 주소'}</InstructionText>
+            <InstructionText error={!!validateErrors.email}>{validateErrors.email || '이메일 형식에 맞게 입력해주세요'}</InstructionText>
           </FormElement>
 
           {/*역할*/}
@@ -142,21 +136,14 @@ const SignUpPage: React.FC = () => {
 
           {/*제출 버튼*/}
           <BtnRow>
-            <Button type="submit">Sign Up</Button>
-            <TransparentButton type="button" onClick={loginClick}>Log In</TransparentButton>
+            <Button type="submit">회원가입</Button>
+            <TransparentButton type="button" onClick={loginClick}>로그인</TransparentButton>
           </BtnRow>
         </Form>
       </SignUpContainer>
     </Container>
   );
 };
-
-const BtnRow = styled.div`
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: center;
-`;
 
 const Container = styled.div`
     width: 100vw;
@@ -165,11 +152,18 @@ const Container = styled.div`
     flex-direction: row;
     align-items: center;
     justify-content: center;
+    background-color: ${({ theme: { color } }) => color.black200};
+`;
+
+const PandaImg = styled.img`
+    width: 550px;
+    height: 550px;
+    border-radius: 5px 0 0 5px;
 `;
 
 const SignUpContainer = styled.div`
     width: 500px;
-    height: 500px;
+    height: 550px;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -181,23 +175,14 @@ const SignUpContainer = styled.div`
 const Input = styled.input`
     height: 25px;
     width: 280px;
-    border: 2px solid rgba(0, 0, 0, 0.23);
+    border: 2px solid rgba(0, 0, 0, 0.2);
     border-radius: 5px;
-    color: ${({ theme: { color } }) => color.gray1};
     padding: 5px 10px;
 `;
 
 const PasswordInputContainer = styled.div`
     position: relative;
     width: 304px;
-`;
-
-const ToggleSwitch = styled.span`
-    position: absolute;
-    right: 10px;
-    top: 50%;
-    transform: translateY(-50%);
-    cursor: pointer;
 `;
 
 const StyledBsEyeFill = styled(BsEyeFill)`
@@ -208,16 +193,35 @@ const StyledBsEyeSlashFill = styled(BsEyeSlashFill)`
     color: ${({ theme }) => theme.color.gray1};
 `;
 
+const ToggleSwitch = styled.span`
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    cursor: pointer;
+`;
+
+const BtnRow = styled.div`
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+`;
+
 const Button = styled.button`
     height: 35px;
-    width: 120px;
-    margin: 20px;
+    width: 130px;
+    margin-top: 20px;
+    margin-bottom: 20px;
     border: transparent;
     border-radius: 5px;
-    background-color: ${({ theme: { color } }) => color.indigo};
+    background-color: ${({ theme: { color } }) => color.blue};
     color: white;
     cursor: pointer;
     transition: transform 0.2s;
+    font-size: 14px;
+    font-weight: bold;
 
     &:hover {
         transform: scale(1.1);
@@ -225,7 +229,7 @@ const Button = styled.button`
 `;
 
 const TransparentButton = styled(Button)`
-    background-color: ${({ theme: { color } }) => `rgba(${parseInt(color.indigo.slice(1, 3), 16)}, ${parseInt(color.indigo.slice(3, 5), 16)}, ${parseInt(color.indigo.slice(5, 7), 16)}, 0.5)`};
+    background-color: ${({ theme: { color } }) => `rgba(${parseInt(color.blue.slice(1, 3), 16)}, ${parseInt(color.indigo.slice(3, 5), 16)}, ${parseInt(color.indigo.slice(5, 7), 16)}, 0.5)`};
 `;
 
 const Form = styled.form`
@@ -237,10 +241,11 @@ const Form = styled.form`
 `;
 
 const FormElement = styled.div`
+    width: 300px;
     display: flex;
     flex-direction: column;
-    align-items: flex-start;
-    margin: 5px;
+    align-items: center;
+    margin-bottom: 5px;
 `;
 
 const InstructionText = styled.p<{ error: boolean }>`
@@ -249,18 +254,15 @@ const InstructionText = styled.p<{ error: boolean }>`
     font-size: 12px;
     color: ${({ error }) => (error ? 'red' : 'gray')};
     align-self: flex-start;
-`;
-
-const ImageContainer = styled.div`
-    width: 500px;
-    height: 500px;
-    background-color: ${({ theme: { color } }) => color.indigo};
-    border-radius: 0 5px 5px 0;
-`;
+`
 
 const Role = styled.div`
     display: flex;
     flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    padding: 0 10px;
 `;
 
 export default SignUpPage;

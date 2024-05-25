@@ -5,6 +5,7 @@ import AdminPage from './pages/AdminPage';
 import LoginPage from './pages/LoginPage';
 import SignUpPage from './pages/SignUpPage';
 import ProtectedRoute from "./shared/components/ProtectedRoute";
+import ProjectPage from './pages/ProjectPage';
 
 const routes: RouteObject[] = [
   {
@@ -31,6 +32,12 @@ const routes: RouteObject[] = [
       <SignUpPage />
     ),
   },
+  {
+    path: "/project",
+    element: (
+      <ProjectPage />
+    )
+  }
 ];
 
 const router = createBrowserRouter(routes);
