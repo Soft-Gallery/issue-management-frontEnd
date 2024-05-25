@@ -32,7 +32,6 @@ const SignUpPage: React.FC = () => {
       setRole('ADMIN');
       setPasswordVisible(false);
 
-      // 회원가입 확인용 alert
       if (postResult === true) {
         alert('회원가입 성공!');
         navigate('/login');
@@ -63,7 +62,6 @@ const SignUpPage: React.FC = () => {
         <h2 style={{ marginTop: 20, marginBottom: 20 }}>프로젝트 판다</h2>
         <Form onSubmit={signUpSubmit}>
 
-           {/*아이디*/}
           <FormElement>
             <Input
               type="text"
@@ -75,7 +73,6 @@ const SignUpPage: React.FC = () => {
             <InstructionText error={!!validateErrors.id}>{validateErrors.id || '영문+숫자 4~8자리'}</InstructionText>
           </FormElement>
 
-          {/*패스워드*/}
           <FormElement>
             <PasswordInputContainer>
               <Input
@@ -92,7 +89,6 @@ const SignUpPage: React.FC = () => {
             <InstructionText error={!!validateErrors.password}>{validateErrors.password || '영문+숫자 8~16자리'}</InstructionText>
           </FormElement>
 
-          {/*사용자 이름*/}
           <FormElement>
             <Input
               type="text"
@@ -104,7 +100,6 @@ const SignUpPage: React.FC = () => {
             <InstructionText error={!!validateErrors.username}>{validateErrors.username || '영문 20자 이내'}</InstructionText>
           </FormElement>
 
-          {/*이메일 입력*/}
           <FormElement>
             <Input
               type="email"
@@ -116,7 +111,6 @@ const SignUpPage: React.FC = () => {
             <InstructionText error={!!validateErrors.email}>{validateErrors.email || '이메일 형식에 맞게 입력해주세요'}</InstructionText>
           </FormElement>
 
-          {/*역할*/}
           <FormElement>
             <Role>
               <label>
@@ -134,7 +128,6 @@ const SignUpPage: React.FC = () => {
             </Role>
           </FormElement>
 
-          {/*제출 버튼*/}
           <BtnRow>
             <Button type="submit">회원가입</Button>
             <TransparentButton type="button" onClick={loginClick}>로그인</TransparentButton>
