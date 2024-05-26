@@ -9,7 +9,6 @@ const IssueInfoItem:React.FC = () => {
     <ElementContainer>
       <TitleText>Issue Information</TitleText>
       <IssueDescription>이슈 상세 내용 description 보여죠라</IssueDescription>
-      <br />
       <ul>
         <ElementSubText>
           reporter : tester이름

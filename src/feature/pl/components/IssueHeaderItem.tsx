@@ -1,28 +1,53 @@
-import React, {useState, useEffect} from 'react';
+import React, { useState, useEffect } from 'react';
 import ElementContainer from '../../../shared/components/ElementContainer';
 import styled from 'styled-components';
+import IssueStatusChangeModal from './IssueStatusChangeModal';
+import { issueListDummy } from '../../../dummy/issueListDummy';
+import { useRecoilState } from 'recoil';
+import { issuePageInfoState } from '../../../recoil/issue/issueAtom';
+import { IssuePriority, IssueStatus } from '../../../shared/types/issue';
 
 const IssueHeaderItem: React.FC = () => {
-  const [status,setStatus] = useState('New');
-  const priority = 'Critical';
+  const [issueIdx, setIssueIdx] = useState<number>(0);
+  const [issue, setIssue] = useRecoilState(issuePageInfoState);
+  const [showModal, setShowModal] = useState<boolean>(false);
 
-  useEffect(()=>{
-    // 서버로부터 info 받아옵시다.. 근데 이거 상태관리로 해서 한 번에 받아오고 값을 구독해서 필요한 정보만 recolieValue로 가져와야 할 듯
-  })
+  useEffect(() => {
+    const currentIssue = issueListDummy[issueIdx];
+    setIssue(currentIssue);
+  }, [issueIdx, setIssue]);
+
+  const priority: IssuePriority = issue.priority;
+
+  // todo : user role 받아오는 함수로 나중에 고치기
+  const tempUserRole = 'ROLE_PL';
+
+  const handleStatusChange = (newStatus: IssueStatus) => {
+    setIssue({ ...issue, status: newStatus });
+    setShowModal(false);
+  };
 
   return (
     <ElementContainer>
       <Container>
-        {/*이 버튼 누르면 satus 변경할 수 있는 dialog 띄우기*/}
-        <StatusButton>
-          {status}
-        </StatusButton>
-        <IssuePriority>
-          [{priority}]
-        </IssuePriority>
+        <IssuePriorityContainer priority={priority}>
+          {priority}
+        </IssuePriorityContainer>
         <IssueTitle>
-          이슈 제목을 여기에 보여줍니다!
+          {issue.title || '이슈 제목 여기에 보여줍니다!'}
         </IssueTitle>
+        <ButtonContainer onClick={() => setShowModal(true)}>
+          {issue.status}
+          <Triangle />
+        </ButtonContainer>
+        {showModal && (
+          <IssueStatusChangeModal
+            onConfirm={handleStatusChange}
+            onClose={() => setShowModal(false)}
+            defaultStatus={issue.status}
+            role={tempUserRole}
+          />
+        )}
       </Container>
     </ElementContainer>
   );
@@ -36,38 +61,65 @@ const Container = styled.div`
     justify-content: start;
 `;
 
-const StatusButton = styled.button`
-    width: 120px;
+const ButtonContainer = styled.button`
+    width: fit-content;
     height: 50px;
     border: 2px solid ${({ theme: { color } }) => color.black200};
     border-radius: 10px;
-    justify-content: center;
+    justify-content: space-evenly;
     display: flex;
     align-items: center;
-    padding: 0 10px;
+    padding: 0 20px;
     font-weight: bold;
     font-size: 22px;
     margin-right: 16px;
     cursor: pointer;
+    gap: 12px;
 `;
 
+const Triangle = styled.div`
+    width: 0;
+    height: 0;
+    border-left: 8px solid transparent;
+    border-right: 8px solid transparent;
+    border-top: 10px solid black;
+`;
 
-const IssuePriority = styled.div`
-    justify-content: center;
-    width: 80px;
+const IssuePriorityContainer = styled.div<{ priority: IssuePriority }>`
+    width: fit-content;
     height: 50px;
+    border: none;
+    border-radius: 6px;
+    justify-content: center;
     display: flex;
     align-items: center;
-    padding: 0 10px;
+    padding: 0 16px 0 16px;
     font-weight: bold;
-    font-size: 21px;
-    margin-right: 2px;
+    font-size: 18px;
+    margin-right: 16px;
+    color: white;
+    background-color: ${({ priority }) => {
+        switch (priority) {
+            case 'BLOCKER':
+                return '#DB4035';
+            case 'CRITICAL':
+                return '#FF9933';
+            case 'MAJOR':
+                return '#FAD000';
+            case 'MINOR':
+                return '#7ECC49';
+            case 'TRIVIAL':
+                return '#14AAF5';
+            default:
+                return '#B8B8B8';
+        }
+    }};
 `;
 
 const IssueTitle = styled.h3`
     flex-grow: 1;
     text-align: left;
-    font-size: 20px;
+    font-size: 18px;
 `;
 
 export default IssueHeaderItem;
