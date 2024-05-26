@@ -1,14 +1,12 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
-import { useRecoilState } from 'recoil';
+import { useRecoilState, useSetRecoilState } from 'recoil';
 import { adminPageViewState } from '../../../recoil/admin/atom';
 import { CURRENT_VIEW_STATES } from '../../../recoil/admin/constants/constants';
-import { projectListDummy } from '../../../dummy/projectListDummy';
-import { ProjectCardItemType } from '../../../shared/types/project';
+
 
 const AdminSideBarMenu = (): JSX.Element => {
-  const [showProjects, setShowProjects] = useState<boolean>(false);
-  const [currentView, setCurrentView] = useRecoilState(adminPageViewState);
+  const setCurrentView = useSetRecoilState(adminPageViewState);
 
   const handleButtonClick = (view: string) => {
     setCurrentView(view);
@@ -19,18 +17,9 @@ const AdminSideBarMenu = (): JSX.Element => {
       <StyledButton onClick={() => handleButtonClick(CURRENT_VIEW_STATES.ADD_PROJECT)}>
         Add Project
       </StyledButton>
-      <StyledButton onClick={() => setShowProjects(!showProjects)}>
-        Projects
+      <StyledButton onClick={() => handleButtonClick(CURRENT_VIEW_STATES.VIEW_PROJECTS)}>
+        View Projects
       </StyledButton>
-      {showProjects && (
-        <div>
-          {projectListDummy.map((project: ProjectCardItemType, index: number) => (
-            <StyledButton key={index} onClick={() => handleButtonClick(CURRENT_VIEW_STATES.VIEW_PROJECTS)}>
-              {project.title}
-            </StyledButton>
-          ))}
-        </div>
-      )}
     </div>
   );
 }
