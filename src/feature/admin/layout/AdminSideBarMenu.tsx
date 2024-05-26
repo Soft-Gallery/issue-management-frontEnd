@@ -1,9 +1,10 @@
-import React, { ReactNode, useState } from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
-
 import { useRecoilState } from 'recoil';
 import { adminPageViewState } from '../../../recoil/admin/atom';
 import { CURRENT_VIEW_STATES } from '../../../recoil/admin/constants/constants';
+import { projectListDummy } from '../../../dummy/projectListDummy';
+import { ProjectCardItemType } from '../../../shared/types/project';
 
 const AdminSideBarMenu = (): JSX.Element => {
   const [showProjects, setShowProjects] = useState<boolean>(false);
@@ -13,29 +14,25 @@ const AdminSideBarMenu = (): JSX.Element => {
     setCurrentView(view);
   };
 
-  return(
+  return (
     <div>
-      <StyledButton onClick={() => handleButtonClick(CURRENT_VIEW_STATES.ADD_PROJECT)}>Add Project</StyledButton>
-      <StyledButton
-        onClick={() => setShowProjects(!showProjects)}
-      >
+      <StyledButton onClick={() => handleButtonClick(CURRENT_VIEW_STATES.ADD_PROJECT)}>
+        Add Project
+      </StyledButton>
+      <StyledButton onClick={() => setShowProjects(!showProjects)}>
         Projects
       </StyledButton>
       {showProjects && (
         <div>
-          <StyledButton onClick={() => handleButtonClick(CURRENT_VIEW_STATES.VIEW_PROJECTS)}>
-            Project 1
-          </StyledButton>
-          <StyledButton>
-            Project 2
-          </StyledButton>
-          <StyledButton>
-            Project 3
-          </StyledButton>
+          {projectListDummy.map((project: ProjectCardItemType, index: number) => (
+            <StyledButton key={index} onClick={() => handleButtonClick(CURRENT_VIEW_STATES.VIEW_PROJECTS)}>
+              {project.title}
+            </StyledButton>
+          ))}
         </div>
       )}
     </div>
-  )
+  );
 }
 
 export default AdminSideBarMenu;
@@ -58,12 +55,12 @@ const StyledButton = styled.button`
 
   color: ${({ theme: { color } }) => color.gray1};
   background: ${({ theme: { color } }) => color.white};
-  &:hover{
+  &:hover {
     color: ${({ theme: { color } }) => color.white};
     background: ${({ theme: { color } }) => color.indigo};
   }
-  &:active{
+  &:active {
     color: ${({ theme: { color } }) => color.white};
     background: ${({ theme: { color } }) => color.indigo};
   }
-`
+`;
