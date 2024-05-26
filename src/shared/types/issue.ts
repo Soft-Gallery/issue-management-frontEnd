@@ -1,7 +1,12 @@
 import { Comments } from './comment';
 import { DevUser } from './user';
 
-export type Issue = {
+export type IssueStatus = 'NEW' | 'ASSIGNED' | 'FIXED' | 'RESOLVED' | 'CLOSED';
+
+export type IssuePriority = 'BLOCKER' | 'CRITICAL' | 'MAJOR' | 'MINOR' | 'TRIVIAL';
+
+export interface Issue {
+  id: number;
   title: string;
   description: string;
   status: IssueStatus;
@@ -10,8 +15,3 @@ export type Issue = {
   assignee: DevUser[];
   comments: Comments[];
 }
-
-
-export type IssueStatus = 'NEW' | 'ASSIGNED' | 'FIXED' | 'RESOLVED' | 'CLOSED';
-
-export type IssuePriority = 'BLOCKER' | 'CRITICAL' | 'MAJOR' | 'MINOR' | 'TRIVIAL';
