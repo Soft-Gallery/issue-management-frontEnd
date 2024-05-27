@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import { CURRENT_VIEW_STATES } from '../recoil/admin/constants/constants';
 import IssueHeaderItem from '../feature/pl/components/IssueHeaderItem';
 import IssueInfoItem from '../feature/pl/components/IssueInfoItem';
-import AssigneeItem from '../feature/pl/components/AssigneeItem';
+import AssigneeItem from '../feature/pl/components/AssigneeSelectItem';
 import CommentItem from '../feature/CommentItem';
 
 const PLIssuePage = () => {

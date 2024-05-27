@@ -6,7 +6,7 @@ import { DevUser } from '../../../shared/types/user';
 import UserInfoItemDropdown from '../../issue/components/UserInfoItemDropdown';
 
 
-const AssigneeItem:React.FC = () => {
+const AssigneeSelectItem:React.FC = () => {
 
   return (
     <ElementContainer>
@@ -29,4 +29,4 @@ export const TitleText = styled.div`
   color: ${({ theme }) => theme.color.black};
 `;
 
-export default AssigneeItem;
+export default AssigneeSelectItem;

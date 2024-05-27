@@ -9,7 +9,7 @@ import {
   AddButton,
   DropDownContainer
 } from '../../admin/styles/InfoItemStyles';
-import { DevUser, UserRole, UserWithRole } from '../../../shared/types/user';
+import { UserRole, UserWithRole } from '../../../shared/types/user';
 import { Issue } from '../../../shared/types/issue';
 import { issuePageInfoState } from '../../../recoil/issue/issueAtom';
 
