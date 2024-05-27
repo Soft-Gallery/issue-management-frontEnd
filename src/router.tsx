@@ -6,9 +6,21 @@ import LoginPage from './pages/LoginPage';
 import SignUpPage from './pages/SignUpPage';
 import ProtectedRoute from "./shared/components/ProtectedRoute";
 import ProjectPage from './pages/ProjectPage';
-import PLIssuePage from './pages/PLIssuePage';
+import PLPage from './pages/PLPage';
+import TesterPage from './pages/TesterPage';
+import DevPage from './pages/DevPage';
 
 const routes: RouteObject[] = [
+  {
+    path: "/login",
+    element: <LoginPage />,
+  },
+  {
+    path: "/signUp",
+    element: (
+      <SignUpPage />
+    ),
+  },
   {
     path: "/",
     element: <Layout />,
@@ -21,32 +33,37 @@ const routes: RouteObject[] = [
           </ProtectedRoute>
         ),
       },
-    ],
-  },
-  {
-    path: "/login",
-    element: <LoginPage />,
-  },
-  {
-    path: "/signUp",
-    element: (
-      <SignUpPage />
-    ),
-  },
-  {
-    path: "/project",
-    element: (
-      <ProjectPage />
-    )
-  },
-  {
-    path: "/pl",
-    element: <Layout />,
-    children: [
       {
         index: true,
         element: (
-            <PLIssuePage />
+          <ProtectedRoute allowedRoles={['pl']}>
+            <PLPage />
+          </ProtectedRoute>
+        ),
+      },
+      {
+        index: true,
+        element: (
+          <ProtectedRoute allowedRoles={['tester']}>
+            <TesterPage />
+          </ProtectedRoute>
+        ),
+      },
+      {
+        index: true,
+        element: (
+          <ProtectedRoute allowedRoles={['dev']}>
+            <DevPage />
+          </ProtectedRoute>
+        ),
+      },
+      {
+        path: '/project',
+        index: false,
+        element: (
+          <ProtectedRoute allowedRoles={['dev', 'tester', 'pl']}>
+            <ProjectPage />
+          </ProtectedRoute>
         ),
       },
     ],
