@@ -2,24 +2,19 @@ import { useNavigate } from "react-router-dom";
 import React from 'react';
 import styled from 'styled-components';
 import { useRecoilValue } from 'recoil';
-import { CURRENT_VIEW_STATES } from '../recoil/admin/constants/constants';
-import AddProjectItem from '../feature/admin/components/addproject/AddProjectItem';
-import ProjectDetailItem from '../feature/admin/components/projectdetail/ProjectDetailItem';
-import { CURRENT_ACTION_STATES } from '../recoil/issue/constants/constants';
-import IssueHeaderItem from '../feature/pl/components/IssueHeaderItem';
-import IssueInfoItem from '../feature/pl/components/IssueInfoItem';
-import AssigneeItem from '../feature/pl/components/AssigneeItem';
-import CommentItem from '../feature/CommentItem';
+import { testerPageViewState } from '../recoil/tester/atom';
+import { TESTER_CURRENT_VIEW_STATES } from '../recoil/tester/constants/constants';
+import TesterIssueBrowse from '../feature/tester/componenets/TesterIssueBrowse';
+import TesterIssueCreate from '../feature/tester/componenets/TesterIssueCreate';
 
 const TesterPage = () => {
-  // const currentView = useRecoilValue(plPageViewState);
+  const navigate = useNavigate();
+  const currentView = useRecoilValue(testerPageViewState);
 
   return (
     <Container>
-      <IssueHeaderItem />
-      <IssueInfoItem />
-      <AssigneeItem />
-      <CommentItem />
+      {currentView === TESTER_CURRENT_VIEW_STATES.ISSUE_BROWSE && <TesterIssueBrowse />}
+      {currentView === TESTER_CURRENT_VIEW_STATES.ISSUE_CREATE && <TesterIssueCreate />}
     </Container>
   );
 };
