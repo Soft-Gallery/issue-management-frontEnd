@@ -1,5 +1,4 @@
 import { IssuePriority, IssueStatus } from '../../../shared/types/issue';
-import {DevUser} from '../../../shared/types/user';
 
 export const ISSUE_INFO_STATE = {
   id: 0,

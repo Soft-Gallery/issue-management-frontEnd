@@ -14,7 +14,7 @@ const AssigneeItem:React.FC = () => {
       <UserInfoItemDropdown
         title="Dev 정보"
         itemList={devListDummy as DevUser[]}
-        itemType="assignee"
+        itemType="devs"
       />
     </ElementContainer>
   );

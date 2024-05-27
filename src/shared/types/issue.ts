@@ -12,6 +12,6 @@ export interface Issue {
   status: IssueStatus;
   priority: IssuePriority;
   reporter: string;
-  assignee: DevUser[];
+  devs: DevUser[];
   comments: Comments[];
 }
