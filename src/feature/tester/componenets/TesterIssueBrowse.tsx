@@ -18,18 +18,19 @@ const TesterIssueBrowse = () => {
     <Container>
       <IssueListContainer>
         {issueListDummy.map((issue, index) => (
-          <ElementContainerButton
-            key={index}
-            onClick={() => handleIssueClick(index)}
-          >
-            <IssueTitle>{issue.title}</IssueTitle>
-            <IssueDescription>{issue.description}</IssueDescription>
-          </ElementContainerButton>
+          <React.Fragment key={index}>
+            <ElementContainerButton onClick={() => handleIssueClick(index)}>
+              <IssueTitle>{issue.title}</IssueTitle>
+              <IssueDescription>{issue.description}</IssueDescription>
+            </ElementContainerButton>
+            {selectedIssue === index && (
+              <IssueDetailContainer>
+                <TesterIssueDetail issue={issueListDummy[selectedIssue]} />
+              </IssueDetailContainer>
+            )}
+          </React.Fragment>
         ))}
       </IssueListContainer>
-      {selectedIssue !== null && (
-        <TesterIssueDetail issue={issueListDummy[selectedIssue]} />
-      )}
     </Container>
   );
 };
@@ -86,6 +87,22 @@ const ElementContainerButton = styled.button`
   &:focus {
     outline: none;
   }
+`;
+
+const IssueDetailContainer = styled.div`
+  width: 100%;
+  box-sizing: border-box;
+  padding: 24px;
+  display: flex;
+  border-radius: 12px;
+
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+
+  border: 1px solid ${({ theme: { color } }) => color.black200};
+
+  background-color: ${({ theme: { color } }) => color.white};
 `;
 
 export default TesterIssueBrowse;
