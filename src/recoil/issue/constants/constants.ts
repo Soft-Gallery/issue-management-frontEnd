@@ -1,4 +1,5 @@
 import { IssuePriority, IssueStatus } from '../../../shared/types/issue';
+import {DevUser} from '../../../shared/types/user';
 
 export const ISSUE_INFO_STATE = {
   id: 0,
@@ -7,6 +8,6 @@ export const ISSUE_INFO_STATE = {
   status: 'NEW' as IssueStatus,
   priority: 'MAJOR' as IssuePriority,
   reporter: '',
-  assignee: [],
+  devs: [],
   comments: [],
 }

@@ -1,5 +1,4 @@
 import { Issue } from '../shared/types/issue';
-import { ISSUE_STATUS_STATE } from '../feature/issue/issueStatusConstants';
 
 export const issueListDummy: Issue[] = [
   {
@@ -9,7 +8,7 @@ export const issueListDummy: Issue[] = [
     status: 'NEW',
     priority: 'MAJOR',
     reporter: 'tester 민수',
-    assignee: [
+    devs: [
       {
         id: 12,
         name: '민수수',
@@ -38,7 +37,7 @@ export const issueListDummy: Issue[] = [
     status: 'ASSIGNED',
     priority: 'MAJOR',
     reporter: 'tester 민수',
-    assignee: [
+    devs: [
       {
         id: 12,
         name: '민수수',
@@ -67,7 +66,7 @@ export const issueListDummy: Issue[] = [
     status: 'RESOLVED',
     priority: 'MAJOR',
     reporter: 'tester 민수',
-    assignee: [
+    devs: [
       {
         id: 12,
         name: '민수수',

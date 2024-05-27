@@ -1,7 +1,9 @@
 import ElementContainer from '../../../shared/components/ElementContainer';
 import React from 'react';
 import styled from 'styled-components';
-import DevInfoItem from '../../admin/components/addproject/DevInfoItem';
+import { devListDummy } from '../../../dummy/devListDummy';
+import { DevUser } from '../../../shared/types/user';
+import UserInfoItemDropdown from '../../issue/components/UserInfoItemDropdown';
 
 
 const AssigneeItem:React.FC = () => {
@@ -9,7 +11,11 @@ const AssigneeItem:React.FC = () => {
   return (
     <ElementContainer>
       <TitleText>Assignees</TitleText>
-      <DevInfoItem />
+      <UserInfoItemDropdown
+        title="Dev 정보"
+        itemList={devListDummy as DevUser[]}
+        itemType="assignee"
+      />
     </ElementContainer>
   );
 }
@@ -17,7 +23,7 @@ const AssigneeItem:React.FC = () => {
 export const TitleText = styled.div`
   display: flex;
   text-align: left;
-  margin-bottom: 12px;
+  margin-bottom: 16px;
   font-size: 24px;
   font-weight: bold;
   color: ${({ theme }) => theme.color.black};
