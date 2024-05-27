@@ -26,7 +26,6 @@ const TesterIssueCreate = () => {
       comments,
     };
     console.log(newIssue);
-    // 이슈 생성 로직 추가
   };
 
   const handleAssigneeChange = (index: number) => (e: React.ChangeEvent<HTMLSelectElement>) => {
