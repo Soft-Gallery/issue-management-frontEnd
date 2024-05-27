@@ -6,9 +6,7 @@ import LoginPage from './pages/LoginPage';
 import SignUpPage from './pages/SignUpPage';
 import ProtectedRoute from "./shared/components/ProtectedRoute";
 import ProjectPage from './pages/ProjectPage';
-import PLPage from './pages/PLPage';
 import TesterPage from './pages/TesterPage';
-import DevPage from './pages/DevPage';
 
 const routes: RouteObject[] = [
   {
