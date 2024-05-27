@@ -1,4 +1,4 @@
-import { createBrowserRouter, Navigate, RouteObject } from 'react-router-dom';
+import { createBrowserRouter, RouteObject } from "react-router-dom";
 import Layout from './shared/components/Layout/Layout';
 import React from 'react';
 import AdminPage from './pages/AdminPage';
@@ -9,7 +9,6 @@ import ProjectPage from './pages/ProjectPage';
 import PLPage from './pages/PLPage';
 import TesterPage from './pages/TesterPage';
 import DevPage from './pages/DevPage';
-import LayoutWithoutSideBar from './shared/components/Layout/LayoutWithoutSideBar';
 
 const routes: RouteObject[] = [
   {
@@ -18,28 +17,16 @@ const routes: RouteObject[] = [
   },
   {
     path: "/signUp",
-    element: <SignUpPage />,
-  },
-  {
-    path: "/project",
-    element: <LayoutWithoutSideBar />,
-    children: [
-      {
-        index: true,
-        element: (
-          <ProtectedRoute allowedRoles={['dev', 'tester', 'pl']}>
-            <ProjectPage />
-          </ProtectedRoute>
-        ),
-      },
-    ]
+    element: (
+      <SignUpPage />
+    ),
   },
   {
     path: "/",
     element: <Layout />,
     children: [
       {
-        path: 'admin',
+        index: true,
         element: (
           <ProtectedRoute allowedRoles={['admin']}>
             <AdminPage />
@@ -47,7 +34,23 @@ const routes: RouteObject[] = [
         ),
       },
       {
-        path: 'pl',
+        path: '/project',
+        index: false,
+        element: (
+          <ProtectedRoute allowedRoles={['dev', 'tester', 'pl']}>
+            <ProjectPage />
+          </ProtectedRoute>
+        ),
+      },
+    ],
+  },
+  {
+    path: "/issue",
+    element: <Layout />,
+    children: [
+      {
+        path: "pl",
+        index: false,
         element: (
           <ProtectedRoute allowedRoles={['pl']}>
             <PLPage />
@@ -55,7 +58,8 @@ const routes: RouteObject[] = [
         ),
       },
       {
-        path: 'tester',
+        path: "tester",
+        index: false,
         element: (
           <ProtectedRoute allowedRoles={['tester']}>
             <TesterPage />
@@ -63,19 +67,16 @@ const routes: RouteObject[] = [
         ),
       },
       {
-        path: 'dev',
+        path: "dev",
+        index: false,
         element: (
           <ProtectedRoute allowedRoles={['dev']}>
             <DevPage />
           </ProtectedRoute>
         ),
       },
-      {
-        index: true,
-        element: <Navigate to="/login" replace />,
-      },
-    ],
-  },
+    ]
+  }
 ];
 
 const router = createBrowserRouter(routes);
