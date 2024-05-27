@@ -1,4 +1,4 @@
-import { createBrowserRouter, RouteObject } from "react-router-dom";
+import { createBrowserRouter, Navigate, RouteObject } from 'react-router-dom';
 import Layout from './shared/components/Layout/Layout';
 import React from 'react';
 import AdminPage from './pages/AdminPage';
@@ -17,16 +17,14 @@ const routes: RouteObject[] = [
   },
   {
     path: "/signUp",
-    element: (
-      <SignUpPage />
-    ),
+    element: <SignUpPage />,
   },
   {
     path: "/",
     element: <Layout />,
     children: [
       {
-        index: true,
+        path: 'admin',
         element: (
           <ProtectedRoute allowedRoles={['admin']}>
             <AdminPage />
@@ -34,7 +32,7 @@ const routes: RouteObject[] = [
         ),
       },
       {
-        index: true,
+        path: 'pl',
         element: (
           <ProtectedRoute allowedRoles={['pl']}>
             <PLPage />
@@ -42,7 +40,7 @@ const routes: RouteObject[] = [
         ),
       },
       {
-        index: true,
+        path: 'tester',
         element: (
           <ProtectedRoute allowedRoles={['tester']}>
             <TesterPage />
@@ -50,7 +48,7 @@ const routes: RouteObject[] = [
         ),
       },
       {
-        index: true,
+        path: 'dev',
         element: (
           <ProtectedRoute allowedRoles={['dev']}>
             <DevPage />
@@ -58,17 +56,19 @@ const routes: RouteObject[] = [
         ),
       },
       {
-        path: '/project',
-        index: false,
+        path: 'project',
         element: (
           <ProtectedRoute allowedRoles={['dev', 'tester', 'pl']}>
             <ProjectPage />
           </ProtectedRoute>
         ),
       },
+      {
+        index: true,
+        element: <Navigate to="/login" replace />,
+      },
     ],
   },
-
 ];
 
 const router = createBrowserRouter(routes);

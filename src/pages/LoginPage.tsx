@@ -5,7 +5,7 @@ import { BsEyeFill, BsEyeSlashFill } from "react-icons/bs";
 import postLogin from '../feature/auth/remotes/postLogin';
 import { getUserInfo } from '../feature/auth/remotes/getUserInfo';
 import useFetch from '../shared/hooks/useFetch';
-import { useRecoilValue, useSetRecoilState } from 'recoil';
+import { useSetRecoilState } from 'recoil';
 import { userRoleState } from '../recoil/atom';
 import getRoleConstants from '../feature/auth/function/getRoleConstants';
 import logoTextImg from '../assets/imgs/logo_text.png';
@@ -20,18 +20,16 @@ const LoginPage: React.FC = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   const setUserRoleState = useSetRecoilState<string>(userRoleState);
-  const getLoginUserInfo = () => getUserInfo();
-  const {data: userLoginInfo, fetchData} = useFetch(getLoginUserInfo);
+  const { data: userLoginInfo, fetchData } = useFetch(getUserInfo);
 
   const loginSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-
     setIsSubmitting(true);
 
     const postResult = await postLogin(id, password);
 
-    if (postResult) {
-      await fetchData();
+    if (postResult === true) {
+      await fetchData();  // 사용자 정보 가져오기
     } else {
       alert('로그인 실패');
       setId('');
@@ -43,17 +41,17 @@ const LoginPage: React.FC = () => {
 
   useEffect(() => {
     if (userLoginInfo) {
+      console.log(userLoginInfo);
       const userRole = getRoleConstants(userLoginInfo.role);
       setUserRoleState(userRole);
-      alert('환영합니다!');
 
-      if(userRole === 'admin'){
-        navigate('/');
-        setIsSubmitting(false);
-      } else{
+      if (userRole === 'admin') {
+        navigate('/admin');
+      } else {
         navigate('/project');
-        setIsSubmitting(false);
       }
+
+      setIsSubmitting(false);
     }
   }, [userLoginInfo, navigate, setUserRoleState]);
 
