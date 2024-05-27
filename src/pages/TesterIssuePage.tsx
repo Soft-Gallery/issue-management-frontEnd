@@ -4,6 +4,8 @@ import styled from 'styled-components';
 import { useRecoilValue } from 'recoil';
 import { testerPageViewState } from '../recoil/tester/atom';
 import { TESTER_CURRENT_VIEW_STATES } from '../recoil/tester/constants/constants';
+import TesterIssueBrowse from '../feature/tester/componenets/TesterIssueBrowse';
+import TesterIssueCreate from '../feature/tester/componenets/TesterIssueCreate';
 
 const TesterIssuePage = () => {
   const navigate = useNavigate();
@@ -11,8 +13,8 @@ const TesterIssuePage = () => {
 
   return (
     <Container>
-      {currentView === TESTER_CURRENT_VIEW_STATES.ISSUE_BROWSE && <div>브라우징</div>}
-      {currentView === TESTER_CURRENT_VIEW_STATES.ISSUE_CREATE && <div>생성</div>}
+      {currentView === TESTER_CURRENT_VIEW_STATES.ISSUE_BROWSE && <TesterIssueBrowse />}
+      {currentView === TESTER_CURRENT_VIEW_STATES.ISSUE_CREATE && <TesterIssueCreate />}
     </Container>
   );
 };
