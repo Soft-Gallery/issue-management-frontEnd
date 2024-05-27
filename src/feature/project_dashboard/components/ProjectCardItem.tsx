@@ -5,7 +5,6 @@ import { ProjectCardItemType } from '../../../shared/types/project';
 import { useNavigate } from 'react-router-dom';
 import { useRecoilValue } from 'recoil';
 import { userRoleState } from '../../../recoil/atom';
-import { Navigate } from 'react-router-dom';
 
 const ProjectCardItem: React.FC<ProjectCardItemType> = ({ title, description }) => {
   const navigate = useNavigate();
