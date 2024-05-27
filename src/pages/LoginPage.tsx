@@ -20,7 +20,8 @@ const LoginPage: React.FC = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   const setUserRoleState = useSetRecoilState<string>(userRoleState);
-  const {data: userLoginInfo, fetchData} = useFetch(getUserInfo);
+  const getLoginUserInfo = () => getUserInfo();
+  const {data: userLoginInfo, fetchData} = useFetch(getLoginUserInfo);
 
   const loginSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
