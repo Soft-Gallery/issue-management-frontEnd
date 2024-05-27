@@ -11,8 +11,8 @@ const TesterIssuePage = () => {
 
   return (
     <Container>
-      {currentView === TESTER_CURRENT_VIEW_STATES.ISSUE_BROWSE && null}
-      {currentView === TESTER_CURRENT_VIEW_STATES.ISSUE_CREATE && null}
+      {currentView === TESTER_CURRENT_VIEW_STATES.ISSUE_BROWSE && <div>브라우징</div>}
+      {currentView === TESTER_CURRENT_VIEW_STATES.ISSUE_CREATE && <div>생성</div>}
     </Container>
   );
 };
