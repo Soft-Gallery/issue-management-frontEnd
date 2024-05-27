@@ -17,7 +17,6 @@ const AdminPage = () => {
     <Container>
       {currentView === CURRENT_VIEW_STATES.ADD_PROJECT && <AddProjectItem />}
       {currentView === CURRENT_VIEW_STATES.VIEW_PROJECTS && <ProjectDetailItem />}
-      {currentView === CURRENT_VIEW_STATES.NONE && null}
     </Container>
   );
 };
