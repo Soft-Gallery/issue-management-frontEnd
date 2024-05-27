@@ -1,7 +1,8 @@
 import axios, { CreateAxiosDefaults } from 'axios';
+import { SERVER_URL } from './constants';
 
 const defaultConfig: CreateAxiosDefaults = {
-  baseURL: 'http://localhost:8080/',
+  baseURL: SERVER_URL,
 }
 
 const client = axios.create(defaultConfig);

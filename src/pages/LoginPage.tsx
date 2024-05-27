@@ -3,12 +3,9 @@ import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { BsEyeFill, BsEyeSlashFill } from "react-icons/bs";
 import postLogin from '../feature/auth/remotes/postLogin';
-import saveTokenToLocalStorage from '../feature/auth/function/saveTokenToLocalStorage';
 import { getUserInfo } from '../feature/auth/remotes/getUserInfo';
 import useFetch from '../shared/hooks/useFetch';
-import { useSetRecoilState } from 'recoil';
-import { Project } from '../shared/types/project';
-import { adminPageAddProjectState } from '../recoil/admin/atom';
+import { useRecoilValue, useSetRecoilState } from 'recoil';
 import { userRoleState } from '../recoil/atom';
 import getRoleConstants from '../feature/auth/function/getRoleConstants';
 import logoTextImg from '../assets/imgs/logo_text.png';
@@ -23,8 +20,7 @@ const LoginPage: React.FC = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   const setUserRoleState = useSetRecoilState<string>(userRoleState);
-  const getLoginUserInfo = () => getUserInfo();
-  const {data: userLoginInfo, fetchData} = useFetch(getLoginUserInfo);
+  const {data: userLoginInfo, fetchData} = useFetch(getUserInfo);
 
   const loginSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -35,24 +31,30 @@ const LoginPage: React.FC = () => {
 
     if (postResult) {
       await fetchData();
-    } else{
+    } else {
       alert('로그인 실패');
       setId('');
       setPassword('');
       setPasswordVisible(false);
       setIsSubmitting(false);
     }
-  }
+  };
 
   useEffect(() => {
     if (userLoginInfo) {
-      setUserRoleState(getRoleConstants(userLoginInfo.role));
+      const userRole = getRoleConstants(userLoginInfo.role);
+      setUserRoleState(userRole);
       alert('환영합니다!');
-      navigate(`/${getRoleConstants(userLoginInfo.role)}`);
-      setIsSubmitting(false);
-    }
-  }, [navigate, setUserRoleState, userLoginInfo]);
 
+      if(userRole === 'admin'){
+        navigate('/');
+        setIsSubmitting(false);
+      } else{
+        navigate('/project');
+        setIsSubmitting(false);
+      }
+    }
+  }, [userLoginInfo, navigate, setUserRoleState]);
 
   const signUpClick = () => {
     navigate('/signUp');
