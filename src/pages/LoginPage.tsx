@@ -1,14 +1,11 @@
 import { useNavigate } from "react-router-dom";
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { BsEyeFill, BsEyeSlashFill } from "react-icons/bs";
 import postLogin from '../feature/auth/remotes/postLogin';
-import saveTokenToLocalStorage from '../feature/auth/function/saveTokenToLocalStorage';
 import { getUserInfo } from '../feature/auth/remotes/getUserInfo';
 import useFetch from '../shared/hooks/useFetch';
-import { useSetRecoilState } from 'recoil';
-import { Project } from '../shared/types/project';
-import { adminPageAddProjectState } from '../recoil/admin/atom';
+import { useRecoilValue, useSetRecoilState } from 'recoil';
 import { userRoleState } from '../recoil/atom';
 import getRoleConstants from '../feature/auth/function/getRoleConstants';
 import logoTextImg from '../assets/imgs/logo_text.png';
@@ -20,6 +17,7 @@ const LoginPage: React.FC = () => {
   const [id, setId] = useState<string>('');
   const [password, setPassword] = useState<string>('');
   const [passwordVisible, setPasswordVisible] = useState<boolean>(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const setUserRoleState = useSetRecoilState<string>(userRoleState);
   const getLoginUserInfo = () => getUserInfo();
@@ -28,23 +26,36 @@ const LoginPage: React.FC = () => {
   const loginSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    setId('');
-    setPassword('');
-    setPasswordVisible(false);
+    setIsSubmitting(true);
 
     const postResult = await postLogin(id, password);
 
     if (postResult) {
-      void fetchData();
-      if(userLoginInfo !== null) {
-        setUserRoleState(getRoleConstants(userLoginInfo.role));
-        alert('환영합니다!')
-        navigate('/');
-      }
-    } else{
+      await fetchData();
+    } else {
       alert('로그인 실패');
+      setId('');
+      setPassword('');
+      setPasswordVisible(false);
+      setIsSubmitting(false);
     }
-  }
+  };
+
+  useEffect(() => {
+    if (userLoginInfo) {
+      const userRole = getRoleConstants(userLoginInfo.role);
+      setUserRoleState(userRole);
+      alert('환영합니다!');
+
+      if(userRole === 'admin'){
+        navigate('/');
+        setIsSubmitting(false);
+      } else{
+        navigate('/project');
+        setIsSubmitting(false);
+      }
+    }
+  }, [userLoginInfo, navigate, setUserRoleState]);
 
   const signUpClick = () => {
     navigate('/signUp');
@@ -84,7 +95,9 @@ const LoginPage: React.FC = () => {
               </ToggleSwitch>
             </PasswordInputContainer>
           </FormElement>
-          <LoginButton type="submit">로그인</LoginButton>
+          <LoginButton type="submit" disabled={isSubmitting}>
+            {isSubmitting ? '로그인 중…' : '로그인'}
+          </LoginButton>
         </Form>
         <SignUp>
           <span>계정이 없으신가요? </span>

@@ -11,7 +11,7 @@ import IssueInfoItem from '../feature/pl/components/IssueInfoItem';
 import AssigneeItem from '../feature/pl/components/AssigneeItem';
 import CommentItem from '../feature/CommentItem';
 
-const PLIssuePage = () => {
+const PLPage = () => {
   // const currentView = useRecoilValue(plPageViewState);
 
   return (
@@ -34,4 +34,4 @@ const Container = styled.div`
     gap: 20px;
 `;
 
-export default PLIssuePage;
+export default PLPage;
