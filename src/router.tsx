@@ -34,30 +34,6 @@ const routes: RouteObject[] = [
         ),
       },
       {
-        index: true,
-        element: (
-          <ProtectedRoute allowedRoles={['pl']}>
-            <PLPage />
-          </ProtectedRoute>
-        ),
-      },
-      {
-        index: true,
-        element: (
-          <ProtectedRoute allowedRoles={['tester']}>
-            <TesterPage />
-          </ProtectedRoute>
-        ),
-      },
-      {
-        index: true,
-        element: (
-          <ProtectedRoute allowedRoles={['dev']}>
-            <DevPage />
-          </ProtectedRoute>
-        ),
-      },
-      {
         path: '/project',
         index: false,
         element: (
@@ -68,7 +44,39 @@ const routes: RouteObject[] = [
       },
     ],
   },
-
+  {
+    path: "/issue",
+    element: <Layout />,
+    children: [
+      {
+        path: "pl",
+        index: false,
+        element: (
+          <ProtectedRoute allowedRoles={['pl']}>
+            <PLPage />
+          </ProtectedRoute>
+        ),
+      },
+      {
+        path: "tester",
+        index: false,
+        element: (
+          <ProtectedRoute allowedRoles={['tester']}>
+            <TesterPage />
+          </ProtectedRoute>
+        ),
+      },
+      {
+        path: "dev",
+        index: false,
+        element: (
+          <ProtectedRoute allowedRoles={['dev']}>
+            <DevPage />
+          </ProtectedRoute>
+        ),
+      },
+    ]
+  }
 ];
 
 const router = createBrowserRouter(routes);
