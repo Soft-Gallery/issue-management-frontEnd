@@ -9,6 +9,7 @@ import ProjectPage from './pages/ProjectPage';
 import PLPage from './pages/PLPage';
 import TesterPage from './pages/TesterPage';
 import DevPage from './pages/DevPage';
+import LayoutWithoutSideBar from './shared/components/Layout/LayoutWithoutSideBar';
 
 const routes: RouteObject[] = [
   {
@@ -18,6 +19,20 @@ const routes: RouteObject[] = [
   {
     path: "/signUp",
     element: <SignUpPage />,
+  },
+  {
+    path: "/project",
+    element: <LayoutWithoutSideBar />,
+    children: [
+      {
+        index: true,
+        element: (
+          <ProtectedRoute allowedRoles={['dev', 'tester', 'pl']}>
+            <ProjectPage />
+          </ProtectedRoute>
+        ),
+      },
+    ]
   },
   {
     path: "/",
@@ -52,14 +67,6 @@ const routes: RouteObject[] = [
         element: (
           <ProtectedRoute allowedRoles={['dev']}>
             <DevPage />
-          </ProtectedRoute>
-        ),
-      },
-      {
-        path: 'project',
-        element: (
-          <ProtectedRoute allowedRoles={['dev', 'tester', 'pl']}>
-            <ProjectPage />
           </ProtectedRoute>
         ),
       },
