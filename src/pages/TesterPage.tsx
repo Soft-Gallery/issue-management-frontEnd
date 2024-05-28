@@ -8,14 +8,13 @@ import CommentItem from '../feature/CommentItem';
 import AssignedDevItem from '../feature/pl/components/AssignedDevItem';
 
 const TesterPage = () => {
-  // const currentView = useRecoilValue(plPageViewState);
+  const navigate = useNavigate();
+  const currentView = useRecoilValue(testerPageViewState);
 
   return (
     <Container>
-      <IssueHeaderItem />
-      <IssueInfoItem />
-      <AssignedDevItem />
-      <CommentItem />
+      {currentView === TESTER_CURRENT_VIEW_STATES.ISSUE_BROWSE && <TesterIssueBrowse />}
+      {currentView === TESTER_CURRENT_VIEW_STATES.ISSUE_CREATE && <TesterIssueCreate />}
     </Container>
   );
 };
