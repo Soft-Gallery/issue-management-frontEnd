@@ -12,7 +12,7 @@ const TesterIssueCreate = () => {
   const [status, setStatus] = useState<IssueStatus>('NEW');
   const [priority, setPriority] = useState<IssuePriority>('MAJOR');
   const [reporter, setReporter] = useState('');
-  const [assignee, setAssignees] = useState<DevUser[]>([]);
+  const [devs, setDevs] = useState<DevUser[]>([]);
   const [comments, setComments] = useState<Comments[]>([]);
 
   const handleSubmit = () => {
@@ -22,7 +22,7 @@ const TesterIssueCreate = () => {
       status,
       priority,
       reporter,
-      assignee,
+      devs,
       comments,
     };
     console.log(newIssue);
@@ -32,18 +32,18 @@ const TesterIssueCreate = () => {
     const selectedId = parseInt(e.target.value, 10);
     const selectedAssignee = devListDummy.find(dev => dev.id === selectedId);
     if (selectedAssignee) {
-      const updatedAssignees = [...assignee];
+      const updatedAssignees = [...devs];
       updatedAssignees[index] = selectedAssignee;
-      setAssignees(updatedAssignees);
+      setDevs(updatedAssignees);
     }
   };
 
   const addAssignee = () => {
-    setAssignees(prevState => [...prevState, devListDummy[0]]);
+    setDevs(prevState => [...prevState, devListDummy[0]]);
   };
 
   const removeAssignee = (index: number) => {
-    setAssignees(prevState => {
+    setDevs(prevState => {
       const updatedAssignees = [...prevState];
       updatedAssignees.splice(index, 1);
       return updatedAssignees;
@@ -103,10 +103,10 @@ const TesterIssueCreate = () => {
       </ElementContainer>
       <ElementContainer>
         <ElementTitleText>Assignees</ElementTitleText>
-        {assignee.map((assignee, index) => (
+        {devs.map((dev, index) => (
           <DropDownContainer key={index}>
             <UserText>Assignee</UserText>
-            <UserSelect value={assignee.id} onChange={handleAssigneeChange(index)}>
+            <UserSelect value={dev.id} onChange={handleAssigneeChange(index)}>
               <option value="">Select Assignee</option>
               {devListDummy.map(dev => (
                 <option key={dev.id} value={dev.id}>

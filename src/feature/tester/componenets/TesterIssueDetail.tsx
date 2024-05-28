@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import styled from 'styled-components';
 import { Issue } from '../../../shared/types/issue';
 import ElementContainer from '../../../shared/components/ElementContainer';
-import { ISSUE_STATUS_STATE } from '../../../recoil/issue/constants/constants';
+import { ISSUE_STATUS_STATE } from '../../issue/issueStatusConstants';
 
 interface TesterIssueDetailProps {
   issue: Issue;
@@ -63,8 +63,8 @@ const TesterIssueDetail: React.FC<TesterIssueDetailProps> = ({ issue }) => {
         </DetailItem>
         <AssigneeContainer>
           <strong>Assignees:</strong>
-          {issue.assignee.map((assignee) => (
-            <Assignee key={assignee.id}>{assignee.name}</Assignee>
+          {issue.devs.map((dev) => (
+            <Assignee key={dev.id}>{dev.name}</Assignee>
           ))}
         </AssigneeContainer>
         <CommentsContainer>
