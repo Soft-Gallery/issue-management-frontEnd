@@ -7,9 +7,11 @@ import { userRoleState } from '../../../recoil/atom';
 import { useNavigate } from 'react-router-dom';
 
 const ProjectCardItem: React.FC<ProjectCardItemType> = ({ title, description }) => {
+
+  const userRole = useRecoilValue(userRoleState);
   const navigate = useNavigate();
   const onClickButton = () => {
-    navigate('/issue');
+    navigate(`/${userRole}`);
   }
   return (
     <Container onClick={onClickButton}>

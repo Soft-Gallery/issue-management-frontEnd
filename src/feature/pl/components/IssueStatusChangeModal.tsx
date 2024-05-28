@@ -8,7 +8,7 @@ interface ModalProps {
   onConfirm: (selectedOption: IssueStatus) => void;
   onClose: () => void;
   defaultStatus: IssueStatus;
-  role: UserRole
+  role: string
 }
 
 const IssueStatusChangeModal: React.FC<ModalProps> = ({ onConfirm, onClose, defaultStatus, role }) => {
