@@ -2,20 +2,18 @@ import React from 'react';
 import styled from 'styled-components';
 import projectPandaImg from '../../../assets/imgs/project_panda.png';
 import { ProjectCardItemType } from '../../../shared/types/project';
-import { useNavigate } from 'react-router-dom';
-import { useRecoilValue } from 'recoil';
+import { useRecoilValue, useSetRecoilState } from 'recoil';
 import { userRoleState } from '../../../recoil/atom';
+import { useNavigate } from 'react-router-dom';
 
 const ProjectCardItem: React.FC<ProjectCardItemType> = ({ title, description }) => {
+  const userRole = useRecoilValue<string>(userRoleState);
   const navigate = useNavigate();
-  const userRole = useRecoilValue(userRoleState);
-
-  const handleClick = () =>{
-    navigate(`/${userRole}`);
+  const onClickButton = () => {
+    navigate(`/issue/${userRole}`);
   }
-
   return (
-    <Container onClick = {handleClick}>
+    <Container onClick={onClickButton}>
       <ProjectImg src={projectPandaImg} alt="프로젝트 판다 캐릭터" />
       <ProjectTitle>{title}</ProjectTitle>
       <ProjectDescription>{description}</ProjectDescription>
@@ -23,7 +21,7 @@ const ProjectCardItem: React.FC<ProjectCardItemType> = ({ title, description }) 
   );
 };
 
-const Container = styled.div`
+const Container = styled.button`
     width: 300px;
     height: 450px;
     background-color: bisque;
