@@ -30,6 +30,7 @@ const Container = styled.button`
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     transition: transform 0.2s, box-shadow 0.2s;
     cursor: pointer;
+    border: transparent;
 
     &:hover {
         transform: scale(1.1);
@@ -38,15 +39,14 @@ const Container = styled.button`
 `;
 
 const ProjectImg = styled.img`
-    width: 300px;
-    height: 300px;
+    width: 285px;
+    height: 285px;
     border-radius: 5px 5px 0 0;
 `;
 
 const ProjectTitle = styled.h2`
     font-size: 24px;
     font-weight: bold;
-    margin: 16px 0 16px;
     text-align: center;
 `;
 
