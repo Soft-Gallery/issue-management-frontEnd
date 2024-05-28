@@ -3,7 +3,7 @@ import InfoItemDropdown from './InfoItemDropdown';
 import { DevUser } from '../../../../shared/types/user';
 import { devListDummy } from '../../../../dummy/devListDummy';
 
-const PLInfoItem: React.FC = () => {
+const DEVInfoItem: React.FC = () => {
   return (
     <InfoItemDropdown
       title="Dev 정보"
@@ -13,4 +13,4 @@ const PLInfoItem: React.FC = () => {
   );
 };
 
-export default PLInfoItem;
+export default DEVInfoItem;

@@ -1,30 +1,28 @@
 import React from 'react';
 import styled from 'styled-components';
-import { useRecoilState, useSetRecoilState } from 'recoil';
-import { adminPageViewState } from '../../../recoil/admin/atom';
-import { CURRENT_VIEW_STATES } from '../../../recoil/admin/constants/constants';
 
+import { useSetRecoilState } from 'recoil';
+import { testerPageViewState } from '../../../recoil/tester/atom';
+import { TESTER_CURRENT_VIEW_STATES } from '../../../recoil/tester/constants/constants';
 
-const AdminSideBarMenu = (): JSX.Element => {
-  const setCurrentView = useSetRecoilState(adminPageViewState);
+const TesterSideBarMenu = (): JSX.Element => {
+  const setCurrentView = useSetRecoilState(testerPageViewState);
 
   const handleButtonClick = (view: string) => {
     setCurrentView(view);
   };
 
-  return (
+  return(
     <div>
-      <StyledButton onClick={() => handleButtonClick(CURRENT_VIEW_STATES.ADD_PROJECT)}>
-        Add Project
-      </StyledButton>
-      <StyledButton onClick={() => handleButtonClick(CURRENT_VIEW_STATES.VIEW_PROJECTS)}>
-        View Projects
+      <StyledButton onClick={() => handleButtonClick(TESTER_CURRENT_VIEW_STATES.ISSUE_CREATE)}>Create Issue</StyledButton>
+      <StyledButton onClick={() => handleButtonClick(TESTER_CURRENT_VIEW_STATES.ISSUE_BROWSE)}>
+        Browse Issues
       </StyledButton>
     </div>
-  );
+  )
 }
 
-export default AdminSideBarMenu;
+export default TesterSideBarMenu;
 
 const StyledButton = styled.button`
   display: inline-flex;
@@ -44,12 +42,12 @@ const StyledButton = styled.button`
 
   color: ${({ theme: { color } }) => color.gray1};
   background: ${({ theme: { color } }) => color.white};
-  &:hover {
+  &:hover{
     color: ${({ theme: { color } }) => color.white};
     background: ${({ theme: { color } }) => color.indigo};
   }
-  &:active {
+  &:active{
     color: ${({ theme: { color } }) => color.white};
     background: ${({ theme: { color } }) => color.indigo};
   }
-`;
+`

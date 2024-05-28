@@ -40,7 +40,7 @@ export const RemoveButton = styled.button`
   margin-left: 8px;
 `;
 
-export const AddButton = styled.button`
+export const Button = styled.button`
   display: inline-flex;
   align-items: center;
   outline: none;
@@ -54,22 +54,36 @@ export const AddButton = styled.button`
   height: 40px;
   font-size: 16px;
   width: auto;
-
-  border: 1.5px solid ${({ theme: { color } }) => color.black200};
-
-  color: ${({ theme: { color } }) => color.gray1};
-  background: ${({ theme: { color } }) => color.white};
-
-  &:hover {
-    color: ${({ theme: { color } }) => color.white};
-    background: ${({ theme: { color } }) => color.indigo};
-  }
-
-  &:active {
-    color: ${({ theme: { color } }) => color.white};
-    background: ${({ theme: { color } }) => color.indigo};
-  }
 `;
+
+export const AddButton = styled(Button)`
+    border: 1.5px solid ${({ theme: { color } }) => color.black200};
+  
+    color: ${({ theme: { color } }) => color.gray1};
+    background: ${({ theme: { color } }) => color.white};
+  
+    &:hover {
+      color: ${({ theme: { color } }) => color.white};
+      background: ${({ theme: { color } }) => color.indigo};
+    }
+  
+    &:active {
+      color: ${({ theme: { color } }) => color.white};
+      background: ${({ theme: { color } }) => color.indigo};
+    }
+`
+
+interface SubmitButtonProps {
+  isAvailable: boolean;
+}
+
+export const SubmitButton = styled(Button)<SubmitButtonProps>`
+    border: 1.5px solid ${({ theme: { color } }) => color.black200};
+    color: ${({ theme: { color }, isAvailable }) => isAvailable ? color.white : color.white};
+    background: ${({ theme: { color }, isAvailable }) => isAvailable ? color.indigo : color.gray1};
+    cursor: ${({ isAvailable }) => isAvailable ? 'pointer' : 'default'};
+`;
+
 
 export const DropDownContainer = styled.div`
   display: flex;
