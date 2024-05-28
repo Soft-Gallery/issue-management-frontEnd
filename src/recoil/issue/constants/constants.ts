@@ -1,30 +1,18 @@
-import { IssueStatus } from '../../../shared/types/issue';
+import { IssuePriority, IssueStatus } from '../../../shared/types/issue';
 
-export const CURRENT_ACTION_STATES = {
-  NOT_DONE: 'not_done',
-  DONE: 'done',
+export const ISSUE_CURRENT_VIEW_STATES = {
+  VIEW_PROJECT_DETAIL: 'viewProjectDetail',
+  VIEW_ISSUE_DETAIL: 'viewIssueDetail',
+  NONE: 'none',
 };
 
-export const ISSUE_STATUS_STATE: { [key: string]: IssueStatus} = {
-  NEW: 'NEW',
-  ASSIGNED: 'ASSIGNED',
-  FIXED: 'FIXED',
-  RESOLVED: 'RESOLVED',
-  CLOSED: 'CLOSED',
-}
-
-export const PL_ISSUE_STATUS_STATE: { [key: string]: IssueStatus} = {
-  NEW: 'NEW',
-  ASSIGNED: 'ASSIGNED',
-  CLOSED: 'CLOSED',
-};
-
-export const TESTER_ISSUE_STATUS_STATE: { [key: string]: IssueStatus} = {
-  NEW: 'NEW',
-  RESOLVED: 'RESOLVED',
-}
-
-export const DEV_ISSUE_STATUS_STATE: { [key: string]: IssueStatus} = {
-  ASSIGNED: 'ASSIGNED',
-  FIXED: 'FIXED',
+export const ISSUE_INFO_STATE = {
+  id: 0,
+  title: '',
+  description: '',
+  status: 'NEW' as IssueStatus,
+  priority: 'MAJOR' as IssuePriority,
+  reporter: '',
+  devs: [],
+  comments: [],
 }

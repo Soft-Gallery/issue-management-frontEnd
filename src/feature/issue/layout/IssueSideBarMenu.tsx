@@ -1,12 +1,12 @@
 import React from 'react';
 import styled from 'styled-components';
 import { useRecoilState, useSetRecoilState } from 'recoil';
-import { adminPageViewState } from '../../../recoil/admin/atom';
-import { CURRENT_VIEW_STATES } from '../../../recoil/admin/constants/constants';
+import { issuePageViewState } from '../../../recoil/issue/issueAtom';
+import { ISSUE_CURRENT_VIEW_STATES } from '../../../recoil/issue/constants/constants';
 
 
-const AdminSideBarMenu = (): JSX.Element => {
-  const setCurrentView = useSetRecoilState(adminPageViewState);
+const IssueSideBarMenu = (): JSX.Element => {
+  const setCurrentView = useSetRecoilState(issuePageViewState);
 
   const handleButtonClick = (view: string) => {
     setCurrentView(view);
@@ -14,17 +14,17 @@ const AdminSideBarMenu = (): JSX.Element => {
 
   return (
     <div>
-      <StyledButton onClick={() => handleButtonClick(CURRENT_VIEW_STATES.ADD_PROJECT)}>
-        Add Project
+      <StyledButton onClick={() => handleButtonClick(ISSUE_CURRENT_VIEW_STATES.VIEW_PROJECT_DETAIL)}>
+        Project Info
       </StyledButton>
-      <StyledButton onClick={() => handleButtonClick(CURRENT_VIEW_STATES.VIEW_PROJECTS)}>
-        View Projects
+      <StyledButton onClick={() => handleButtonClick(ISSUE_CURRENT_VIEW_STATES.VIEW_ISSUE_DETAIL)}>
+        View Issues
       </StyledButton>
     </div>
   );
 }
 
-export default AdminSideBarMenu;
+export default IssueSideBarMenu;
 
 const StyledButton = styled.button`
   display: inline-flex;

@@ -8,13 +8,8 @@ const IssueInfoItem:React.FC = () => {
   return (
     <ElementContainer>
       <TitleText>Issue Information</TitleText>
+      <DetailDescription>reporter : tester 이름</DetailDescription>
       <IssueDescription>이슈 상세 내용 description 보여죠라</IssueDescription>
-      <br />
-      <ul>
-        <ElementSubText>
-          reporter : tester이름
-        </ElementSubText>
-      </ul>
     </ElementContainer>
   );
 }
@@ -32,7 +27,8 @@ const IssueDescription = styled.p`
     font-size: 16px;
 `
 
-const ElementSubText = styled.li`
-    font-size: 16px;
-`
+const DetailDescription = styled.div`
+  font-size: 16px;
+  color: ${({ theme }) => theme.color.gray2};
+`;
 export default IssueInfoItem;

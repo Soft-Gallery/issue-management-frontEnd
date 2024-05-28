@@ -13,7 +13,7 @@ const ProjectPage: React.FC = () => {
 
   return (
     <PageContainer>
-      <WelcomeText>username님, 환영합니다</WelcomeText>
+      <WelcomeText>babo님, 환영합니다</WelcomeText>
       <ProjectList>
         {projects.map((project, index) => (
           <ProjectCardItem key={index} title={project.title} description={project.description} />

@@ -1,11 +1,11 @@
 import { useNavigate } from "react-router-dom";
 import React from 'react';
 import styled from 'styled-components';
-import { useRecoilValue } from 'recoil';
-import { testerPageViewState } from '../recoil/tester/atom';
-import { TESTER_CURRENT_VIEW_STATES } from '../recoil/tester/constants/constants';
-import TesterIssueBrowse from '../feature/tester/componenets/TesterIssueBrowse';
-import TesterIssueCreate from '../feature/tester/componenets/TesterIssueCreate';
+import IssueHeaderItem from '../feature/pl/components/IssueHeaderItem';
+import IssueInfoItem from '../feature/pl/components/IssueInfoItem';
+import AssigneeItem from '../feature/pl/components/AssigneeSelectItem';
+import CommentItem from '../feature/CommentItem';
+import AssignedDevItem from '../feature/pl/components/AssignedDevItem';
 
 const TesterPage = () => {
   const navigate = useNavigate();

@@ -20,9 +20,9 @@ const SignUpPage: React.FC = () => {
   const signUpSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    setValidateErrors(validateForm(id, password, username, email, role));
+    if (Object.values(validateForm(id, password, username, email, role)).every(value => value === '')) {
+      setValidateErrors(validateForm(id, password, username, email, role));
 
-    if (Object.values(validateErrors).every(value => value === '')) {
       const postResult = await postSignUp(id, password, username, email, role);
 
       setId('');
@@ -40,6 +40,8 @@ const SignUpPage: React.FC = () => {
       } else {
         alert(`회원가입 실패!\n에러 : ${postResult}`);
       }
+    } else{
+      setValidateErrors(validateForm(id, password, username, email, role));
     }
   };
 

@@ -9,6 +9,7 @@ import ProjectPage from './pages/ProjectPage';
 import TesterPage from './pages/TesterPage';
 import PLPage from './pages/PLPage';
 import DevPage from './pages/DevPage';
+import LayoutWithoutSideBar from './shared/components/Layout/LayoutWithoutSideBar';
 
 const routes: RouteObject[] = [
   {
@@ -22,23 +23,13 @@ const routes: RouteObject[] = [
     ),
   },
   {
-    path: "/",
-    element: <Layout />,
+    path: "/project",
+    element: <LayoutWithoutSideBar />,
     children: [
       {
         index: true,
-        path: "admin",
         element: (
-          <ProtectedRoute allowedRoles={['admin']}>
-            <AdminPage />
-          </ProtectedRoute>
-        ),
-      },
-      {
-        path: '/project',
-        index: false,
-        element: (
-          <ProtectedRoute allowedRoles={['dev', 'tester', 'pl']}>
+          <ProtectedRoute allowedRoles={['pl', 'tester', 'dev']}>
             <ProjectPage />
           </ProtectedRoute>
         ),
@@ -46,12 +37,19 @@ const routes: RouteObject[] = [
     ],
   },
   {
-    path: "/issue",
+    path: "/",
     element: <Layout />,
     children: [
       {
+        path: '/admin',
+        element: (
+          <ProtectedRoute allowedRoles={['admin']}>
+            <AdminPage />
+          </ProtectedRoute>
+        ),
+      },
+      {
         path: "pl",
-        index: false,
         element: (
           <ProtectedRoute allowedRoles={['pl']}>
             <PLPage />
@@ -60,7 +58,6 @@ const routes: RouteObject[] = [
       },
       {
         path: "tester",
-        index: false,
         element: (
           <ProtectedRoute allowedRoles={['tester']}>
             <TesterPage />
@@ -69,15 +66,14 @@ const routes: RouteObject[] = [
       },
       {
         path: "dev",
-        index: false,
         element: (
           <ProtectedRoute allowedRoles={['dev']}>
             <DevPage />
           </ProtectedRoute>
         ),
       },
-    ]
-  }
+    ],
+  },
 ];
 
 const router = createBrowserRouter(routes);

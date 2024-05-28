@@ -1,27 +1,26 @@
-import React, {useState, useEffect} from 'react';
+import React from 'react';
 import ElementContainer from '../../../shared/components/ElementContainer';
 import styled from 'styled-components';
+import { useRecoilState, useRecoilValue } from 'recoil';
+import { issuePageInfoState } from '../../../recoil/issue/issueAtom';
+import { IssuePriority, IssueStatus } from '../../../shared/types/issue';
 
 const IssueHeaderItem: React.FC = () => {
-  const [status,setStatus] = useState('New');
-  const priority = 'Critical';
-
-  useEffect(()=>{
-    // 서버로부터 info 받아옵시다.. 근데 이거 상태관리로 해서 한 번에 받아오고 값을 구독해서 필요한 정보만 recolieValue로 가져와야 할 듯
-  })
+  const issue = useRecoilValue(issuePageInfoState);
 
   return (
     <ElementContainer>
       <Container>
-        {/*이 버튼 누르면 satus 변경할 수 있는 dialog 띄우기*/}
-        <StatusButton>
-          {status}
-        </StatusButton>
-        <IssuePriority>
-          [{priority}]
-        </IssuePriority>
+        <LabelContainer>
+          <IssueLabel priority={issue.priority}>
+            {issue.priority}
+          </IssueLabel>
+          <StatusLabel>
+            {issue.status}
+          </StatusLabel>
+        </LabelContainer>
         <IssueTitle>
-          이슈 제목을 여기에 보여줍니다!
+          {issue.title || '이슈 제목 여기에 보여줍니다!'}
         </IssueTitle>
       </Container>
     </ElementContainer>
@@ -31,43 +30,57 @@ const IssueHeaderItem: React.FC = () => {
 const Container = styled.div`
     display: flex;
     width: 100%;
-    flex-direction: row;
-    align-items: center;
+    flex-direction: column;
+    align-items: start;
     justify-content: start;
 `;
 
-const StatusButton = styled.button`
-    width: 120px;
-    height: 50px;
-    border: 2px solid ${({ theme: { color } }) => color.black200};
-    border-radius: 10px;
-    justify-content: center;
+const LabelContainer = styled.div`
     display: flex;
-    align-items: center;
-    padding: 0 10px;
-    font-weight: bold;
-    font-size: 22px;
-    margin-right: 16px;
-    cursor: pointer;
+    flex-direction: row;
 `;
 
-
-const IssuePriority = styled.div`
+const Label = styled.div`
+    border: none;
+    border-radius: 4px;
     justify-content: center;
-    width: 80px;
-    height: 50px;
     display: flex;
     align-items: center;
-    padding: 0 10px;
+    padding: 3px 10px;
     font-weight: bold;
-    font-size: 21px;
-    margin-right: 2px;
+    font-size: 16px;
+    margin-right: 16px;
+`;
+
+const StatusLabel = styled(Label)`
+    color: black;
+    border: 1px solid ${({ theme: { color } }) => color.gray1};
+`;
+
+const IssueLabel = styled(Label)<{ priority: IssuePriority }>`
+  color: white;
+  background-color: ${({ priority }) => {
+  switch (priority) {
+    case 'BLOCKER':
+      return '#DB4035';
+    case 'CRITICAL':
+      return '#FF9933';
+    case 'MAJOR':
+      return '#FAD000';
+    case 'MINOR':
+      return '#7ECC49';
+    case 'TRIVIAL':
+      return '#14AAF5';
+    default:
+      return '#B8B8B8';
+  }
+}};
 `;
 
 const IssueTitle = styled.h3`
     flex-grow: 1;
     text-align: left;
-    font-size: 20px;
+    font-size: 18px;
 `;
 
 export default IssueHeaderItem;
