@@ -6,6 +6,11 @@ import IssueInfoItem from '../feature/pl/components/IssueInfoItem';
 import AssigneeItem from '../feature/pl/components/AssigneeSelectItem';
 import CommentItem from '../feature/CommentItem';
 import AssignedDevItem from '../feature/pl/components/AssignedDevItem';
+import TesterIssueBrowse from '../feature/tester/componenets/TesterIssueBrowse';
+import TesterIssueCreate from '../feature/tester/componenets/TesterIssueCreate';
+import { TESTER_CURRENT_VIEW_STATES } from '../recoil/tester/constants/constants';
+import { testerPageViewState } from '../recoil/tester/atom';
+import { useRecoilValue } from 'recoil';
 
 const TesterPage = () => {
   const navigate = useNavigate();
