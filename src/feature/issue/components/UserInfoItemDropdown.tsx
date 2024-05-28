@@ -48,7 +48,7 @@ const UserInfoItemDropdown: React.FC<UserInfoItemDropdownProps> = ({ title, item
   const handleSubmit = ()=>{
     if(isAvailable){
       const devUsers: DevUser[] = selectedItems.filter(
-        (item): item is DevUser => item.role === 'ROLE_DEV'
+        (item): item is DevUser => item.role === 'ROLE_DEVELOPER'
       );
       setIssueInfo({
         ...issueInfo,
