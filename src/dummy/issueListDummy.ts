@@ -15,7 +15,7 @@ export const issueListDummy: Issue[] = [
         name: '민수수',
         password: 'garbage',
         email: 'alskdjemail',
-        role: 'ROLE_DEV',
+        role: 'ROLE_DEVELOPER',
       },
     ],
     comments: [
@@ -44,7 +44,7 @@ export const issueListDummy: Issue[] = [
         name: '민수수',
         password: 'garbage',
         email: 'alskdjemail',
-        role: 'ROLE_DEV',
+        role: 'ROLE_DEVELOPER',
       },
     ],
     comments: [
@@ -73,7 +73,7 @@ export const issueListDummy: Issue[] = [
         name: '민수수',
         password: 'garbage',
         email: 'alskdjemail',
-        role: 'ROLE_DEV',
+        role: 'ROLE_DEVELOPER',
       },
     ],
     comments: [

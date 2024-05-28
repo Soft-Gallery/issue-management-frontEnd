@@ -59,7 +59,7 @@ const IssueStatusChangeModal: React.FC<ModalProps> = ({ onConfirm, onClose, defa
       case 'ROLE_TESTER':
         optionsForRole = Object.values(TESTER_ISSUE_STATUS_STATE);
         break;
-      case 'ROLE_DEV':
+      case 'ROLE_DEVELOPER':
         optionsForRole = Object.values(DEV_ISSUE_STATUS_STATE);
         break;
       default:

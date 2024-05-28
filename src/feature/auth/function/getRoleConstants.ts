@@ -6,7 +6,7 @@ export default function getRoleConstants(role:string):string {
       return USER_ROLE_STATES.ADMIN;
     case 'ROLE_PL':
       return USER_ROLE_STATES.PL;
-    case 'ROLE_DEV':
+    case 'ROLE_DEVELOPER':
       return USER_ROLE_STATES.DEV;
     case 'ROLE_TESTER':
       return USER_ROLE_STATES.TESTER;
