@@ -3,7 +3,7 @@ import ElementContainer from '../../../shared/components/ElementContainer';
 import styled from 'styled-components';
 import { useRecoilState, useRecoilValue } from 'recoil';
 import { issuePageInfoState } from '../../../recoil/issue/issueAtom';
-import { IssuePriority, IssueStatus } from '../../../shared/types/issue';
+import { Issue, IssuePriority, IssueStatus } from '../../../shared/types/issue';
 
 const IssueHeaderItem: React.FC = () => {
   const issue = useRecoilValue(issuePageInfoState);

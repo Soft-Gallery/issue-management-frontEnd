@@ -14,10 +14,7 @@ const IssueSideBarMenu = (): JSX.Element => {
 
   return (
     <div>
-      <StyledButton onClick={() => handleButtonClick(ISSUE_CURRENT_VIEW_STATES.VIEW_PROJECT_DETAIL)}>
-        Project Info
-      </StyledButton>
-      <StyledButton onClick={() => handleButtonClick(ISSUE_CURRENT_VIEW_STATES.VIEW_ISSUE_DETAIL)}>
+      <StyledButton onClick={() => handleButtonClick(ISSUE_CURRENT_VIEW_STATES.VIEW_ISSUE_LIST)}>
         View Issues
       </StyledButton>
     </div>
