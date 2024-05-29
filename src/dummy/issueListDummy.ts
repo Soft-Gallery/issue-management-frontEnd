@@ -36,7 +36,7 @@ export const issueListDummy: Issue[] = [
     title: '두 번째 이슈, 두둥탁',
     description: '이 이슈는 미ㅏ얼;마ㅓㄴ;이ㅓㅏㄹ;ㅣㅏㅓㅁㄴ',
     status: 'ASSIGNED',
-    priority: 'MAJOR',
+    priority: 'BLOCKER',
     reporter: 'tester 민수',
     devs: [
       {
@@ -62,10 +62,10 @@ export const issueListDummy: Issue[] = [
   },
   {
     id: 2,
-    title: '첫 번째 이슈, 두둥탁',
+    title: '세 번째, 이슈입니다',
     description: '이 이슈는 미ㅏ얼;마ㅓㄴ;이ㅓㅏㄹ;ㅣㅏㅓㅁㄴ',
     status: 'RESOLVED',
-    priority: 'MAJOR',
+    priority: 'TRIVIAL',
     reporter: 'tester 민수',
     devs: [
       {

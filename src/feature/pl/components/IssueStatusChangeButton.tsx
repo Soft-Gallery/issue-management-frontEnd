@@ -14,8 +14,10 @@ const IssueStatusChangeButton: React.FC<IssueStatusChangeButtonProps> = ({ statu
   const handleStatusChange = () => {
     setIssueInfo({
       ...issueInfo,
-      status: status,  // No need to use template string
+      status: status,
     });
+    // status change 하는 api call 하기
+
   };
 
   return (
