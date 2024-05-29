@@ -13,5 +13,6 @@ export interface Issue {
   priority: IssuePriority;
   reporter: string;
   devs: DevUser[];
+  assignedDev: DevUser;
   comments: Comments[];
 }

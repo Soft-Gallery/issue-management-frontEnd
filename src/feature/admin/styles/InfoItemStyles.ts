@@ -9,7 +9,7 @@ export const ElementTitleText = styled.div`
 `;
 
 export const UserSelect = styled.select`
-  width: 100%;
+  width: 150px;
   box-sizing: border-box;
   padding: 8px;
   margin-top: 4px;
@@ -72,18 +72,6 @@ export const AddButton = styled(Button)`
       background: ${({ theme: { color } }) => color.indigo};
     }
 `
-
-interface SubmitButtonProps {
-  isAvailable: boolean;
-}
-
-export const SubmitButton = styled(Button)<SubmitButtonProps>`
-    border: 1.5px solid ${({ theme: { color } }) => color.black200};
-    color: ${({ theme: { color }, isAvailable }) => isAvailable ? color.white : color.white};
-    background: ${({ theme: { color }, isAvailable }) => isAvailable ? color.indigo : color.gray1};
-    cursor: ${({ isAvailable }) => isAvailable ? 'pointer' : 'default'};
-`;
-
 
 export const DropDownContainer = styled.div`
   display: flex;

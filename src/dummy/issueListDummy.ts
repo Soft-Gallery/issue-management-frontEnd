@@ -1,5 +1,6 @@
 import { Issue } from '../shared/types/issue';
 import { ISSUE_STATUS_STATE } from '../feature/issue/issueStatusConstants';
+import assignedDevItem from '../feature/pl/components/AssignedDevItem';
 
 export const issueListDummy: Issue[] = [
   {
@@ -18,6 +19,13 @@ export const issueListDummy: Issue[] = [
         role: 'ROLE_DEVELOPER',
       },
     ],
+    assignedDev: {
+      id: 0,
+      name: '',
+      password: '',
+      email: '',
+      role: 'ROLE_DEVELOPER',
+    },
     comments: [
       {
         author: '댓글 작성자 1',
@@ -47,6 +55,13 @@ export const issueListDummy: Issue[] = [
         role: 'ROLE_DEVELOPER',
       },
     ],
+    assignedDev: {
+      id: 0,
+      name: '',
+      password: '',
+      email: '',
+      role: 'ROLE_DEVELOPER',
+    },
     comments: [
       {
         author: '댓글 작성자 1',
@@ -76,6 +91,13 @@ export const issueListDummy: Issue[] = [
         role: 'ROLE_DEVELOPER',
       },
     ],
+    assignedDev: {
+      id: 0,
+      name: '',
+      password: '',
+      email: '',
+      role: 'ROLE_DEVELOPER',
+    },
     comments: [
       {
         author: '댓글 작성자 1',
