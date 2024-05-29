@@ -22,7 +22,7 @@ const Container = styled.div`
   display: flex;
   gap: 12px;
   border-radius: 30px;
-  flex-direction: column;
+  flex-direction: row;
   align-items: center;
   justify-content: center;
 `;

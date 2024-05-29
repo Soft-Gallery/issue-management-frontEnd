@@ -2,16 +2,13 @@ import React from 'react';
 import styled from 'styled-components';
 import projectPandaImg from '../../../assets/imgs/project_panda.png';
 import { ProjectCardItemType } from '../../../shared/types/project';
-import { useRecoilValue, useSetRecoilState } from 'recoil';
-import { userRoleState } from '../../../recoil/atom';
 import { useNavigate } from 'react-router-dom';
 
 const ProjectCardItem: React.FC<ProjectCardItemType> = ({ title, description }) => {
 
-  const userRole = useRecoilValue(userRoleState);
   const navigate = useNavigate();
   const onClickButton = () => {
-    navigate(`/${userRole}`);
+    navigate('/issue');
   }
   return (
     <Container onClick={onClickButton}>
