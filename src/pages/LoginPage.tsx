@@ -44,7 +44,7 @@ const LoginPage: React.FC = () => {
   useEffect(() => {
     if (userLoginInfo) {
       const userRole = getRoleConstants(userLoginInfo.role);
-      const userId= userLoginInfo.id.toString();
+      const userId= userLoginInfo.id+ "";
       setUserRoleState(userRole);
       setUserIdState(userId);
 

@@ -1,4 +1,4 @@
-import { createBrowserRouter, RouteObject, Outlet, Navigate } from "react-router-dom";
+import { createBrowserRouter, RouteObject, Outlet } from "react-router-dom";
 import Layout from './shared/components/Layout/Layout';
 import React from 'react';
 import AdminPage from './pages/AdminPage';
@@ -23,25 +23,31 @@ const routes: RouteObject[] = [
   },
   {
     path: "/project",
-    element: <LayoutWithoutSideBar />,
+    element: (
+      <ProtectedRoute allowedRoles={['pl', 'tester', 'dev']}>
+        <LayoutWithoutSideBar />
+      </ProtectedRoute>
+    ),
     children: [
       {
         index: true,
-        element: (
-          <ProtectedRoute allowedRoles={['pl', 'tester', 'dev']}>
-            <ProjectPage />
-          </ProtectedRoute>
-        ),
-      },
-      {
-        path: ":projectId",
-        element: (
-          <ProtectedRoute allowedRoles={['pl', 'tester', 'dev']}>
-            <IssuePage />
-          </ProtectedRoute>
-        ),
+        element: <ProjectPage />,
       },
     ],
+  },
+  {
+    path: '/project',
+    element: (
+      <ProtectedRoute allowedRoles={['pl', 'tester', 'dev']}>
+        <Layout />
+      </ProtectedRoute>
+    ),
+    children: [
+      {
+        path: ":projectId",
+        element: <IssuePage />,
+      }
+    ]
   },
   {
     path: "/",
@@ -55,49 +61,41 @@ const routes: RouteObject[] = [
           </ProtectedRoute>
         ),
       },
-      {
-        path: 'issue',
-        element: (
-          <ProtectedRoute allowedRoles={['pl', 'tester', 'dev']}>
-            <Outlet />
-          </ProtectedRoute>
-        ),
-        children: [
-          {
-            index: true,
-            element: <IssuePage />
-          },
-          {
-            path: 'pl/:issueIndex',
-            element: (
-              <ProtectedRoute allowedRoles={['pl']}>
-                <PLPage />
-              </ProtectedRoute>
-            ),
-          },
-          {
-            path: 'dev/:issueIndex',
-            element: (
-              <ProtectedRoute allowedRoles={['dev']}>
-                <DevPage />
-              </ProtectedRoute>
-            ),
-          },
-          {
-            path: 'tester/:issueIndex',
-            element: (
-              <ProtectedRoute allowedRoles={['tester']}>
-                <TesterPage />
-              </ProtectedRoute>
-            ),
-          },
-        ],
-      },
     ],
   },
   {
-    path: "*",
-    element: <Navigate to="/login" replace />,
+    path: '/',
+    element: (
+      <ProtectedRoute allowedRoles={['pl', 'tester', 'dev']}>
+        <Layout />
+      </ProtectedRoute>
+    ),
+    children: [
+      {
+        path: 'pl/:issueIndex',
+        element: (
+          <ProtectedRoute allowedRoles={['pl']}>
+            <PLPage />
+          </ProtectedRoute>
+        ),
+      },
+      {
+        path: 'dev/:issueIndex',
+        element: (
+          <ProtectedRoute allowedRoles={['dev']}>
+            <DevPage />
+          </ProtectedRoute>
+        ),
+      },
+      {
+        path: 'tester/:issueIndex',
+        element: (
+          <ProtectedRoute allowedRoles={['tester']}>
+            <TesterPage />
+          </ProtectedRoute>
+        ),
+      },
+    ],
   },
 ];
 
