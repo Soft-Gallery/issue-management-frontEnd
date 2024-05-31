@@ -9,7 +9,13 @@ export const issueListDummy: Issue[] = [
     description: '이 이슈는 미ㅏ얼;마ㅓㄴ;이ㅓㅏㄹ;ㅣㅏㅓㅁㄴ',
     status: 'NEW',
     priority: 'MAJOR',
-    reporter: 'tester 민수',
+    reporter: {
+        id: 12,
+        name: '민수수',
+        password: 'garbage',
+        email: 'alskdjemail',
+        role: 'ROLE_TESTER',
+    },
     devs: [
       {
         id: 12,
@@ -45,7 +51,13 @@ export const issueListDummy: Issue[] = [
     description: '이 이슈는 미ㅏ얼;마ㅓㄴ;이ㅓㅏㄹ;ㅣㅏㅓㅁㄴ',
     status: 'ASSIGNED',
     priority: 'BLOCKER',
-    reporter: 'tester 민수',
+    reporter: {
+      id: 12,
+      name: '민수수',
+      password: 'garbage',
+      email: 'alskdjemail',
+      role: 'ROLE_TESTER',
+    },
     devs: [
       {
         id: 12,
@@ -81,7 +93,13 @@ export const issueListDummy: Issue[] = [
     description: '이 이슈는 미ㅏ얼;마ㅓㄴ;이ㅓㅏㄹ;ㅣㅏㅓㅁㄴ',
     status: 'RESOLVED',
     priority: 'TRIVIAL',
-    reporter: 'tester 민수',
+    reporter: {
+      id: 12,
+      name: '민수수',
+      password: 'garbage',
+      email: 'alskdjemail',
+      role: 'ROLE_TESTER',
+    },
     devs: [
       {
         id: 12,

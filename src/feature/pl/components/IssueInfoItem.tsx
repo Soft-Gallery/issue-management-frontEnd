@@ -12,10 +12,9 @@ interface AssignedDev {
 const IssueInfoItem:React.FC = () => {
   const issueInfo = useRecoilValue(issuePageInfoState);
   const [isAssigned, setIsAssigned] = useState<boolean>(false);
-  const [assignedDev, setAssignedDev] = useState<AssignedDev>({name: '', email: ''});
 
   useEffect(()=>{
-    if(issueInfo.assignedDev.name !== ''){
+    if(issueInfo.assignedDev !== null){
       setIsAssigned(true);
       setAssignedDev({
         name: issueInfo.assignedDev.name,

@@ -5,3 +5,8 @@ export const USER_ROLE_STATES = {
   PL: 'pl',
   TESTER: 'tester',
 };
+
+export const USER_PAGE_STATE = {
+  projectId: 0,
+  issueId: 0,
+}

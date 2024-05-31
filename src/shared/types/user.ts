@@ -15,3 +15,8 @@ export type AdminUser = UserWithRole<'ROLE_ADMIN'>;
 export type PLUser = UserWithRole<'ROLE_PL'>;
 export type DevUser = UserWithRole<'ROLE_DEVELOPER'>;
 export type TesterUser = UserWithRole<'ROLE_TESTER'>;
+
+export interface UserPage {
+  projectId: number;
+  issueId: number;
+}

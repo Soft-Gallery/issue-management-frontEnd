@@ -1,24 +1,61 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import IssueHeaderItem from '../feature/pl/components/IssueHeaderItem';
 import IssueInfoItem from '../feature/pl/components/IssueInfoItem';
 import AssigneeSelectItem from '../feature/pl/components/AssigneeSelectItem';
 import CommentItem from '../feature/CommentItem';
-import { useRecoilValue } from 'recoil';
+import { useRecoilState } from 'recoil';
 import { issuePageInfoState } from '../recoil/issue/issueAtom';
-import AssignedDevItem from '../feature/pl/components/AssignedDevItem';
 import IssueStatusChangeButton from '../feature/pl/components/IssueStatusChangeButton';
+import { client } from '../shared/remotes/axios';
+import { headerData } from '../shared/components/header';
+import { userPageState } from '../recoil/atom';
 
 const PLPage: React.FC = () => {
-  const issueInfo = useRecoilValue(issuePageInfoState);
-  const issueStatus = issueInfo.status;
+  const [userPageInfo, setUserPageInfo] = useRecoilState(userPageState);
+  const [issueInfo, setIssueInfo] = useRecoilState(issuePageInfoState);
+  const [loading, setLoading] = useState<boolean>(true);
+
+  const fetchIssueData = async () => {
+    try {
+      const response = await client.get(`/issue/searching/id/${userPageInfo.issueId}`, headerData());
+      const issueData = {
+        id: response.data.id,
+        title: response.data.title,
+        description: response.data.description,
+        status: response.data.status,
+        priority: response.data.priority,
+        reporter: response.data.reporter,
+        devs: response.data.devs || [],
+        assignedDev: response.data.assignee || null,
+        comments: response.data.comments,
+      };
+      console.log(issueData);
+      return issueData;
+    } catch (error) {
+      console.error(error);
+      return null;
+    }
+  };
+
+  const getUserIssue = async () => {
+    const data = await fetchIssueData();
+    if (data) {
+      setIssueInfo(data);
+    }
+    setLoading(false);
+  };
+
+  useEffect(() => {
+    getUserIssue();
+  }, []);
 
   const renderContent = () => {
-    switch (issueStatus) {
+    switch (issueInfo.status) {
       case 'NEW':
         return <AssigneeSelectItem />;
       case 'ASSIGNED':
-        return <IssueStatusChangeButton status="RESOLVED" />
+        return <IssueStatusChangeButton status="RESOLVED" />;
       default:
         return null;
     }
@@ -26,10 +63,16 @@ const PLPage: React.FC = () => {
 
   return (
     <Container>
-      <IssueHeaderItem />
-      <IssueInfoItem />
-      {renderContent()}
-      <CommentItem />
+      {loading ? (
+        <LoadingIndicator>Loading...</LoadingIndicator>
+      ) : (
+        <>
+          <IssueHeaderItem />
+          <IssueInfoItem />
+          {renderContent()}
+          <CommentItem />
+        </>
+      )}
     </Container>
   );
 };
@@ -44,29 +87,10 @@ const Container = styled.div`
     gap: 20px;
 `;
 
-const Button = styled.button`
-    display: inline-flex;
-    align-items: center;
-    outline: none;
-    border-radius: 5px;
+const LoadingIndicator = styled.div`
+    font-size: 24px;
     font-weight: bold;
-    cursor: pointer;
-    padding: 10px 20px;
-    text-align: center;
-    height: 40px;
-    font-size: 16px;
-    width: auto;
-    border: 1px solid ${({ theme: { color } }) => color.black200};
-    color: ${({ theme: { color } }) => color.gray1};
-    background: ${({ theme: { color } }) => color.white};
-    &:hover {
-        color: ${({ theme: { color } }) => color.white};
-        background: ${({ theme: { color } }) => color.indigo};
-    }
-    &:active {
-        color: ${({ theme: { color } }) => color.white};
-        background: ${({ theme: { color } }) => color.indigo};
-    }
+    margin-top: 50px;
 `;
 
 export default PLPage;

@@ -1,5 +1,5 @@
 import { Comments } from './comment';
-import { DevUser } from './user';
+import { DevUser, TesterUser, UserWithRole } from './user';
 
 export type IssueStatus = 'NEW' | 'ASSIGNED' | 'FIXED' | 'RESOLVED' | 'CLOSED';
 
@@ -11,8 +11,8 @@ export interface Issue {
   description: string;
   status: IssueStatus;
   priority: IssuePriority;
-  reporter: string;
-  devs: DevUser[];
-  assignedDev: DevUser;
+  reporter: TesterUser;
+  devs: DevUser[],
+  assignedDev: DevUser | null;
   comments: Comments[];
 }

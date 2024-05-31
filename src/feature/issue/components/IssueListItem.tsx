@@ -1,8 +1,8 @@
 import React from 'react';
 import styled from 'styled-components';
 import { IssuePriority, IssueStatus } from '../../../shared/types/issue';
-import { useRecoilState, useRecoilValue } from 'recoil';
-import { userRoleState } from '../../../recoil/atom';
+import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
+import { userPageState, userRoleState } from '../../../recoil/atom';
 import { useNavigate, useParams } from 'react-router-dom';
 import { issueListDummy } from '../../../dummy/issueListDummy';
 import { issuePageInfoState } from '../../../recoil/issue/issueAtom';
@@ -18,10 +18,10 @@ const IssueListItem: React.FC<IssueListItemProps> = ({ id, title, status, priori
   const userRole = useRecoilValue(userRoleState);
   const navigate = useNavigate();
   const { projectId } = useParams<{ projectId: string }>();
+  const [userPageInfo, setUserPageInfo] = useRecoilState(userPageState);
 
   const handleIssueListClick = () => {
       let rolePath;
-
       switch (userRole) {
         case 'pl':
           rolePath = 'pl';
@@ -35,6 +35,11 @@ const IssueListItem: React.FC<IssueListItemProps> = ({ id, title, status, priori
         default:
           rolePath = 'issue';
       }
+
+      setUserPageInfo((prev) => ({
+        ...prev,
+        issueId: id,
+      }));
 
       navigate(`/project/${projectId}/${rolePath}/issue/${id}`);
   }

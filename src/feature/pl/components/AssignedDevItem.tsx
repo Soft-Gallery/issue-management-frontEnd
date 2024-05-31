@@ -13,7 +13,7 @@ const AssignedDevItem: React.FC = () => {
   return (
     <ElementContainer>
       <TitleText>Assigned Dev</TitleText>
-        <ElementSubText>{assignee.name} : {assignee.email}</ElementSubText>
+        <ElementSubText>{assignee!.name} : {assignee!.email}</ElementSubText>
     </ElementContainer>
   );
 };

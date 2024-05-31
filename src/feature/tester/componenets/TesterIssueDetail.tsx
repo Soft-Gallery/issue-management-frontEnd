@@ -59,7 +59,7 @@ const TesterIssueDetail: React.FC<TesterIssueDetailProps> = ({ issue }) => {
           <strong>Priority:</strong> {issue.priority}
         </DetailItem>
         <DetailItem>
-          <strong>Reporter:</strong> {issue.reporter}
+          <strong>Reporter:</strong> {issue.reporter.name}
         </DetailItem>
         <AssigneeContainer>
           <strong>Assignees:</strong>

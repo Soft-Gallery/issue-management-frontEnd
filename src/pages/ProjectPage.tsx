@@ -27,12 +27,13 @@ const ProjectPage: React.FC = () => {
     }
   };
 
+  const getProjects = async () => {
+    const data = await fetchProjectData();
+    setProjects(data);
+    setLoading(false);
+  };
+
   useEffect(() => {
-    const getProjects = async () => {
-      const data = await fetchProjectData();
-      setProjects(data);
-      setLoading(false);
-    };
     getProjects();
   }, [userId]);
 

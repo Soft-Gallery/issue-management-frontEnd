@@ -3,11 +3,18 @@ import styled from 'styled-components';
 import projectPandaImg from '../../../assets/imgs/project_panda.png';
 import { ProjectCardItemType } from '../../../shared/types/project';
 import { useNavigate } from 'react-router-dom';
+import { useRecoilState } from 'recoil';
+import { userPageState } from '../../../recoil/atom';
 
 const ProjectCardItem: React.FC<ProjectCardItemType> = ({ id, title, description }) => {
   const navigate = useNavigate();
+  const [userPageInfo, setUserPageInfo] = useRecoilState(userPageState);
 
   const onClickButton = () => {
+    setUserPageInfo((prev) => ({
+      ...prev,
+      projectId: id,
+    }));
     navigate(`/project/${id}`);
   };
 
