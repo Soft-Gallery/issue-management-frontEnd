@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import { IssuePriority, IssueStatus } from '../../../shared/types/issue';
 import { useRecoilState, useRecoilValue } from 'recoil';
 import { userRoleState } from '../../../recoil/atom';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { issueListDummy } from '../../../dummy/issueListDummy';
 import { issuePageInfoState } from '../../../recoil/issue/issueAtom';
 
@@ -16,15 +16,12 @@ interface IssueListItemProps {
 
 const IssueListItem: React.FC<IssueListItemProps> = ({ id, title, status, priority }) => {
   const userRole = useRecoilValue(userRoleState);
-  const [issueInfo, setIssueInfo] = useRecoilState(issuePageInfoState);
   const navigate = useNavigate();
+  const { projectId } = useParams<{ projectId: string }>();
 
   const handleIssueListClick = () => {
-    const issue = issueListDummy.find(issue => issue.id === id);
-    if (issue) {
-      setIssueInfo(issue);
-
       let rolePath;
+
       switch (userRole) {
         case 'pl':
           rolePath = 'pl';
@@ -38,18 +35,18 @@ const IssueListItem: React.FC<IssueListItemProps> = ({ id, title, status, priori
         default:
           rolePath = 'issue';
       }
-      navigate(`/issue/${rolePath}/${id}`);
-    }
+
+      navigate(`/project/${projectId}/${rolePath}/issue/${id}`);
   }
 
   return (
     <Container onClick={handleIssueListClick}>
-      <IssueLabel priority={priority}>
-        {priority}
-      </IssueLabel>
       <StatusLabel>
         {status}
       </StatusLabel>
+      <IssueLabel priority={priority}>
+        {priority}
+      </IssueLabel>
       <IssueTitle>
         {title || '이슈 제목 여기에 보여줍니다!'}
       </IssueTitle>
@@ -60,7 +57,7 @@ const IssueListItem: React.FC<IssueListItemProps> = ({ id, title, status, priori
 const Container = styled.div`
     width: 100%;
     box-sizing: border-box;
-    padding: 6px 12px 6px 12px;
+    padding: 6px 18px 6px 18px;
     display: flex;
     border-radius: 12px;
 
@@ -72,6 +69,14 @@ const Container = styled.div`
 
     background-color: ${({ theme: { color } }) => color.white};
     cursor: pointer;
+    
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s, box-shadow 0.2s;
+    
+    &:hover {
+        transform: scale(1.01);
+        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+    }
 `;
 
 const Label = styled.div`
@@ -80,7 +85,7 @@ const Label = styled.div`
     justify-content: center;
     display: flex;
     align-items: center;
-    padding: 3px 10px;
+    padding: 6px 10px;
     font-weight: bold;
     font-size: 16px;
     margin-right: 16px;

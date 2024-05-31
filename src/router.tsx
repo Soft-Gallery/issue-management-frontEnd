@@ -36,7 +36,7 @@ const routes: RouteObject[] = [
     ],
   },
   {
-    path: '/project',
+    path: "/project/:projectId",
     element: (
       <ProtectedRoute allowedRoles={['pl', 'tester', 'dev']}>
         <Layout />
@@ -44,35 +44,11 @@ const routes: RouteObject[] = [
     ),
     children: [
       {
-        path: ":projectId",
+        index: true,
         element: <IssuePage />,
-      }
-    ]
-  },
-  {
-    path: "/",
-    element: <Layout />,
-    children: [
-      {
-        path: 'admin',
-        element: (
-          <ProtectedRoute allowedRoles={['admin']}>
-            <AdminPage />
-          </ProtectedRoute>
-        ),
       },
-    ],
-  },
-  {
-    path: '/',
-    element: (
-      <ProtectedRoute allowedRoles={['pl', 'tester', 'dev']}>
-        <Layout />
-      </ProtectedRoute>
-    ),
-    children: [
       {
-        path: 'pl/:issueIndex',
+        path: "pl/issue/:issueIndex",
         element: (
           <ProtectedRoute allowedRoles={['pl']}>
             <PLPage />
@@ -80,7 +56,7 @@ const routes: RouteObject[] = [
         ),
       },
       {
-        path: 'dev/:issueIndex',
+        path: "dev/issue/:issueIndex",
         element: (
           <ProtectedRoute allowedRoles={['dev']}>
             <DevPage />
@@ -88,10 +64,24 @@ const routes: RouteObject[] = [
         ),
       },
       {
-        path: 'tester/:issueIndex',
+        path: "tester/issue/:issueIndex",
         element: (
           <ProtectedRoute allowedRoles={['tester']}>
             <TesterPage />
+          </ProtectedRoute>
+        ),
+      },
+    ],
+  },
+  {
+    path: "/",
+    element: <Layout />,
+    children: [
+      {
+        path: "admin",
+        element: (
+          <ProtectedRoute allowedRoles={['admin']}>
+            <AdminPage />
           </ProtectedRoute>
         ),
       },

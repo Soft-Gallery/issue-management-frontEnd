@@ -38,7 +38,6 @@ const IssuePage: React.FC = () => {
 
   return (
     <Container>
-      <h2>Project ID: {projectId}</h2>
       {loading ? (
         <LoadingIndicator>Loading...</LoadingIndicator>
       ) : (
@@ -63,10 +62,11 @@ const IssuePage: React.FC = () => {
 const Container = styled.div`
     width: 100%;
     display: flex;
-    padding: 24px;
+    padding: 48px 24px 48px 24px;
     flex-direction: column;
     align-items: center;
-    gap: 20px;
+    gap: 24px;
+    
 `;
 
 const LoadingIndicator = styled.div`
