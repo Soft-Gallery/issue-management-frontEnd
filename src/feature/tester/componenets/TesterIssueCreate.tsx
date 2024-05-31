@@ -16,16 +16,16 @@ const TesterIssueCreate = () => {
   const [comments, setComments] = useState<Comments[]>([]);
 
   const handleSubmit = () => {
-    const newIssue: Issue = {
-      title,
-      description,
-      status,
-      priority,
-      reporter,
-      devs,
-      comments,
-    };
-    console.log(newIssue);
+    // const newIssue: Issue = {
+    //   title,
+    //   description,
+    //   status,
+    //   priority,
+    //   reporter,
+    //   devs,
+    //   comments,
+    // };
+    // console.log(newIssue);
   };
 
   const handleAssigneeChange = (index: number) => (e: React.ChangeEvent<HTMLSelectElement>) => {

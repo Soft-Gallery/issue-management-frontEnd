@@ -3,14 +3,14 @@ import {
   ElementTitleText,
   UserSelect,
   UserText,
-  RemoveButton,
-  AddButton,
-  DropDownContainer, SubmitButton
+  DropDownContainer,
+  AddButton
 } from '../../admin/styles/InfoItemStyles';
 import { DevUser, UserRole, UserWithRole } from '../../../shared/types/user';
 import styled from 'styled-components';
-import { useRecoilState } from 'recoil';
+import { useRecoilState, useRecoilValue } from 'recoil';
 import { issuePageInfoState } from '../../../recoil/issue/issueAtom';
+import { recommendedDevState } from '../../../recoil/issue/issueAtom';
 
 interface UserInfoItemDropdownProps {
   title: string;
@@ -20,89 +20,82 @@ interface UserInfoItemDropdownProps {
 
 const UserInfoItemDropdown: React.FC<UserInfoItemDropdownProps> = ({ title, itemList, itemType }) => {
   const [issueInfo, setIssueInfo] = useRecoilState(issuePageInfoState);
-  const [selectedItems, setSelectedItems] = useState<UserWithRole<UserRole>[]>([]);
-  const [isAvailable, setIsAvailable] = useState<boolean>(false);
+  const recommendedDev = useRecoilValue(recommendedDevState); // Recoil 상태에서 추천받은 개발자 정보 가져오기
+  const [selectedItem, setSelectedItem] = useState<UserWithRole<UserRole>>(itemList[0]);
 
-  useEffect(()=>{
-    handleFirstItemSelected();
-  }, [selectedItems])
+  useEffect(() => {
+    if (itemList.length > 0) {
+      setSelectedItem(itemList[0]);
+    }
+  }, [itemList]);
 
-  const handleItemChange = (index: number) => (e: React.ChangeEvent<HTMLSelectElement>) => {
-    const selectedId = parseInt(e.target.value, 10);
-    const updatedItems = [...selectedItems];
+  const handleItemChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    const selectedId = parseInt(event.target.value, 10);
     const item = itemList.find(item => item.id === selectedId);
     if (item) {
-      updatedItems[index] = item;
-      setSelectedItems(updatedItems);
+      setSelectedItem(item);
     }
   };
 
-  const handleFirstItemSelected = ()=>{
-    if(selectedItems.length > 0){
-      setIsAvailable(true);
-    } else{
-      setIsAvailable(false);
-    }
-  }
+  const handleSubmit = () => {
+    const devUser: DevUser = {
+      id: selectedItem.id,
+      password: 'garbage', // This should be properly handled in a real application
+      name: selectedItem.name,
+      email: selectedItem.email,
+      role: 'ROLE_DEVELOPER',
+    };
 
-  const handleSubmit = ()=>{
-    if(isAvailable){
-      const devUsers: DevUser[] = selectedItems.filter(
-        (item): item is DevUser => item.role === 'ROLE_DEVELOPER'
-      );
-      setIssueInfo({
-        ...issueInfo,
-        devs: devUsers,
-        status: 'ASSIGNED',
-      });
-    }
-  }
+    console.log(devUser);
 
-  const addItem = () => {
-    setSelectedItems(prevState => {
-      const updatedItems = [...prevState, itemList[0]];
-      return updatedItems;
+    setIssueInfo({
+      ...issueInfo,
+      assignedDev: devUser,
+      status: 'ASSIGNED',
     });
   };
 
-  const removeItem = (index: number) => {
-    setSelectedItems(prevState => {
-      const updatedItems = [...prevState];
-      updatedItems.splice(index, 1);
-      return updatedItems;
-    });
+  const handleRecommendation = () => {
+    if (recommendedDev) {
+      setSelectedItem(recommendedDev);
+    } else {
+      console.error('No recommended developer available');
+    }
   };
 
   return (
     <div>
-      <ElementTitleText>{title}</ElementTitleText>
-      {selectedItems.map((selectedItem, index) => (
-        <DropDownContainer key={index}>
-          <UserText>{itemType}</UserText>
-          <UserSelect value={selectedItem.id} onChange={handleItemChange(index)}>
-            <option value="">{itemType}를 선택하세요</option>
-            {itemList.map(item => (
-              <option key={item.id} value={item.id}>
-                {item.name}
-              </option>
-            ))}
-          </UserSelect>
-          <RemoveButton onClick={() => removeItem(index)}>Remove</RemoveButton>
-        </DropDownContainer>
-      ))}
-      <ButtonContainer>
-        <AddButton onClick={addItem}>Add {itemType}</AddButton>
-        <SubmitButton onClick={handleSubmit} isAvailable={isAvailable}>Assign {itemType}</SubmitButton>
-      </ButtonContainer>
+      <DropDownContainer>
+        <UserText>{itemType}</UserText>
+        <UserSelect value={selectedItem.id} onChange={handleItemChange}>
+          <option value="">{itemType}를 선택하세요</option>
+          {itemList.map(item => (
+            <option key={item.id} value={item.id}>
+              {item.name}
+            </option>
+          ))}
+        </UserSelect>
+        <RecommendationButton onClick={handleRecommendation}>추천받기</RecommendationButton>
+      </DropDownContainer>
+      <AddButton onClick={handleSubmit}>Assign</AddButton>
     </div>
   );
 };
 
+const RecommendationButton = styled.button`
+  width: 100px;
+  margin-left: 10px;
+  padding: 8px 12px;
+  border: none;
+  border-radius: 4px;
+  background-color: #007bff;
+  color: white;
+  cursor: pointer;
+  align-self: center;
 
-const ButtonContainer = styled.div`
-    display: flex;
-    flex-direction: row;
-    gap: 10px;
-    
-`
+  &:hover {
+    background-color: #0056b3;
+  }
+`;
+
 export default UserInfoItemDropdown;
