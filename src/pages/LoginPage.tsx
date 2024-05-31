@@ -6,7 +6,7 @@ import postLogin from '../feature/auth/remotes/postLogin';
 import { getUserInfo } from '../feature/auth/remotes/getUserInfo';
 import useFetch from '../shared/hooks/useFetch';
 import { useSetRecoilState } from 'recoil';
-import { userRoleState } from '../recoil/atom';
+import { userIdState, userRoleState } from '../recoil/atom';
 import getRoleConstants from '../feature/auth/function/getRoleConstants';
 import logoTextImg from '../assets/imgs/logo_text.png';
 import projectPandaImg from '../assets/imgs/project_panda.png';
@@ -20,6 +20,8 @@ const LoginPage: React.FC = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   const setUserRoleState = useSetRecoilState<string>(userRoleState);
+  const setUserIdState = useSetRecoilState<string>(userIdState);
+
   const { data: userLoginInfo, fetchData } = useFetch(getUserInfo);
 
   const loginSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
@@ -42,7 +44,10 @@ const LoginPage: React.FC = () => {
   useEffect(() => {
     if (userLoginInfo) {
       const userRole = getRoleConstants(userLoginInfo.role);
+      const userId= userLoginInfo.id.toString();
       setUserRoleState(userRole);
+      setUserIdState(userId);
+
 
       if (userRole === 'admin') {
         navigate('/admin');

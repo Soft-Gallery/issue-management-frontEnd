@@ -3,17 +3,40 @@ import styled from 'styled-components';
 import { projectListDummy } from '../dummy/projectListDummy';
 import ProjectCardItem from '../feature/project_dashboard/components/ProjectCardItem';
 import { ProjectCardItemType } from '../shared/types/project';
+import { client } from '../shared/remotes/axios';
+import { useRecoilValue } from 'recoil';
+import { userIdState } from '../recoil/atom';
+import { headerData } from '../shared/components/header';
 
 const ProjectPage: React.FC = () => {
   const [projects, setProjects] = useState<ProjectCardItemType[]>([]);
+  const userId = useRecoilValue(userIdState);
+
+  const fetchProjectData = async () => {
+    try {
+      const response = await client.get(`/member/get/project/${userId}`, headerData());
+      const projectData = response.data.map((project: any) => ({
+        title: project.name,
+        description: project.description,
+      }));
+      return projectData;
+    } catch (error) {
+      console.error(error);
+      return [];
+    }
+  };
 
   useEffect(() => {
-    setProjects(projectListDummy);
-  }, []);
+    const getProjects = async () => {
+      const data = await fetchProjectData();
+      setProjects(data);
+    };
+    getProjects();
+  }, [userId]);
 
   return (
     <PageContainer>
-      <WelcomeText>babo님, 환영합니다</WelcomeText>
+      <WelcomeText>{userId}님, 환영합니다</WelcomeText>
       <ProjectList>
         {projects.map((project, index) => (
           <ProjectCardItem key={index} title={project.title} description={project.description} />
