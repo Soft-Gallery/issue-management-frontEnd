@@ -8,16 +8,12 @@ import { issuePageInfoState } from '../../../recoil/issue/issueAtom';
 
 const AssignedDevItem: React.FC = () => {
   const issuePageInfo = useRecoilValue(issuePageInfoState);
-  const assignees = issuePageInfo.devs;
+  const assignee = issuePageInfo.assignedDev;
 
   return (
     <ElementContainer>
-      <TitleText>Assigned Devs</TitleText>
-      <ul>
-        {assignees.map((assignee) => (
-          <ElementSubText key={assignee.id}>{assignee.name}</ElementSubText>
-        ))}
-      </ul>
+      <TitleText>Assigned Dev</TitleText>
+        <ElementSubText>{assignee.name} : {assignee.email}</ElementSubText>
     </ElementContainer>
   );
 };

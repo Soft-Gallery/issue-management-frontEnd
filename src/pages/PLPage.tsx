@@ -15,17 +15,10 @@ const PLPage: React.FC = () => {
 
   const renderContent = () => {
     switch (issueStatus) {
-      case 'ASSIGNED':
-        return (
-          <>
-            <AssignedDevItem />
-            <IssueStatusChangeButton status="RESOLVED" />
-          </>
-        );
       case 'NEW':
         return <AssigneeSelectItem />;
-      case 'RESOLVED':
-        return <AssignedDevItem />;
+      case 'ASSIGNED':
+        return <IssueStatusChangeButton status="RESOLVED" />
       default:
         return null;
     }
