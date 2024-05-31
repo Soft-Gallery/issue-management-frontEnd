@@ -3,10 +3,14 @@ import styled from 'styled-components';
 import { Issue } from '../shared/types/issue';
 import IssueListItem from '../feature/issue/components/IssueListItem';
 import { issueListDummy } from '../dummy/issueListDummy';
+import { useParams } from 'react-router-dom';
 
 const IssuePage: React.FC = () => {
+  const { projectId } = useParams<{ projectId: string }>();
+
   return (
     <Container>
+      <h2>Project ID: {projectId}</h2>
       {issueListDummy.map((issue: Issue) => (
         <IssueListItem
           key={issue.id ?? 0}
@@ -19,6 +23,7 @@ const IssuePage: React.FC = () => {
     </Container>
   );
 };
+
 const Container = styled.div`
     width: 100%;
     display: flex;

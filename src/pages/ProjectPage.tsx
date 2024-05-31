@@ -16,6 +16,7 @@ const ProjectPage: React.FC = () => {
     try {
       const response = await client.get(`/member/get/project/${userId}`, headerData());
       const projectData = response.data.map((project: any) => ({
+        id: project.id,
         title: project.name,
         description: project.description,
       }));
@@ -39,7 +40,7 @@ const ProjectPage: React.FC = () => {
       <WelcomeText>{userId}님, 환영합니다</WelcomeText>
       <ProjectList>
         {projects.map((project, index) => (
-          <ProjectCardItem key={index} title={project.title} description={project.description} />
+          <ProjectCardItem key={index} id={project.id} title={project.title} description={project.description} />
         ))}
       </ProjectList>
     </PageContainer>

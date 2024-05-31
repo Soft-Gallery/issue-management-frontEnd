@@ -11,6 +11,7 @@ export interface Project {
 }
 
 export interface ProjectCardItemType {
+  id: number;
   title: string;
   description: string;
 }

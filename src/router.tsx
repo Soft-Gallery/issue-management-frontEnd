@@ -1,4 +1,4 @@
-import { createBrowserRouter, RouteObject, Outlet } from "react-router-dom";
+import { createBrowserRouter, RouteObject, Outlet, Navigate } from "react-router-dom";
 import Layout from './shared/components/Layout/Layout';
 import React from 'react';
 import AdminPage from './pages/AdminPage';
@@ -30,6 +30,14 @@ const routes: RouteObject[] = [
         element: (
           <ProtectedRoute allowedRoles={['pl', 'tester', 'dev']}>
             <ProjectPage />
+          </ProtectedRoute>
+        ),
+      },
+      {
+        path: ":projectId",
+        element: (
+          <ProtectedRoute allowedRoles={['pl', 'tester', 'dev']}>
+            <IssuePage />
           </ProtectedRoute>
         ),
       },
@@ -86,6 +94,10 @@ const routes: RouteObject[] = [
         ],
       },
     ],
+  },
+  {
+    path: "*",
+    element: <Navigate to="/login" replace />,
   },
 ];
 

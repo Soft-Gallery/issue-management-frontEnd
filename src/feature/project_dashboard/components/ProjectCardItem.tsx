@@ -1,15 +1,15 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import styled from 'styled-components';
 import projectPandaImg from '../../../assets/imgs/project_panda.png';
 import { ProjectCardItemType } from '../../../shared/types/project';
 import { useNavigate } from 'react-router-dom';
 
-const ProjectCardItem: React.FC<ProjectCardItemType> = ({ title, description }) => {
+const ProjectCardItem: React.FC<ProjectCardItemType> = ({ id, title, description }) => {
   const navigate = useNavigate();
 
   const onClickButton = () => {
-    navigate('/issue');
-  }
+    navigate(`/project/${id}`);
+  };
 
   return (
     <Container onClick={onClickButton}>
