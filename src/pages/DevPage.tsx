@@ -1,38 +1,83 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import IssueHeaderItem from '../feature/pl/components/IssueHeaderItem';
 import IssueInfoItem from '../feature/pl/components/IssueInfoItem';
 import AssigneeSelectItem from '../feature/pl/components/AssigneeSelectItem';
 import CommentItem from '../feature/CommentItem';
-import { useRecoilValue } from 'recoil';
-import { issuePageInfoState } from '../recoil/issue/issueAtom';
-import AssignedDevItem from '../feature/pl/components/AssignedDevItem';
-import IssueStatusChangeButton from '../feature/pl/components/IssueStatusChangeButton';
+import CommentSubmit from '../feature/issue/components/CommentSubmit';
+import { useRecoilState, useResetRecoilState, useRecoilValue } from 'recoil';
+import { issuePageInfoState, recommendDevState } from '../recoil/issue/issueAtom';
+import { client } from '../shared/remotes/axios';
+import { headerData } from '../shared/components/header';
+import { userPageState, userIdState } from '../recoil/atom';
 
 const DevPage: React.FC = () => {
-  const issueInfo = useRecoilValue(issuePageInfoState);
-  const issueStatus = issueInfo.status;
+  const [userPageInfo, setUserPageInfo] = useRecoilState(userPageState);
+  const [issueInfo, setIssueInfo] = useRecoilState(issuePageInfoState);
+  const [loading, setLoading] = useState<boolean>(true);
+  const resetRecommendDevInfo = useResetRecoilState(recommendDevState);
+  const myId = useRecoilValue(userIdState);
 
-  const renderContent = () => {
-    switch (issueStatus) {
-      case 'ASSIGNED':
-        return (
-          <>
-            <AssignedDevItem />
-            <IssueStatusChangeButton status="FIXED" />
-          </>
-        );
-      default:
-        return <AssignedDevItem />;
+  useEffect(() => {
+    const fetchData = async () => {
+      await getUserIssue();
+    };
+    fetchData();
+  }, [userPageInfo.issueId]);
+
+  const fetchIssueData = async () => {
+    try {
+      const response = await client.get(`/issue/searching/id/${userPageInfo.issueId}`, headerData());
+      const issueData = {
+        id: response.data.id,
+        title: response.data.title,
+        description: response.data.description,
+        status: response.data.status,
+        priority: response.data.priority,
+        reporter: response.data.reporter,
+        devs: response.data.devs || [],
+        assignedDev: response.data.assignee || null,
+        comments: response.data.comments,
+      };
+      return issueData;
+    } catch (error) {
+      console.error(error);
+      return null;
+    }
+  };
+
+  const getUserIssue = async () => {
+    const data = await fetchIssueData();
+    if (data) {
+      setIssueInfo(data);
+    }
+    setLoading(false);
+  };
+
+  const renderCommentSubmit = () => {
+    if (issueInfo.status === 'ASSIGNED') {
+      if (issueInfo.assignedDev!.id.toString() === myId) {
+        const buttonText = 'FIXED';
+        return <CommentSubmit buttonText={buttonText} />;
+      } else {
+        return null;
+      }
     }
   };
 
   return (
     <Container>
-      <IssueHeaderItem />
-      <IssueInfoItem />
-      {renderContent()}
-      <CommentItem />
+      {loading ? (
+        <LoadingIndicator>Loading...</LoadingIndicator>
+      ) : (
+        <>
+          <IssueHeaderItem />
+          <IssueInfoItem />
+          <AssigneeSelectItem />
+          {renderCommentSubmit()}
+          <CommentItem />
+        </>
+      )}
     </Container>
   );
 };
@@ -42,34 +87,15 @@ const Container = styled.div`
     display: flex;
     padding: 24px;
     flex-direction: column;
-    align-items: end;
+    align-items: center;
     justify-content: center;
     gap: 20px;
 `;
 
-const Button = styled.button`
-    display: inline-flex;
-    align-items: center;
-    outline: none;
-    border-radius: 5px;
+const LoadingIndicator = styled.div`
+    font-size: 24px;
     font-weight: bold;
-    cursor: pointer;
-    padding: 10px 20px;
-    text-align: center;
-    height: 40px;
-    font-size: 16px;
-    width: auto;
-    border: 1px solid ${({ theme: { color } }) => color.black200};
-    color: ${({ theme: { color } }) => color.gray1};
-    background: ${({ theme: { color } }) => color.white};
-    &:hover {
-        color: ${({ theme: { color } }) => color.white};
-        background: ${({ theme: { color } }) => color.indigo};
-    }
-    &:active {
-        color: ${({ theme: { color } }) => color.white};
-        background: ${({ theme: { color } }) => color.indigo};
-    }
+    margin-top: 50px;
 `;
 
 export default DevPage;
