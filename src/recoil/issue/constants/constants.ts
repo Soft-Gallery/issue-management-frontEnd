@@ -1,9 +1,14 @@
 import { Comments, IssuePriority, IssueStatus } from '../../../shared/types/issue';
 import { TesterUser, DevUser } from '../../../shared/types/user';
 
-export const ISSUE_CURRENT_VIEW_STATES = {
-  VIEW_ISSUE_LIST: 'viewIssueList',
-  VIEW_ISSUE_DETAIL: 'viewIssueDetail',
+export const PL_ISSUE_CURRENT_VIEW_STATES = {
+  VIEW_ALL_ISSUE: 'viewALLIssue',
+  VIEW_NEW_ISSUE: 'viewNewIssue',
+};
+
+export const DEV_ISSUE_CURRENT_VIEW_STATES = {
+  VIEW_ALL_ISSUE: 'viewALLIssue',
+  VIEW_ASSIGNED_ISSUE: 'viewAssignedIssue',
 };
 
 export const ISSUE_INFO_STATE = {

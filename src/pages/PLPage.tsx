@@ -17,8 +17,10 @@ const PLPage: React.FC = () => {
   const [loading, setLoading] = useState<boolean>(true);
   const resetRecommendDevInfo = useResetRecoilState(recommendDevState);
   const [recommendDevInfo, setRecommendDevInfo] = useRecoilState(recommendDevState);
+
   const fetchRecommendDev = async () => {
     try {
+      console.log('추천 패치갑니다잉');
       const response = await client.get(`/gpt/recommendation/${userPageInfo.issueId}`, headerData());
       const data = response.data;
       return data;
@@ -31,6 +33,8 @@ const PLPage: React.FC = () => {
   const getRecommendDev = async () => {
     const data = await fetchRecommendDev();
     if (data) {
+      console.log('data 받아았습니다.');
+      console.log(data);
       setRecommendDevInfo({
         name: data.answer,
         reason: data.reason,
@@ -50,6 +54,10 @@ const PLPage: React.FC = () => {
       resetRecommendDevInfo();
     };
   }, [userPageInfo.issueId, resetRecommendDevInfo]);
+
+  useEffect(() => {
+    console.log('Updated recommendDevInfo:', recommendDevInfo);
+  }, [recommendDevInfo]);
 
   const fetchIssueData = async () => {
     try {

@@ -1,12 +1,12 @@
 import React from 'react';
 import styled from 'styled-components';
 import { useRecoilState, useSetRecoilState } from 'recoil';
-import { issuePageViewState } from '../../../recoil/issue/issueAtom';
-import { ISSUE_CURRENT_VIEW_STATES } from '../../../recoil/issue/constants/constants';
+import { devIssuePageViewState } from '../../../recoil/issue/issueAtom';
+import { DEV_ISSUE_CURRENT_VIEW_STATES } from '../../../recoil/issue/constants/constants';
 
 
-const IssueSideBarMenu = (): JSX.Element => {
-  const setCurrentView = useSetRecoilState(issuePageViewState);
+const DevIssueSideBarMenu = (): JSX.Element => {
+  const setCurrentView = useSetRecoilState(devIssuePageViewState);
 
   const handleButtonClick = (view: string) => {
     setCurrentView(view);
@@ -14,14 +14,17 @@ const IssueSideBarMenu = (): JSX.Element => {
 
   return (
     <div>
-      <StyledButton onClick={() => handleButtonClick(ISSUE_CURRENT_VIEW_STATES.VIEW_ISSUE_LIST)}>
-        View Issues
+      <StyledButton onClick={() => handleButtonClick(DEV_ISSUE_CURRENT_VIEW_STATES.VIEW_ALL_ISSUE)}>
+        View All Issues
+      </StyledButton>
+      <StyledButton onClick={() => handleButtonClick(DEV_ISSUE_CURRENT_VIEW_STATES.VIEW_ASSIGNED_ISSUE)}>
+        View Assigned Issues
       </StyledButton>
     </div>
   );
 }
 
-export default IssueSideBarMenu;
+export default DevIssueSideBarMenu;
 
 const StyledButton = styled.button`
   display: inline-flex;

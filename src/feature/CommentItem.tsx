@@ -1,38 +1,13 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import ElementContainer from '../shared/components/ElementContainer';
 import { TitleText } from './pl/components/AssigneeSelectItem';
 import styled from 'styled-components';
 import { useRecoilValue } from 'recoil';
-import { userPageState } from '../recoil/atom';
-import { Comments } from '../shared/types/issue';
-import { client } from '../shared/remotes/axios';
-import { headerData } from '../shared/components/header';
-
-interface CommentsType {
-  text: string,
-  authorId: string,
-  createdAt: string,
-  issueId: number,
-  commentId: string,
-}
+import { issuePageInfoState } from '../recoil/issue/issueAtom';
 
 const CommentItem: React.FC = () => {
-  const [comments, setComments] = useState<CommentsType[]>([]);
-  const userPageInfo = useRecoilValue(userPageState);
-
-  useEffect(() => {
-    fetchComments();
-  }, [userPageInfo.issueId]);
-
-  const fetchComments = async () => {
-    try {
-      const response = await client.get(`/comment/get-list/${userPageInfo.issueId}`, headerData());
-      const data: CommentsType[] = response.data;
-      setComments(data);
-    } catch (error) {
-      console.error('Error fetching comments:', error);
-    }
-  };
+  const issueInfo = useRecoilValue(issuePageInfoState);
+  const { comments } = issueInfo;
 
   return (
     <ElementContainer>
@@ -40,21 +15,25 @@ const CommentItem: React.FC = () => {
         Comments
       </TitleText>
       <CommentsList>
-        {comments.map((comment) => (
-          <Comment key={comment.commentId}>
-            <CommentAuthor>{comment.authorId}</CommentAuthor>
-            <CommentText>{comment.text}</CommentText>
-            <CommentDate>{new Date(comment.createdAt).toLocaleString()}</CommentDate>
-          </Comment>
-        ))}
+        {comments.length > 0 ? (
+          comments.map((comment, idx) => (
+            <Comment key={idx}>
+              <CommentAuthor>{comment.authorId}</CommentAuthor>
+              <CommentText>{comment.text}</CommentText>
+              <CommentDate>{new Date(comment.createdAt).toLocaleString()}</CommentDate>
+            </Comment>
+          ))
+        ) : (
+          <></>
+        )}
       </CommentsList>
     </ElementContainer>
   );
 };
 
 const CommentsList = styled.div`
-    width: 100%;
-    margin-top: 20px;
+  width: 100%;
+  margin-top: 20px;
 `;
 
 const Comment = styled.div`
@@ -72,6 +51,11 @@ const CommentText = styled.div`
 
 const CommentDate = styled.div`
     font-size: 12px;
+    color: ${({ theme: { color } }) => color.gray2};
+`;
+
+const NoCommentsMessage = styled.div`
+    font-size: 16px;
     color: ${({ theme: { color } }) => color.gray2};
 `;
 

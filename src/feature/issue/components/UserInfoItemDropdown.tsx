@@ -1,10 +1,9 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { UserSelect, UserText, DropDownContainer } from '../../admin/styles/InfoItemStyles';
 import { DevUser, UserRole, UserWithRole } from '../../../shared/types/user';
 import styled from 'styled-components';
 import { useRecoilState, useRecoilValue } from 'recoil';
 import { assignedDevInfoState, recommendDevState } from '../../../recoil/issue/issueAtom';
-import { userPageState } from '../../../recoil/atom';
 
 interface UserInfoItemDropdownProps {
   title: string;
@@ -19,6 +18,10 @@ const UserInfoItemDropdown: React.FC<UserInfoItemDropdownProps> = ({ itemList, i
   const setRecommendDevInfo = useRecoilState(recommendDevState)[1];
   const [assignedDev, setAssignedDev] = useRecoilState(assignedDevInfoState);
 
+  useEffect(() => {
+    setIsSelected(recommendDevInfo.name !== null);
+  }, [recommendDevInfo.name]);
+
   const handleItemChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     const item = itemList.find(item => item.id.toString() === event.target.value);
     if (item) {
@@ -32,7 +35,6 @@ const UserInfoItemDropdown: React.FC<UserInfoItemDropdownProps> = ({ itemList, i
       ...prev,
       isSelected: true,
     }));
-    setIsSelected(true);
   };
 
   return (
@@ -49,7 +51,7 @@ const UserInfoItemDropdown: React.FC<UserInfoItemDropdownProps> = ({ itemList, i
         </UserSelect>
         <RecommendationButton
           onClick={handleRecommendation}
-          disabled={recommendDevInfo.isSelected || isSelected}
+          isNameNull={recommendDevInfo.name === null}
         >
           추천받기
         </RecommendationButton>
@@ -58,19 +60,19 @@ const UserInfoItemDropdown: React.FC<UserInfoItemDropdownProps> = ({ itemList, i
   );
 };
 
-const RecommendationButton = styled.button<{ disabled: boolean }>`
+const RecommendationButton = styled.button<{ isNameNull: boolean }>`
     width: 80px;
     margin-left: 10px;
     padding: 8px 12px;
     border: none;
     border-radius: 4px;
-    background-color: ${({ disabled }) => (disabled ? '#cccccc' : '#007bff')};
-    color: ${({ disabled }) => (disabled ? '#666666' : 'white')};
-    cursor: ${({ disabled }) => (disabled ? 'not-allowed' : 'pointer')};
+    background-color: ${({ isNameNull }) => (isNameNull ? '#cccccc' : '#007bff')};
+    color: ${({ isNameNull }) => (isNameNull ? '#666666' : 'white')};
+    cursor: ${({ isNameNull }) => (isNameNull ? 'not-allowed' : 'pointer')};
     align-self: center;
 
     &:hover {
-        background-color: ${({ disabled }) => (disabled ? '#cccccc' : '#0056b3')};
+        background-color: ${({ isNameNull }) => (isNameNull ? '#cccccc' : '#0056b3')};
     }
 `;
 

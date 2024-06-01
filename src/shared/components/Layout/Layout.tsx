@@ -5,9 +5,10 @@ import { useState } from 'react';
 import { useRecoilValue } from 'recoil';
 import { userRoleState } from '../../../recoil/atom';
 import AdminSideBarMenu from '../../../feature/admin/layout/AdminSideBarMenu';
-import IssueSideBarMenu from '../../../feature/issue/layout/IssueSideBarMenu';
+import PlIssueSideBarMenu from '../../../feature/issue/layout/PlIssueSideBarMenu';
 import { USER_ROLE_STATES } from '../../../recoil/constants/constants';
 import TesterSideBarMenu from '../../../feature/tester/layout/TesterSideBarMenu';
+import DevIssueSideBarMenu from '../../../feature/issue/layout/DevIssueSideBarMenu';
 
 interface LayOutContainerProps {
   isActive: boolean;
@@ -22,9 +23,9 @@ const Layout = () => {
       case USER_ROLE_STATES.ADMIN:
         return <AdminSideBarMenu />;
       case USER_ROLE_STATES.DEV:
-        return <IssueSideBarMenu />;
+        return <DevIssueSideBarMenu />;
       case USER_ROLE_STATES.PL:
-        return <IssueSideBarMenu />;
+        return <PlIssueSideBarMenu />;
       case USER_ROLE_STATES.TESTER:
         return <TesterSideBarMenu />;
       default:
