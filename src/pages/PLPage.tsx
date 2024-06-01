@@ -18,11 +18,10 @@ const PLPage: React.FC = () => {
   const resetRecommendDevInfo = useResetRecoilState(recommendDevState);
   const [recommendDevInfo, setRecommendDevInfo] = useRecoilState(recommendDevState);
 
-
   const fetchRecommendDev = async () => {
     try {
       const response = await client.get(`/gpt/recommendation/${userPageInfo.issueId}`, headerData());
-      const data= response.data;
+      const data = response.data;
       return data;
     } catch (error) {
       console.error('Error fetching recommended developer:', error);
@@ -34,9 +33,9 @@ const PLPage: React.FC = () => {
     const data = await fetchRecommendDev();
     if (data) {
       setRecommendDevInfo({
-        ...recommendDevInfo,
-        name: JSON.stringify(data.answer),
-        reason: JSON.stringify(data.reason),
+        name: data.answer,
+        reason: data.reason,
+        isSelected: false,
       });
     }
   };
@@ -51,7 +50,7 @@ const PLPage: React.FC = () => {
     return () => {
       resetRecommendDevInfo();
     };
-  }, [resetRecommendDevInfo]);
+  }, [userPageInfo.issueId, resetRecommendDevInfo]);
 
   const fetchIssueData = async () => {
     try {

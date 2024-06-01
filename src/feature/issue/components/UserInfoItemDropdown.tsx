@@ -4,6 +4,8 @@ import { DevUser, UserRole, UserWithRole } from '../../../shared/types/user';
 import styled from 'styled-components';
 import { useRecoilState, useRecoilValue } from 'recoil';
 import { issuePageInfoState, recommendDevState } from '../../../recoil/issue/issueAtom';
+import { client } from '../../../shared/remotes/axios';
+import { headerData } from '../../../shared/components/header';
 
 interface UserInfoItemDropdownProps {
   title: string;
@@ -30,6 +32,16 @@ const UserInfoItemDropdown: React.FC<UserInfoItemDropdownProps> = ({ itemList, i
     }
   };
 
+  const postAssignedDev = async () => {
+    try {
+      const response = await client.get(`/issue/assignment/${userPageInfo.issueId}/${userId}`, headerData());
+      console.log(response.data);
+      return response.data;
+    } catch (error) {
+      console.error(error);
+      return null;
+    }
+  }
   const handleSubmit = () => {
     if (selectedItem) {
       const devUser: DevUser = {
@@ -40,8 +52,6 @@ const UserInfoItemDropdown: React.FC<UserInfoItemDropdownProps> = ({ itemList, i
         role: 'ROLE_DEVELOPER',
       };
 
-      console.log(devUser);
-
       setIssueInfo({
         ...issueInfo,
         assignedDev: devUser,
@@ -49,7 +59,7 @@ const UserInfoItemDropdown: React.FC<UserInfoItemDropdownProps> = ({ itemList, i
       });
 
       // assignedDev post 하는 요청하기
-      // status 상태 바꾸는 post 하기
+      postAssignedDev();
     }
   };
 

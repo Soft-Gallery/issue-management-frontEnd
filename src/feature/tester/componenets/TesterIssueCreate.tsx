@@ -4,7 +4,7 @@ import ElementContainer from '../../../shared/components/ElementContainer';
 import { devListDummy } from '../../../dummy/devListDummy';
 import { Issue, IssuePriority, IssueStatus } from '../../../shared/types/issue';
 import { DevUser } from '../../../shared/types/user';
-import { Comments } from '../../../shared/types/comment';
+import { Comments } from '../../../shared/types/issue';
 
 const TesterIssueCreate = () => {
   const [title, setTitle] = useState('');

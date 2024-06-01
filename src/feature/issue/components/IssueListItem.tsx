@@ -1,11 +1,9 @@
 import React from 'react';
 import styled from 'styled-components';
 import { IssuePriority, IssueStatus } from '../../../shared/types/issue';
-import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
+import { useRecoilState, useRecoilValue } from 'recoil';
 import { userPageState, userRoleState } from '../../../recoil/atom';
 import { useNavigate, useParams } from 'react-router-dom';
-import { issueListDummy } from '../../../dummy/issueListDummy';
-import { issuePageInfoState } from '../../../recoil/issue/issueAtom';
 
 interface IssueListItemProps {
   id: number;

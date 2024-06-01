@@ -1,4 +1,3 @@
-import { Comments } from './comment';
 import { DevUser, TesterUser, UserWithRole } from './user';
 
 export type IssueStatus = 'NEW' | 'ASSIGNED' | 'FIXED' | 'RESOLVED' | 'CLOSED';
@@ -21,4 +20,10 @@ export interface RecommendDevInfo{
   name: string;
   reason: string;
   isSelected: boolean;
+}
+
+export interface Comments {
+  text: string;
+  createdAt: string;
+  author: string;
 }
