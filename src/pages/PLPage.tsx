@@ -4,8 +4,8 @@ import IssueHeaderItem from '../feature/pl/components/IssueHeaderItem';
 import IssueInfoItem from '../feature/pl/components/IssueInfoItem';
 import AssigneeSelectItem from '../feature/pl/components/AssigneeSelectItem';
 import CommentItem from '../feature/CommentItem';
-import { useRecoilState } from 'recoil';
-import { issuePageInfoState } from '../recoil/issue/issueAtom';
+import { useRecoilState, useResetRecoilState } from 'recoil';
+import { issuePageInfoState, recommendDevState } from '../recoil/issue/issueAtom';
 import IssueStatusChangeButton from '../feature/pl/components/IssueStatusChangeButton';
 import { client } from '../shared/remotes/axios';
 import { headerData } from '../shared/components/header';
@@ -15,6 +15,43 @@ const PLPage: React.FC = () => {
   const [userPageInfo, setUserPageInfo] = useRecoilState(userPageState);
   const [issueInfo, setIssueInfo] = useRecoilState(issuePageInfoState);
   const [loading, setLoading] = useState<boolean>(true);
+  const resetRecommendDevInfo = useResetRecoilState(recommendDevState);
+  const [recommendDevInfo, setRecommendDevInfo] = useRecoilState(recommendDevState);
+
+
+  const fetchRecommendDev = async () => {
+    try {
+      const response = await client.get(`/gpt/recommendation/${userPageInfo.issueId}`, headerData());
+      const data= response.data;
+      return data;
+    } catch (error) {
+      console.error('Error fetching recommended developer:', error);
+      return null;
+    }
+  };
+
+  const getRecommendDev = async () => {
+    const data = await fetchRecommendDev();
+    if (data) {
+      setRecommendDevInfo({
+        ...recommendDevInfo,
+        name: JSON.stringify(data.answer),
+        reason: JSON.stringify(data.reason),
+      });
+    }
+  };
+
+  useEffect(() => {
+    const fetchData = async () => {
+      await getUserIssue();
+      await getRecommendDev();
+    };
+    fetchData();
+
+    return () => {
+      resetRecommendDevInfo();
+    };
+  }, [resetRecommendDevInfo]);
 
   const fetchIssueData = async () => {
     try {
@@ -30,7 +67,6 @@ const PLPage: React.FC = () => {
         assignedDev: response.data.assignee || null,
         comments: response.data.comments,
       };
-      console.log(issueData);
       return issueData;
     } catch (error) {
       console.error(error);
@@ -45,10 +81,6 @@ const PLPage: React.FC = () => {
     }
     setLoading(false);
   };
-
-  useEffect(() => {
-    getUserIssue();
-  }, []);
 
   const renderContent = () => {
     switch (issueInfo.status) {

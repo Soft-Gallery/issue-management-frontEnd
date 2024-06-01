@@ -1,16 +1,9 @@
 import React, { useEffect, useState } from 'react';
-import {
-  ElementTitleText,
-  UserSelect,
-  UserText,
-  DropDownContainer,
-  AddButton
-} from '../../admin/styles/InfoItemStyles';
+import { UserSelect, UserText, DropDownContainer, AddButton } from '../../admin/styles/InfoItemStyles';
 import { DevUser, UserRole, UserWithRole } from '../../../shared/types/user';
 import styled from 'styled-components';
 import { useRecoilState, useRecoilValue } from 'recoil';
-import { issuePageInfoState } from '../../../recoil/issue/issueAtom';
-import { recommendedDevState } from '../../../recoil/issue/issueAtom';
+import { issuePageInfoState, recommendDevState } from '../../../recoil/issue/issueAtom';
 
 interface UserInfoItemDropdownProps {
   title: string;
@@ -18,84 +11,94 @@ interface UserInfoItemDropdownProps {
   itemType: string;
 }
 
-const UserInfoItemDropdown: React.FC<UserInfoItemDropdownProps> = ({ title, itemList, itemType }) => {
+const UserInfoItemDropdown: React.FC<UserInfoItemDropdownProps> = ({ itemList, itemType }) => {
   const [issueInfo, setIssueInfo] = useRecoilState(issuePageInfoState);
-  const recommendedDev = useRecoilValue(recommendedDevState); // Recoil 상태에서 추천받은 개발자 정보 가져오기
-  const [selectedItem, setSelectedItem] = useState<UserWithRole<UserRole>>(itemList[0]);
+  const [selectedItem, setSelectedItem] = useState<UserWithRole<UserRole> | null>(itemList.length > 0 ? itemList[0] : null);
+  const [isRecommendationFetched, setIsRecommendationFetched] = useState<boolean>(false);
+  const [isSelected, setIsSelected] = useState<boolean>(false);
+  const recommendDevInfo = useRecoilValue(recommendDevState);
+  const setRecommendDevInfo = useRecoilState(recommendDevState)[1];
 
   useEffect(() => {
-    if (itemList.length > 0) {
-      setSelectedItem(itemList[0]);
-    }
-  }, [itemList]);
+    setIsRecommendationFetched(!!recommendDevInfo.name && !!recommendDevInfo.reason);
+  }, [recommendDevInfo]);
 
   const handleItemChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    const selectedId = parseInt(event.target.value, 10);
-    const item = itemList.find(item => item.id === selectedId);
+    const item = itemList.find(item => item.id.toString() === event.target.value);
     if (item) {
       setSelectedItem(item);
     }
   };
 
   const handleSubmit = () => {
-    const devUser: DevUser = {
-      id: selectedItem.id,
-      password: 'garbage', // This should be properly handled in a real application
-      name: selectedItem.name,
-      email: selectedItem.email,
-      role: 'ROLE_DEVELOPER',
-    };
+    if (selectedItem) {
+      const devUser: DevUser = {
+        id: selectedItem.id,
+        password: 'garbage',
+        name: selectedItem.name,
+        email: selectedItem.email,
+        role: 'ROLE_DEVELOPER',
+      };
 
-    console.log(devUser);
+      console.log(devUser);
 
-    setIssueInfo({
-      ...issueInfo,
-      assignedDev: devUser,
-      status: 'ASSIGNED',
-    });
+      setIssueInfo({
+        ...issueInfo,
+        assignedDev: devUser,
+        status: 'ASSIGNED',
+      });
+
+      // assignedDev post 하는 요청하기
+      // status 상태 바꾸는 post 하기
+    }
   };
 
   const handleRecommendation = () => {
-    if (recommendedDev) {
-      setSelectedItem(recommendedDev);
-    } else {
-      console.error('No recommended developer available');
-    }
+    setRecommendDevInfo((prev) => ({
+      ...prev,
+      isSelected: true,
+    }));
+    setIsSelected(true);
   };
 
   return (
     <div>
       <DropDownContainer>
         <UserText>{itemType}</UserText>
-        <UserSelect value={selectedItem.id} onChange={handleItemChange}>
+        <UserSelect value={selectedItem ? selectedItem.id : ''} onChange={handleItemChange}>
           <option value="">{itemType}를 선택하세요</option>
           {itemList.map(item => (
             <option key={item.id} value={item.id}>
-              {item.name}
+              {item.id}
             </option>
           ))}
         </UserSelect>
-        <RecommendationButton onClick={handleRecommendation}>추천받기</RecommendationButton>
+        <RecommendationButton
+          onClick={handleRecommendation}
+          disabled={recommendDevInfo.isSelected || isSelected}
+        >
+          추천받기
+        </RecommendationButton>
       </DropDownContainer>
       <AddButton onClick={handleSubmit}>Assign</AddButton>
     </div>
   );
 };
 
-const RecommendationButton = styled.button`
-  width: 100px;
-  margin-left: 10px;
-  padding: 8px 12px;
-  border: none;
-  border-radius: 4px;
-  background-color: #007bff;
-  color: white;
-  cursor: pointer;
-  align-self: center;
+const RecommendationButton = styled.button<{ disabled: boolean }>`
+    width: 100px;
+    margin-left: 10px;
+    padding: 8px 12px;
+    border: none;
+    border-radius: 4px;
+    background-color: ${({ disabled }) => (disabled ? '#cccccc' : '#007bff')};
+    color: ${({ disabled }) => (disabled ? '#666666' : 'white')};
+    cursor: ${({ disabled }) => (disabled ? 'not-allowed' : 'pointer')};
+    align-self: center;
 
-  &:hover {
-    background-color: #0056b3;
-  }
+    &:hover {
+        background-color: ${({ disabled }) => (disabled ? '#cccccc' : '#0056b3')};
+    }
 `;
 
 export default UserInfoItemDropdown;

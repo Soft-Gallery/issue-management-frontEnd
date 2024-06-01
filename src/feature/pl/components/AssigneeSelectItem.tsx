@@ -1,28 +1,39 @@
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
-import { devListDummy } from '../../../dummy/devListDummy';
 import { DevUser, UserRole, UserWithRole } from '../../../shared/types/user';
 import UserInfoItemDropdown from '../../issue/components/UserInfoItemDropdown';
-import { useRecoilState } from 'recoil';
-import { recommendedDevState } from '../../../recoil/issue/issueAtom';
+import { useRecoilState, useRecoilValue, useResetRecoilState } from 'recoil';
+import { recommendDevState } from '../../../recoil/issue/issueAtom';
+import { headerData } from '../../../shared/components/header';
+import { userPageState } from '../../../recoil/atom';
+import { client } from '../../../shared/remotes/axios';
+import RecommendDev from './RecommendDev';
 
 const AssigneeSelectItem: React.FC = () => {
-  const [recommendedDev, setRecommendedDev] = useRecoilState(recommendedDevState);
+  const userPageInfo = useRecoilValue(userPageState);
+  const [devsInProject, setDevsInProject] = useState<DevUser[]>([]);
+
+  const fetchDevsInProject = async () => {
+    try {
+      const response = await client.get(`/member/get/user/${userPageInfo.projectId}/ROLE_DEVELOPER`, headerData());
+      const data: DevUser[] = response.data;
+      return data;
+    } catch (error) {
+      console.error('Error fetching developers in project:', error);
+      return null;
+    }
+  };
+
+  const getDevsInProject = async () => {
+    const data = await fetchDevsInProject();
+    if (data) {
+      setDevsInProject(data);
+    }
+  };
 
   useEffect(() => {
-    const fetchRecommendedDev = async () => {
-      try {
-        const response = await fetch('/api/recommend-dev');
-        const data: DevUser = await response.json();
-        setRecommendedDev(data);
-        // 그리고 나서 issue info 업데이트하기
-      } catch (error) {
-        console.error('Error fetching recommended developer:', error);
-      }
-    };
-
-    fetchRecommendedDev();
-  }, [setRecommendedDev]);
+    getDevsInProject();
+  }, []);
 
   return (
     <Container>
@@ -30,44 +41,43 @@ const AssigneeSelectItem: React.FC = () => {
         <TitleText>Assignee</TitleText>
         <UserInfoItemDropdown
           title="Dev 정보"
-          itemList={devListDummy as UserWithRole<UserRole>[]}
+          itemList={devsInProject as UserWithRole<UserRole>[]}
           itemType="devs"
         />
       </SelectContainer>
-      {recommendedDev !== null ? (
-        <RecommendContainer>
-          추천할 내용
-        </RecommendContainer>
-      ) : null}
+      <RecommendDev />
     </Container>
   );
 };
 
 const Container = styled.div`
-  width: 100%;
-  box-sizing: border-box;
-  padding: 24px;
-  display: flex;
-  border-radius: 12px;
-  
-  flex-direction: row;
-  align-items: center;
-  justify-content: space-between;
+    width: 100%;
+    box-sizing: border-box;
+    padding: 24px;
+    display: flex;
+    border-radius: 12px;
 
-  border: 1px solid ${({ theme: { color } }) => color.black200};
-  
-  background-color: ${({ theme: { color } }) => color.white};
-`
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+
+    border: 1px solid ${({ theme: { color } }) => color.black200};
+
+    background-color: ${({ theme: { color } }) => color.white};
+`;
 
 const SelectContainer = styled.div`
     display: flex;
     flex-direction: column;
-`
+    width: 50%;
+`;
 
 const RecommendContainer = styled.div`
     display: flex;
     flex-direction: column;
-`
+    width: 50%;
+`;
+
 export const TitleText = styled.div`
     display: flex;
     text-align: left;
@@ -76,6 +86,5 @@ export const TitleText = styled.div`
     font-weight: bold;
     color: ${({ theme }) => theme.color.black};
 `;
-
 
 export default AssigneeSelectItem;

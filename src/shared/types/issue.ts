@@ -16,3 +16,9 @@ export interface Issue {
   assignedDev: DevUser | null;
   comments: Comments[];
 }
+
+export interface RecommendDevInfo{
+  name: string;
+  reason: string;
+  isSelected: boolean;
+}

@@ -1,7 +1,6 @@
 import { atom } from 'recoil';
-import { Issue } from '../../shared/types/issue';
-import {  ISSUE_CURRENT_VIEW_STATES, ISSUE_INFO_STATE } from './constants/constants';
-import { DevUser } from '../../shared/types/user';
+import { Issue, RecommendDevInfo } from '../../shared/types/issue';
+import { ISSUE_CURRENT_VIEW_STATES, ISSUE_INFO_STATE, RECOMMEND_DEV_STATE } from './constants/constants';
 
 export const issuePageViewState = atom<string>({
   key: 'issueCurrentViewState',
@@ -13,8 +12,8 @@ export const issuePageInfoState = atom<Issue>({
   default: ISSUE_INFO_STATE,
 })
 
-export const recommendedDevState = atom<DevUser | null>({
-  key: 'recommendedDevState',
-  default: null,
+export const recommendDevState = atom<RecommendDevInfo>({
+  key: 'recommendDevState',
+  default: RECOMMEND_DEV_STATE,
 });
 

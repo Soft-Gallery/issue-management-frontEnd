@@ -23,3 +23,9 @@ export const ISSUE_INFO_STATE = {
   assignedDev: null as DevUser | null,
   comments: [],
 };
+
+export const RECOMMEND_DEV_STATE = {
+  name: '',
+  reason: '',
+  isSelected: false,
+}

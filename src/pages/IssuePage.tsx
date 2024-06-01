@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { Issue } from '../shared/types/issue';
 import IssueListItem from '../feature/issue/components/IssueListItem';
-import { useParams } from 'react-router-dom';
 import { client } from '../shared/remotes/axios';
 import { headerData } from '../shared/components/header';
 import { useRecoilValue } from 'recoil';

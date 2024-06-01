@@ -1,13 +1,8 @@
 import ElementContainer from '../../../shared/components/ElementContainer';
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import styled from 'styled-components';
 import { useRecoilValue } from 'recoil';
 import { issuePageInfoState } from '../../../recoil/issue/issueAtom';
-
-interface AssignedDev {
-  name: string;
-  email: string;
-}
 
 const IssueInfoItem:React.FC = () => {
   const issueInfo = useRecoilValue(issuePageInfoState);
