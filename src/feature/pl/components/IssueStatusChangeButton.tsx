@@ -21,12 +21,22 @@ const IssueStatusChangeButton: React.FC<IssueStatusChangeButtonProps> = ({ statu
   };
 
   return (
-    <StatusChangeButton onClick={handleStatusChange}>
+    <Container>
+      <StatusChangeButton onClick={handleStatusChange}>
       {status}
-    </StatusChangeButton>
+      </StatusChangeButton>
+    </Container>
   );
 };
 
+const Container = styled.div`
+    display: flex;
+    width: 100%;
+    flex-direction: row;
+    justify-content: end;
+    align-items: center;
+    
+`
 export const StatusChangeButton = styled.button`
   display: inline-flex;
   align-items: center;
@@ -37,7 +47,7 @@ export const StatusChangeButton = styled.button`
   padding: 10px 20px;
   text-align: center;
 
-  margin-top: 12px;
+  margin-bottom: 12px;
   height: 40px;
   font-size: 16px;
   width: auto;

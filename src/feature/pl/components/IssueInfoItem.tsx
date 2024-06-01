@@ -11,50 +11,39 @@ interface AssignedDev {
 
 const IssueInfoItem:React.FC = () => {
   const issueInfo = useRecoilValue(issuePageInfoState);
-  const [isAssigned, setIsAssigned] = useState<boolean>(false);
-
-  useEffect(()=>{
-    if(issueInfo.assignedDev !== null){
-      setIsAssigned(true);
-      setAssignedDev({
-        name: issueInfo.assignedDev.name,
-        email: issueInfo.assignedDev.email,
-        }
-      )
-    }
-  }, [issueInfo])
 
   return (
     <ElementContainer>
       <TitleText>Issue Information</TitleText>
-      <IssueDescription>이슈 상세 내용 description 보여죠라</IssueDescription>
+      <IssueDescription>{issueInfo.description}</IssueDescription>
       <hr/>
-      <DetailDescription>Reported by tester01 : tester01@cau.ac.kr </DetailDescription>
-      {isAssigned? (
-        <DetailDescription>Assigned to {assignedDev.name} : {assignedDev.email}</DetailDescription>
-      ): (
-        <></>
-      )}
+      <ul>
+        <DetailDescription>Reported by {issueInfo.reporter.name} ({issueInfo.reporter.email}) </DetailDescription>
+        {issueInfo.assignedDev && (
+          <DetailDescription>Assigned to {issueInfo.assignedDev.name} ({issueInfo.assignedDev.email})</DetailDescription>
+        )}
+      </ul>
     </ElementContainer>
   );
 }
 
 export const TitleText = styled.div`
-  display: flex;
-  text-align: left;
-  margin-bottom: 12px;
-  font-size: 24px;
-  font-weight: bold;
-  color: ${({ theme }) => theme.color.black};
+    display: flex;
+    text-align: left;
+    margin-bottom: 12px;
+    font-size: 24px;
+    font-weight: bold;
+    color: ${({ theme }) => theme.color.black};
 `;
 
 const IssueDescription = styled.p`
-    font-size: 16px;
+    font-size: 18px;
 `
 
-const DetailDescription = styled.div`
-  font-size: 16px;
-  color: ${({ theme }) => theme.color.gray2};
+const DetailDescription = styled.li`
+    font-size: 15px;
+    color: ${({ theme }) => theme.color.gray2};
+    margin-bottom: 6px;
 `;
 
 export default IssueInfoItem;
