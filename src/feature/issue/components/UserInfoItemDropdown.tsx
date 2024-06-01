@@ -1,11 +1,10 @@
-import React, { useEffect, useState } from 'react';
-import { UserSelect, UserText, DropDownContainer, AddButton } from '../../admin/styles/InfoItemStyles';
+import React, { useState } from 'react';
+import { UserSelect, UserText, DropDownContainer } from '../../admin/styles/InfoItemStyles';
 import { DevUser, UserRole, UserWithRole } from '../../../shared/types/user';
 import styled from 'styled-components';
 import { useRecoilState, useRecoilValue } from 'recoil';
-import { issuePageInfoState, recommendDevState } from '../../../recoil/issue/issueAtom';
-import { client } from '../../../shared/remotes/axios';
-import { headerData } from '../../../shared/components/header';
+import { assignedDevInfoState, recommendDevState } from '../../../recoil/issue/issueAtom';
+import { userPageState } from '../../../recoil/atom';
 
 interface UserInfoItemDropdownProps {
   title: string;
@@ -14,52 +13,17 @@ interface UserInfoItemDropdownProps {
 }
 
 const UserInfoItemDropdown: React.FC<UserInfoItemDropdownProps> = ({ itemList, itemType }) => {
-  const [issueInfo, setIssueInfo] = useRecoilState(issuePageInfoState);
   const [selectedItem, setSelectedItem] = useState<UserWithRole<UserRole> | null>(itemList.length > 0 ? itemList[0] : null);
-  const [isRecommendationFetched, setIsRecommendationFetched] = useState<boolean>(false);
   const [isSelected, setIsSelected] = useState<boolean>(false);
   const recommendDevInfo = useRecoilValue(recommendDevState);
   const setRecommendDevInfo = useRecoilState(recommendDevState)[1];
-
-  useEffect(() => {
-    setIsRecommendationFetched(!!recommendDevInfo.name && !!recommendDevInfo.reason);
-  }, [recommendDevInfo]);
+  const [assignedDev, setAssignedDev] = useRecoilState(assignedDevInfoState);
 
   const handleItemChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     const item = itemList.find(item => item.id.toString() === event.target.value);
     if (item) {
       setSelectedItem(item);
-    }
-  };
-
-  const postAssignedDev = async () => {
-    try {
-      const response = await client.get(`/issue/assignment/${userPageInfo.issueId}/${userId}`, headerData());
-      console.log(response.data);
-      return response.data;
-    } catch (error) {
-      console.error(error);
-      return null;
-    }
-  }
-  const handleSubmit = () => {
-    if (selectedItem) {
-      const devUser: DevUser = {
-        id: selectedItem.id,
-        password: 'garbage',
-        name: selectedItem.name,
-        email: selectedItem.email,
-        role: 'ROLE_DEVELOPER',
-      };
-
-      setIssueInfo({
-        ...issueInfo,
-        assignedDev: devUser,
-        status: 'ASSIGNED',
-      });
-
-      // assignedDev post 하는 요청하기
-      postAssignedDev();
+      setAssignedDev(item as DevUser);
     }
   };
 
@@ -90,13 +54,12 @@ const UserInfoItemDropdown: React.FC<UserInfoItemDropdownProps> = ({ itemList, i
           추천받기
         </RecommendationButton>
       </DropDownContainer>
-      <AddButton onClick={handleSubmit}>Assign</AddButton>
     </div>
   );
 };
 
 const RecommendationButton = styled.button<{ disabled: boolean }>`
-    width: 100px;
+    width: 80px;
     margin-left: 10px;
     padding: 8px 12px;
     border: none;

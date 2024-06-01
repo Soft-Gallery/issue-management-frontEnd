@@ -23,7 +23,8 @@ export interface RecommendDevInfo{
 }
 
 export interface Comments {
+  authorId: string;
   text: string;
+  issueId: number;
   createdAt: string;
-  author: string;
 }

@@ -30,16 +30,4 @@ export const RECOMMEND_DEV_STATE = {
   isSelected: false,
 }
 
-export const COMMENTS: Comments[] = [
-  {
-    author: "Author1",
-    text: "This is the first comment",
-    createdAt: "2024-06-01T10:00:00Z",
-  },
-  {
-    author: "Author2",
-    text: "This is the second comment",
-    createdAt: "2024-06-01T11:00:00Z",
-  },
-  // 추가 코멘트를 여기다 추가할 수 있습니다.
-];
+export const COMMENTS: Comments[] = [];

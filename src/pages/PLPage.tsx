@@ -4,9 +4,9 @@ import IssueHeaderItem from '../feature/pl/components/IssueHeaderItem';
 import IssueInfoItem from '../feature/pl/components/IssueInfoItem';
 import AssigneeSelectItem from '../feature/pl/components/AssigneeSelectItem';
 import CommentItem from '../feature/CommentItem';
+import CommentSubmit from '../feature/issue/components/CommentSubmit';
 import { useRecoilState, useResetRecoilState } from 'recoil';
 import { issuePageInfoState, recommendDevState } from '../recoil/issue/issueAtom';
-import IssueStatusChangeButton from '../feature/pl/components/IssueStatusChangeButton';
 import { client } from '../shared/remotes/axios';
 import { headerData } from '../shared/components/header';
 import { userPageState } from '../recoil/atom';
@@ -17,7 +17,6 @@ const PLPage: React.FC = () => {
   const [loading, setLoading] = useState<boolean>(true);
   const resetRecommendDevInfo = useResetRecoilState(recommendDevState);
   const [recommendDevInfo, setRecommendDevInfo] = useRecoilState(recommendDevState);
-
   const fetchRecommendDev = async () => {
     try {
       const response = await client.get(`/gpt/recommendation/${userPageInfo.issueId}`, headerData());
@@ -81,17 +80,6 @@ const PLPage: React.FC = () => {
     setLoading(false);
   };
 
-  const renderContent = () => {
-    switch (issueInfo.status) {
-      case 'NEW':
-        return <AssigneeSelectItem />;
-      case 'ASSIGNED':
-        return <IssueStatusChangeButton status="RESOLVED" />;
-      default:
-        return null;
-    }
-  };
-
   return (
     <Container>
       {loading ? (
@@ -100,7 +88,12 @@ const PLPage: React.FC = () => {
         <>
           <IssueHeaderItem />
           <IssueInfoItem />
-          {renderContent()}
+          {issueInfo.status === 'NEW' && <AssigneeSelectItem />}
+          {(issueInfo.status === 'NEW' || issueInfo.status === 'RESOLVED') && (
+            <CommentSubmit
+              buttonText={issueInfo.status === 'NEW' ? 'ASSIGNED' : 'CLOSED'}
+            />
+          )}
           <CommentItem />
         </>
       )}

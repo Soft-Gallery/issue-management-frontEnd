@@ -5,7 +5,7 @@ import { issuePageInfoState } from '../../../recoil/issue/issueAtom';
 import { IssueStatus } from '../../../shared/types/issue';
 import { client } from '../../../shared/remotes/axios';
 import { headerData } from '../../../shared/components/header';
-import { userIdState, userPageState } from '../../../recoil/atom';
+import { userIdState, userPageState, userRoleState } from '../../../recoil/atom';
 
 interface IssueStatusChangeButtonProps {
   status: IssueStatus;
@@ -15,6 +15,9 @@ const IssueStatusChangeButton: React.FC<IssueStatusChangeButtonProps> = ({ statu
   const [issueInfo, setIssueInfo] = useRecoilState(issuePageInfoState);
   const userPageInfo = useRecoilValue(userPageState);
   const userId = useRecoilValue(userIdState);
+  const userRole = useRecoilValue(userRoleState);
+
+  const currentStatus = issueInfo.status;
 
   const getStatusChangeAPICall = async () => {
     try {
@@ -36,6 +39,23 @@ const IssueStatusChangeButton: React.FC<IssueStatusChangeButtonProps> = ({ statu
       });
     }
   };
+
+  const shouldShowButton = (): boolean => {
+    if (userRole === 'ROLE_PL' && currentStatus === 'RESOLVED' && status === 'CLOSED') {
+      return true;
+    }
+    if (userRole === 'ROLE_TESTER' && currentStatus === 'FIXED' && status === 'RESOLVED') {
+      return true;
+    }
+    if (userRole === 'ROLE_DEV' && currentStatus === 'ASSIGNED' && status === 'FIXED') {
+      return true;
+    }
+    return false;
+  };
+
+  if (!shouldShowButton()) {
+    return null;
+  }
 
   return (
     <Container>

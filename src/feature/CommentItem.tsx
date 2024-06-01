@@ -3,7 +3,7 @@ import ElementContainer from '../shared/components/ElementContainer';
 import { TitleText } from './pl/components/AssigneeSelectItem';
 import styled from 'styled-components';
 import { useRecoilValue } from 'recoil';
-import { userIdState, userPageState } from '../recoil/atom';
+import { userPageState } from '../recoil/atom';
 import { Comments } from '../shared/types/issue';
 import { client } from '../shared/remotes/axios';
 import { headerData } from '../shared/components/header';
@@ -17,9 +17,7 @@ interface CommentsType {
 }
 
 const CommentItem: React.FC = () => {
-  const myId = useRecoilValue(userIdState);
   const [comments, setComments] = useState<CommentsType[]>([]);
-  const [myComment, setMyComment] = useState<string>('');
   const userPageInfo = useRecoilValue(userPageState);
 
   useEffect(() => {
@@ -36,46 +34,11 @@ const CommentItem: React.FC = () => {
     }
   };
 
-  const postComment = async (comment: Partial<Comments>) => {
-    try {
-      await client.post(`/comment/new/${userPageInfo.issueId}`, comment, headerData());
-    } catch (error) {
-      console.error('Error posting comment:', error);
-    }
-  };
-
-  const handleCommentChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
-    setMyComment(e.target.value);
-  };
-
-  const handleSubmit = async () => {
-    if (myComment.trim() === '') return;
-
-    const newComment = {
-      authorId: myId,
-      text: myComment,
-      issueId: userPageInfo.issueId,
-      createdAt: new Date().toISOString(),
-    };
-
-    await postComment(newComment);
-    await fetchComments();
-    setMyComment('');
-  };
-
   return (
     <ElementContainer>
       <TitleText>
         Comments
       </TitleText>
-      <CommentContainer>
-        <CommentInput
-          placeholder="Add a comment"
-          value={myComment}
-          onChange={handleCommentChange}
-        />
-        <SubmitButton onClick={handleSubmit}>Submit</SubmitButton>
-      </CommentContainer>
       <CommentsList>
         {comments.map((comment) => (
           <Comment key={comment.commentId}>
@@ -88,31 +51,6 @@ const CommentItem: React.FC = () => {
     </ElementContainer>
   );
 };
-
-const CommentInput = styled.textarea`
-    width: 100%;
-    box-sizing: border-box;
-    padding: 8px;
-    margin-top: 4px;
-    border: 1px solid ${({ theme: { color } }) => color.gray1};
-    border-radius: 4px;
-    font-size: 14px;
-    height: 50px;
-    vertical-align: top;
-    resize: none;
-`;
-
-const CommentContainer = styled.div`
-    width: 100%;
-    display: flex;
-    flex-direction: row;
-`;
-
-const SubmitButton = styled.button`
-    height: 50px;
-    width: 100px;
-    margin-left: 10px;
-`;
 
 const CommentsList = styled.div`
     width: 100%;

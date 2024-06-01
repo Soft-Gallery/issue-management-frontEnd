@@ -2,8 +2,7 @@ import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { DevUser, UserRole, UserWithRole } from '../../../shared/types/user';
 import UserInfoItemDropdown from '../../issue/components/UserInfoItemDropdown';
-import { useRecoilState, useRecoilValue, useResetRecoilState } from 'recoil';
-import { recommendDevState } from '../../../recoil/issue/issueAtom';
+import { useRecoilValue } from 'recoil';
 import { headerData } from '../../../shared/components/header';
 import { userPageState } from '../../../recoil/atom';
 import { client } from '../../../shared/remotes/axios';
@@ -67,12 +66,6 @@ const Container = styled.div`
 `;
 
 const SelectContainer = styled.div`
-    display: flex;
-    flex-direction: column;
-    width: 50%;
-`;
-
-const RecommendContainer = styled.div`
     display: flex;
     flex-direction: column;
     width: 50%;
