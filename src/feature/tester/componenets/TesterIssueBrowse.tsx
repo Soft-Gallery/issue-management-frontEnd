@@ -14,6 +14,7 @@ const TesterIssueBrowse = () => {
   const userPageInfo = useRecoilValue(userPageState);
 
   const getIssues = async () => {
+    console.log('이슈는 불러오고 있냐고, 이거하면 getIssues 호출');
     const data = await fetchIssueData();
     setIssues(data);
     setLoading(false);

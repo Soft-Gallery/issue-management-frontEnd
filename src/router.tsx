@@ -1,4 +1,4 @@
-import { createBrowserRouter, RouteObject, Outlet } from "react-router-dom";
+import { createBrowserRouter, RouteObject } from "react-router-dom";
 import Layout from './shared/components/Layout/Layout';
 import React from 'react';
 import AdminPage from './pages/AdminPage';
@@ -39,14 +39,22 @@ const routes: RouteObject[] = [
   {
     path: "/project/:projectId",
     element: (
-      <ProtectedRoute allowedRoles={['pl', 'tester', 'dev']}>
-        <Layout />
-      </ProtectedRoute>
+      <ProtectedRoute allowedRoles={['pl', 'dev', 'tester']} componentMap={{ pl: Layout, dev: Layout, tester: Layout }} defaultComponent={Layout} />
     ),
     children: [
       {
         index: true,
-        element: <IssuePage />,
+        element: (
+          <ProtectedRoute
+            allowedRoles={['pl', 'dev', 'tester']}
+            componentMap={{
+              pl: IssuePage,
+              dev: IssuePage,
+              tester: TesterPage
+            }}
+            defaultComponent={IssuePage}
+          />
+        ),
       },
       {
         path: "pl/issue/:issueIndex",
