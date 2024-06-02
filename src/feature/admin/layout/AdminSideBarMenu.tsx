@@ -17,9 +17,6 @@ const AdminSideBarMenu = (): JSX.Element => {
       <StyledButton onClick={() => handleButtonClick(CURRENT_VIEW_STATES.ADD_PROJECT)}>
         Add Project
       </StyledButton>
-      <StyledButton onClick={() => handleButtonClick(CURRENT_VIEW_STATES.VIEW_PROJECTS)}>
-        View Projects
-      </StyledButton>
     </div>
   );
 }

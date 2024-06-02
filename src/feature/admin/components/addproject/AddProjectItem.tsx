@@ -1,29 +1,61 @@
-import React from 'react';
-import styled from 'styled-components';
-import ProjectInfoItem from './ProjectInfoItem';
-import PLInfoItem from './PLInfoItem';
-import DevInfoItem from './DevInfoItem';
-import TesterInfoItem from './TesterInfoItem';
-import { useRecoilValue } from 'recoil';
-import { adminPageAddProjectState } from '../../../../recoil/admin/atom';
+import React, { useState } from 'react';
+import styled from 'styled-components';;
+import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
+import getTokenFromLocalStorage from '../../../auth/function/getTokenFromLocalStorage';
+import { projectCreateIdState, projectCreateState } from '../../../../recoil/admin/components/addproject/atom';
+import { userIdState } from '../../../../recoil/atom';
+import postProject from '../../remote/postProject';
+import AddMember from './AddMember';
+
+
+const roles = ['ROLE_PL', 'ROLE_DEVELOPER', 'ROLE_TESTER'];
 
 const AddProjectItem = () => {
-  const projectState = useRecoilValue(adminPageAddProjectState);
+  const userToken = getTokenFromLocalStorage();
+  const [step, setStep] = useRecoilState(projectCreateState);
+  const setProjectCreateId = useSetRecoilState(projectCreateIdState);
+  const [name, setName] = useState('');
+  const [description, setDescription] = useState('');
+  const userId = useRecoilValue(userIdState);
 
-  const handlePrintState = () => {
-    console.log(projectState);
-    //이후에, api 연동하면 될 것 같아요.
+  const handleCreateProject = async () => {
+    setName('');
+    setDescription('');
+
+    if(userToken) {
+      const id = await postProject(name, description, "InProgress", userId, userToken);
+      setProjectCreateId(id);
+      alert(`Success, project number ${id}`);
+    }
+
+    setStep(2);
   };
 
   return (
     <Container>
-      <ProjectInfoItem />
-      <PLInfoItem />
-      <DevInfoItem />
-      <TesterInfoItem />
-      <Button onClick={handlePrintState}>Print Project State</Button>
+      {step === 1 && (
+        <>
+          <Header>
+            <Circle>1</Circle>
+            <Title>Create Project</Title>
+          </Header>
+          <Input
+            type="text"
+            placeholder="Project Name"
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+          />
+          <TextArea
+            placeholder="Project Description"
+            value={description}
+            onChange={(e) => setDescription(e.target.value)}
+          />
+          <Button onClick={handleCreateProject}>Create Project</Button>
+        </>
+      )}
+      {step === 2 && <AddMember />}
     </Container>
-  )
+  );
 }
 
 const Container = styled.div`
@@ -37,33 +69,58 @@ const Container = styled.div`
   justify-content: center;
 `
 
-const Button = styled.button`
-  display: inline-flex;
+const Header = styled.div`
+  display: flex;
   align-items: center;
-  outline: none;
-  border-radius: 5px;
+  margin-bottom: 20px;
+`;
+
+const Circle = styled.div`
+  display: flex;
+  width: 30px;
+  height: 30px;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background-color: #007bff;
+  color: white;
   font-weight: bold;
+`;
+
+const Title = styled.h2`
+  margin-left: 10px;
+  font-size: 24px;
+  color: #333;
+`;
+
+const Input = styled.input`
+  width: 100%;
+  padding: 12px;
+  margin: 8px 0;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+`;
+
+const TextArea = styled.textarea`
+  width: 100%;
+  padding: 12px;
+  height: 100px;
+  margin: 8px 0;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+`;
+
+const Button = styled.button`
+  padding: 12px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 5px;
   cursor: pointer;
-  padding: 10px 20px;
-  text-align: center;
-
-  height: 40px;
   font-size: 16px;
-  width: auto;
-
-  border: 1px solid ${({ theme: { color } }) => color.black200};
-  
-  color: ${({ theme: { color } }) => color.gray1};
-  background: ${({ theme: { color } }) => color.white};
 
   &:hover {
-    color: ${({ theme: { color } }) => color.white};
-    background: ${({ theme: { color } }) => color.indigo};
-  }
-
-  &:active {
-    color: ${({ theme: { color } }) => color.white};
-    background: ${({ theme: { color } }) => color.indigo};
+    background-color: #0056b3;
   }
 `;
 
