@@ -4,7 +4,7 @@ import { Project } from '../../shared/types/project';
 
 export const adminPageViewState = atom<string>({
   key: 'currentViewState',
-  default: CURRENT_VIEW_STATES.ADD_PROJECT,
+  default: CURRENT_VIEW_STATES.VIEW_PROJECTS,
 });
 
 export const adminPageAddProjectState = atom<Project>({

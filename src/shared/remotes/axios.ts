@@ -1,7 +1,7 @@
-import axios, { CreateAxiosDefaults } from 'axios';
+import axios, { AxiosRequestConfig } from 'axios';
 import { SERVER_URL } from './constants';
 
-const defaultConfig: CreateAxiosDefaults = {
+const defaultConfig: AxiosRequestConfig = {
   baseURL: SERVER_URL,
 }
 
