@@ -11,6 +11,7 @@ import PLPage from './pages/PLPage';
 import DevPage from './pages/DevPage';
 import LayoutWithoutSideBar from './shared/components/Layout/LayoutWithoutSideBar';
 import IssuePage from './pages/IssuePage';
+import StatisticPage from './pages/StatisticPage';
 
 const routes: RouteObject[] = [
   {
@@ -87,6 +88,10 @@ const routes: RouteObject[] = [
       },
     ],
   },
+  {
+    path: "/statistic",
+    element: <StatisticPage />
+  }
 ];
 
 const router = createBrowserRouter(routes);
