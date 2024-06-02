@@ -10,14 +10,14 @@ const TesterSideBarMenu = (): JSX.Element => {
 
   const handleButtonClick = (view: string) => {
     setCurrentView(view);
+    console.log(view);
   };
 
   return(
     <div>
       <StyledButton onClick={() => handleButtonClick(TESTER_CURRENT_VIEW_STATES.ISSUE_CREATE)}>Create Issue</StyledButton>
-      <StyledButton onClick={() => handleButtonClick(TESTER_CURRENT_VIEW_STATES.ISSUE_BROWSE)}>
-        Browse Issues
-      </StyledButton>
+      <StyledButton onClick={() => handleButtonClick(TESTER_CURRENT_VIEW_STATES.ISSUE_BROWSE)}>Browse Issues</StyledButton>
+      <StyledButton onClick={() => handleButtonClick(TESTER_CURRENT_VIEW_STATES.FIXED_ISSUE_BROWSE)}>Fixed Issues</StyledButton>
     </div>
   )
 }

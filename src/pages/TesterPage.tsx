@@ -11,6 +11,7 @@ import TesterIssueCreate from '../feature/tester/componenets/TesterIssueCreate';
 import { TESTER_CURRENT_VIEW_STATES } from '../recoil/tester/constants/constants';
 import { testerPageViewState } from '../recoil/tester/atom';
 import { useRecoilValue } from 'recoil';
+import TesterFixedIssueBrowse from '../feature/tester/componenets/TesterFixedIssueBrowse';
 
 const TesterPage = () => {
   const navigate = useNavigate();
@@ -18,8 +19,9 @@ const TesterPage = () => {
 
   return (
     <Container>
-      {currentView === TESTER_CURRENT_VIEW_STATES.ISSUE_BROWSE && <TesterIssueBrowse />}
       {currentView === TESTER_CURRENT_VIEW_STATES.ISSUE_CREATE && <TesterIssueCreate />}
+      {currentView === TESTER_CURRENT_VIEW_STATES.ISSUE_BROWSE && <TesterIssueBrowse />}
+      {currentView === TESTER_CURRENT_VIEW_STATES.FIXED_ISSUE_BROWSE && <TesterFixedIssueBrowse />}
     </Container>
   );
 };

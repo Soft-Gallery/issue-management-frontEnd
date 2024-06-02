@@ -7,7 +7,7 @@ import { Issue } from '../../../shared/types/issue';
 import { useRecoilValue } from 'recoil';
 import { userPageState } from '../../../recoil/atom';
 
-const TesterIssueBrowse = () => {
+const TesterFixedIssueBrowse = () => {
   const [selectedIssue, setSelectedIssue] = useState<number | null>(null);
   const [issues, setIssues] = useState<Issue[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
@@ -28,7 +28,6 @@ const TesterIssueBrowse = () => {
         status: issue.status,
         priority: issue.priority,
       }));
-      console.log('fetch함?!?!?!');
       return issueData;
     } catch (error) {
       console.error(error);
@@ -149,4 +148,4 @@ const IssueDetailContainer = styled.div`
   background-color: ${({ theme: { color } }) => color.white};
 `;
 
-export default TesterIssueBrowse;
+export default TesterFixedIssueBrowse;
