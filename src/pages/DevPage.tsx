@@ -73,7 +73,6 @@ const DevPage: React.FC = () => {
         <>
           <IssueHeaderItem />
           <IssueInfoItem />
-          <AssigneeSelectItem />
           {renderCommentSubmit()}
           <CommentItem />
         </>

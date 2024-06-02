@@ -47,6 +47,14 @@ const CommentSubmit: React.FC<CommentSubmitProps> = ({ buttonText }) => {
     }
   };
 
+  const getStatusFixed = async () => {
+    try {
+      await client.get(`/issue/fixing/${userPageInfo.issueId}`, headerData());
+    } catch (error) {
+      console.error('getStatusFixed 에러!!!!!!', error);
+    }
+  };
+
   const handleCommentChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     setMyComment(e.target.value);
   };
@@ -85,6 +93,17 @@ const CommentSubmit: React.FC<CommentSubmitProps> = ({ buttonText }) => {
         await getStatusClosed();
 
       }
+    }else if(userRole === 'dev'){
+      if (myComment.trim() === '') return;
+
+      console.log('Setting issueInfo to CLOSED');
+      setIssueInfo((prev) => ({
+        ...prev,
+        status: 'CLOSED',
+        comments: [...prev.comments, newComment],
+      }));
+
+      await getStatusFixed();
     }
 
     await postComment(newComment);

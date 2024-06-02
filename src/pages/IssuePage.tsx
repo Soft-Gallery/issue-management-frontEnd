@@ -32,7 +32,7 @@ const IssuePage: React.FC = () => {
   const fetchIssueData = async () => {
     try {
       let response: AxiosResponse<any, any> | undefined;
-      if (userRole === 'ROLE_PL') {
+      if (userRole === 'pl') {
         if (plViewState === PL_ISSUE_CURRENT_VIEW_STATES.VIEW_ALL_ISSUE) {
           response = await client.get(`/issue/searching/${userPageInfo.projectId}/all`, headerData());
           console.log(response);
@@ -40,7 +40,7 @@ const IssuePage: React.FC = () => {
           response = await client.get(`/issue/searching/${userPageInfo.projectId}/state/NEW`, headerData());
           console.log(response);
         }
-      } else if (userRole === 'ROLE_DEV') {
+      } else if (userRole === 'dev') {
         if (devViewState === DEV_ISSUE_CURRENT_VIEW_STATES.VIEW_ALL_ISSUE) {
           response = await client.get(`/issue/searching/${userPageInfo.projectId}/all`, headerData());
           console.log('전체받아오기');
