@@ -122,7 +122,7 @@ const AddMember = () => {
               onClick={() => handleSelectUser(user)}
               isSelected={isSelected}
             >
-              {user.name}
+              {user.id}
             </UserButton>
           );
         })}
@@ -185,11 +185,12 @@ const RoleButton = styled.button<{ isSelected: boolean }>`
 `;
 
 const ListContainer = styled.div`
-  max-height: 200px;
+  max-height: 450px;
   overflow-y: auto;
   border: 1px solid #ccc;
   border-radius: 5px;
   padding: 10px;
+  margin-bottom: 10px;
 `;
 
 const UserButton = styled.div<{ isSelected: boolean }>`

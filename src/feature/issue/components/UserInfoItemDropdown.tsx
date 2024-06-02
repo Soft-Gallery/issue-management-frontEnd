@@ -13,14 +13,10 @@ interface UserInfoItemDropdownProps {
 
 const UserInfoItemDropdown: React.FC<UserInfoItemDropdownProps> = ({ itemList, itemType }) => {
   const [selectedItem, setSelectedItem] = useState<UserWithRole<UserRole> | null>(itemList.length > 0 ? itemList[0] : null);
-  const [isSelected, setIsSelected] = useState<boolean>(false);
-  const recommendDevInfo = useRecoilValue(recommendDevState);
+ const recommendDevInfo = useRecoilValue(recommendDevState);
   const setRecommendDevInfo = useRecoilState(recommendDevState)[1];
   const [assignedDev, setAssignedDev] = useRecoilState(assignedDevInfoState);
 
-  useEffect(() => {
-    setIsSelected(recommendDevInfo.name !== null);
-  }, [recommendDevInfo.name]);
 
   const handleItemChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     const item = itemList.find(item => item.id.toString() === event.target.value);
@@ -51,7 +47,7 @@ const UserInfoItemDropdown: React.FC<UserInfoItemDropdownProps> = ({ itemList, i
         </UserSelect>
         <RecommendationButton
           onClick={handleRecommendation}
-          isNameNull={recommendDevInfo.name === null}
+          isNameNull={recommendDevInfo.name === '' || recommendDevInfo.name === undefined}
         >
           추천받기
         </RecommendationButton>
