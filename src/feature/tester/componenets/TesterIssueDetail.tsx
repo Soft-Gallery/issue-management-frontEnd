@@ -4,7 +4,7 @@ import IssueHeaderItem from '../../pl/components/IssueHeaderItem';
 import IssueInfoItem from '../../pl/components/IssueInfoItem';
 import CommentItem from '../../CommentItem';
 import CommentSubmit from '../../issue/components/CommentSubmit';
-import { useRecoilState, useResetRecoilState, useRecoilValue } from 'recoil';
+import { useRecoilState, useRecoilValue } from 'recoil';
 import { issuePageInfoState, recommendDevState } from '../../../recoil/issue/issueAtom';
 import { client } from '../../../shared/remotes/axios';
 import { headerData } from '../../../shared/components/header';
@@ -53,13 +53,20 @@ const TesterIssueDetail: React.FC = () => {
   };
 
   const renderCommentSubmit = () => {
-    if (issueInfo.status === 'FIXED') {
+    if (issueInfo.status === 'FIXED' || issueInfo.status === 'REOPENED') {
       if (issueInfo.reporter!.id.toString() === myId) {
         const buttonText = 'RESOLVED';
         return <CommentSubmit buttonText={buttonText} />;
       }
     }
+    return null;
   };
+
+  useEffect(() => {
+    if (!loading) {
+      console.log(issueInfo);
+    }
+  }, [issueInfo, loading]);
 
   return (
     <Container>

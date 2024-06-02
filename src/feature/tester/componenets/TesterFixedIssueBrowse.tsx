@@ -18,7 +18,11 @@ const TesterFixedIssueBrowse = () => {
   const getIssues = async () => {
     const data = await fetchIssueData();
 
-    const fixedIssues = data.filter((issue : Issue)=> (issue.reporter.id.toString() === myId)&&(issue.status === 'FIXED'));
+    const fixedIssues = data.filter(
+      (issue: Issue) =>
+        issue.reporter.id.toString() === myId &&
+        (issue.status === 'FIXED' || issue.status === 'REOPENED')
+    );
     setIssues(fixedIssues);
     setLoading(false);
   };

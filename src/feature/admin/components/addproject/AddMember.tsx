@@ -1,10 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
-import { useRecoilValue } from 'recoil';
+import { useRecoilState, useRecoilValue } from 'recoil';
 import { projectCreateIdState } from '../../../../recoil/admin/components/addproject/atom';
 import getMemberAll from '../../remote/getMemberAll';
 import postMembers from '../../remote/postMember';
 import getTokenFromLocalStorage from '../../../auth/function/getTokenFromLocalStorage';
+import { adminPageViewState } from '../../../../recoil/admin/atom';
+import { CURRENT_VIEW_STATES } from '../../../../recoil/admin/constants/constants';
 
 const roles = ['ROLE_PL', 'ROLE_DEVELOPER', 'ROLE_TESTER'];
 
@@ -29,6 +31,8 @@ const AddMember = () => {
   const [plUsers, setPLUsers] = useState<User[]>([]);
   const [devUsers, setDevUsers] = useState<User[]>([]);
   const [testerUsers, setTesterUsers] = useState<User[]>([]);
+
+  const [ currentView, setCurrentView ] = useRecoilState(adminPageViewState);
 
   useEffect(() => {
     const fetchMembers = async () => {
@@ -90,6 +94,7 @@ const AddMember = () => {
       if(userToken) {
         await postMembers(membersToPost, userToken);
         alert('프로젝트 생성 성공입니다.');
+        setCurrentView(CURRENT_VIEW_STATES.VIEW_PROJECTS);
       }
     } catch (error) {
       console.error('Failed to add members:', error);

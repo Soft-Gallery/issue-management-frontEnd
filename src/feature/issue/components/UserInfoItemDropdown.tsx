@@ -47,7 +47,7 @@ const UserInfoItemDropdown: React.FC<UserInfoItemDropdownProps> = ({ itemList, i
         </UserSelect>
         <RecommendationButton
           onClick={handleRecommendation}
-          isNameNull={recommendDevInfo.name === '' || recommendDevInfo.name === undefined}
+          isNameNull={recommendDevInfo.name === '' || recommendDevInfo.name === undefined || recommendDevInfo.isSelected}
         >
           추천받기
         </RecommendationButton>

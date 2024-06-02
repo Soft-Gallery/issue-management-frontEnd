@@ -6,6 +6,7 @@ import { projectCreateIdState, projectCreateState } from '../../../../recoil/adm
 import { userIdState } from '../../../../recoil/atom';
 import postProject from '../../remote/postProject';
 import AddMember from './AddMember';
+import { adminPageViewState } from '../../../../recoil/admin/atom';
 
 
 const roles = ['ROLE_PL', 'ROLE_DEVELOPER', 'ROLE_TESTER'];
@@ -26,9 +27,12 @@ const AddProjectItem = () => {
       const id = await postProject(name, description, "InProgress", userId, userToken);
       setProjectCreateId(id);
       alert(`Success, project number ${id}`);
+
     }
 
     setStep(2);
+
+
   };
 
   return (

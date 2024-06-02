@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import { useRecoilValue, useRecoilState } from 'recoil';
 import { headerData } from '../../../shared/components/header';
 import { Comments, IssueStatus } from '../../../shared/types/issue';
-import { UserWithRole, UserRole, DevUser } from '../../../shared/types/user';
+import { DevUser } from '../../../shared/types/user';
 import { userIdState, userPageState, userRoleState } from '../../../recoil/atom';
 import { assignedDevInfoState, issuePageInfoState } from '../../../recoil/issue/issueAtom';
 import { client } from '../../../shared/remotes/axios';
@@ -21,7 +21,7 @@ const CommentSubmit: React.FC<CommentSubmitProps> = ({ buttonText }) => {
   const [issueInfo, setIssueInfo] = useRecoilState(issuePageInfoState);
   const [myComment, setMyComment] = useState<string>('');
   const assignedDev = useRecoilValue(assignedDevInfoState);
-  const [testerViewState, setTesterViewState ] = useRecoilState(testerPageViewState);
+  const [testerViewState, setTesterViewState] = useRecoilState(testerPageViewState);
   const testerIssueInfo = useRecoilValue(testerIssueCreateState);
 
   const postComment = async (comment: Partial<Comments>) => {
@@ -59,7 +59,7 @@ const CommentSubmit: React.FC<CommentSubmitProps> = ({ buttonText }) => {
     }
   };
 
-  const getStatusResolved= async () => {
+  const getStatusResolved = async () => {
     try {
       await client.get(`/issue/resolving/${userPageInfo.issueId}`, headerData());
     } catch (error) {
@@ -67,7 +67,7 @@ const CommentSubmit: React.FC<CommentSubmitProps> = ({ buttonText }) => {
     }
   };
 
-  const postIssue= async (newComment : {text: string}) => {
+  const postIssue = async (newComment: { text: string }) => {
     try {
       const data = {
         issue: {
@@ -77,8 +77,7 @@ const CommentSubmit: React.FC<CommentSubmitProps> = ({ buttonText }) => {
         comment: newComment,
       };
 
-      await client.post(`/issue/new`, data ,headerData());
-
+      await client.post(`/issue/new`, data, headerData());
     } catch (error) {
       console.error('postIssue 에러!!!!!!', error);
     }
@@ -89,90 +88,77 @@ const CommentSubmit: React.FC<CommentSubmitProps> = ({ buttonText }) => {
   };
 
   const handleSubmit = async () => {
+    if (myComment.trim() === '') return;
 
-    if (userRole === 'pl') {
-      const newComment = {
-        authorId: myId,
-        text: myComment,
-        issueId: userPageInfo.issueId,
-        createdAt: new Date().toISOString(),
-      };
+    const newComment = {
+      authorId: myId,
+      text: myComment,
+      issueId: userPageInfo.issueId,
+      createdAt: new Date().toISOString(),
+    };
 
-      if (buttonText === 'ASSIGNED') {
-        if (myComment.trim() === '' || !assignedDev) return;
+    switch (userRole) {
+      case 'pl':
+        if (buttonText === 'ASSIGNED') {
+          if (!assignedDev) return;
 
-        setIssueInfo({
-          ...issueInfo,
-          status: 'ASSIGNED',
-          comments: [...issueInfo.comments, newComment],
-          assignedDev: assignedDev,
-        });
+          setIssueInfo({
+            ...issueInfo,
+            status: 'ASSIGNED',
+            comments: [...issueInfo.comments, newComment],
+            assignedDev: assignedDev,
+          });
 
-        await postDev(assignedDev);
-        await postComment(newComment);
+          await postDev(assignedDev);
+          await postComment(newComment);
+        } else if (buttonText === 'CLOSED') {
+          setIssueInfo((prev) => ({
+            ...prev,
+            status: 'CLOSED',
+            comments: [...prev.comments, newComment],
+          }));
 
-      } else if (buttonText === 'CLOSED') {
-        if (myComment.trim() === '') return;
+          await getStatusClosed();
+          await postComment(newComment);
+        }
+        break;
 
-        setIssueInfo((prev) => ({
-          ...prev,
-          status: 'CLOSED',
-          comments: [...prev.comments, newComment],
-        }));
+      case 'dev':
+        if (buttonText === 'ASSIGNED' || buttonText === 'REOPENED') {
+          setIssueInfo((prev) => ({
+            ...prev,
+            status: 'FIXED',
+            comments: [...prev.comments, newComment],
+          }));
 
-        await getStatusClosed();
-        await postComment(newComment);
-      }
-    }else if(userRole === 'dev'){
-      if (myComment.trim() === '') return;
+          await getStatusFixed();
+          await postComment(newComment);
+        }
+        break;
 
-      const newComment = {
-        authorId: myId,
-        text: myComment,
-        issueId: userPageInfo.issueId,
-        createdAt: new Date().toISOString(),
-      };
-      setIssueInfo((prev) => ({
-        ...prev,
-        status: 'FIXED',
-        comments: [...prev.comments, newComment],
-      }));
+      case 'tester':
+        if (testerViewState === TESTER_CURRENT_VIEW_STATES.ISSUE_CREATE) {
+          const newIssueComment = {
+            text: myComment,
+          };
 
-      await getStatusFixed();
-      await postComment(newComment);
+          await postIssue(newIssueComment);
+          alert('이슈를 생성했습니다!');
+          setTesterViewState(TESTER_CURRENT_VIEW_STATES.ISSUE_BROWSE);
+        } else {
+          setIssueInfo((prev) => ({
+            ...prev,
+            status: 'RESOLVED',
+            comments: [...prev.comments, newComment],
+          }));
 
-    }else if(userRole === 'tester'){
-      if(testerViewState === TESTER_CURRENT_VIEW_STATES.ISSUE_CREATE){
-        if (myComment.trim() === '') return;
+          await getStatusResolved();
+          await postComment(newComment);
+        }
+        break;
 
-        const newComment = {
-          text: myComment,
-        };
-
-        await postIssue(newComment);
-        alert('이슈를 생성했습니다!');
-        setTesterViewState(TESTER_CURRENT_VIEW_STATES.ISSUE_BROWSE);
-
-      }else{
-        if (myComment.trim() === '') return;
-
-        const newComment = {
-          authorId: myId,
-          text: myComment,
-          issueId: userPageInfo.issueId,
-          createdAt: new Date().toISOString(),
-        };
-
-        setIssueInfo((prev) => ({
-          ...prev,
-          status: 'RESOLVED',
-          comments: [...prev.comments, newComment],
-        }));
-
-        await getStatusResolved();
-        await postComment(newComment);
-      }
-
+      default:
+        break;
     }
 
     setMyComment('');
@@ -199,33 +185,33 @@ const CommentSubmit: React.FC<CommentSubmitProps> = ({ buttonText }) => {
 };
 
 const CommentInput = styled.textarea`
-    width: 100%;
-    box-sizing: border-box;
-    padding: 8px;
-    margin-top: 4px;
-    border: 1px solid ${({ theme: { color } }) => color.gray1};
-    border-radius: 4px;
-    font-size: 14px;
-    height: 50px;
-    vertical-align: top;
-    resize: none;
+  width: 100%;
+  box-sizing: border-box;
+  padding: 8px;
+  margin-top: 4px;
+  border: 1px solid ${({ theme: { color } }) => color.gray1};
+  border-radius: 4px;
+  font-size: 14px;
+  height: 50px;
+  vertical-align: top;
+  resize: none;
 `;
 
 const CommentContainer = styled.div`
-    width: 100%;
-    display: flex;
-    flex-direction: row;
+  width: 100%;
+  display: flex;
+  flex-direction: row;
 `;
 
 const SubmitButton = styled.button<{ disabled: boolean }>`
-    height: 50px;
-    width: 100px;
-    margin-left: 10px;
-    background-color: ${({ disabled }) => (disabled ? '#cccccc' : '#007bff')};
-    color: ${({ disabled }) => (disabled ? '#666666' : 'white')};
-    cursor: ${({ disabled }) => (disabled ? 'not-allowed' : 'pointer')};
-    border: none;
-    border-radius: 4px;
+  height: 50px;
+  width: 100px;
+  margin-left: 10px;
+  background-color: ${({ disabled }) => (disabled ? '#cccccc' : '#007bff')};
+  color: ${({ disabled }) => (disabled ? '#666666' : 'white')};
+  cursor: ${({ disabled }) => (disabled ? 'not-allowed' : 'pointer')};
+  border: none;
+  border-radius: 4px;
 `;
 
 export default CommentSubmit;
