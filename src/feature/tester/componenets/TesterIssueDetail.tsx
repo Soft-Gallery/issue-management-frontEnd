@@ -53,7 +53,7 @@ const TesterIssueDetail: React.FC = () => {
   };
 
   const renderCommentSubmit = () => {
-    if (issueInfo.status === 'FIXED' || issueInfo.status === 'REOPENED') {
+    if (issueInfo.status === 'FIXED') {
       if (issueInfo.reporter!.id.toString() === myId) {
         const buttonText = 'RESOLVED';
         return <CommentSubmit buttonText={buttonText} />;

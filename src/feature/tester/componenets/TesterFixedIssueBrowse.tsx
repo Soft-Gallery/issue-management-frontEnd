@@ -21,7 +21,7 @@ const TesterFixedIssueBrowse = () => {
     const fixedIssues = data.filter(
       (issue: Issue) =>
         issue.reporter.id.toString() === myId &&
-        (issue.status === 'FIXED' || issue.status === 'REOPENED')
+        (issue.status === 'FIXED')
     );
     setIssues(fixedIssues);
     setLoading(false);

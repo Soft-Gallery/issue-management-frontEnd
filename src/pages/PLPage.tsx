@@ -88,6 +88,20 @@ const PLPage: React.FC = () => {
     setLoading(false);
   };
 
+  const renderCommentSubmit = () => {
+    if(issueInfo.status === 'NEW'){
+      const buttonText = 'ASSIGNED';
+      return <CommentSubmit buttonText={buttonText} />
+    } else if(issueInfo.status === 'RESOLVED'){
+      const buttonText = 'CLOSED';
+      return <CommentSubmit buttonText={buttonText} />
+    } else if(issueInfo.status === 'CLOSED'){
+      const buttonText = 'REOPEN';
+      return <CommentSubmit buttonText={buttonText} />
+    }
+    return null;
+  }
+
   return (
     <Container>
       {loading ? (
@@ -97,11 +111,7 @@ const PLPage: React.FC = () => {
           <IssueHeaderItem />
           <IssueInfoItem />
           {issueInfo.status === 'NEW' && <AssigneeSelectItem />}
-          {(issueInfo.status === 'NEW' || issueInfo.status === 'RESOLVED') && (
-            <CommentSubmit
-              buttonText={issueInfo.status === 'NEW' ? 'ASSIGNED' : 'CLOSED'}
-            />
-          )}
+          {renderCommentSubmit()}
           <CommentItem />
         </>
       )}

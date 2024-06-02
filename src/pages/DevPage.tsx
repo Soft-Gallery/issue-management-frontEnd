@@ -54,14 +54,13 @@ const DevPage: React.FC = () => {
   };
 
   const renderCommentSubmit = () => {
-    if (issueInfo.status === 'ASSIGNED') {
+    if (issueInfo.status === 'ASSIGNED' || issueInfo.status === 'REOPENED') {
       if (issueInfo.assignedDev!.id.toString() === myId) {
         const buttonText = 'FIXED';
         return <CommentSubmit buttonText={buttonText} />;
-      } else {
-        return null;
       }
     }
+    return null;
   };
 
   return (

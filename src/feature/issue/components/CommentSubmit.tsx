@@ -83,6 +83,14 @@ const CommentSubmit: React.FC<CommentSubmitProps> = ({ buttonText }) => {
     }
   };
 
+  const getStatusReopened = async () => {
+    try {
+      await client.get(`/issue/reopening/${userPageInfo.issueId}`, headerData());
+    } catch (error) {
+      console.error('getStatusReopening 에러!!!!!!', error);
+    }
+  };
+
   const handleCommentChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     setMyComment(e.target.value);
   };
@@ -120,11 +128,21 @@ const CommentSubmit: React.FC<CommentSubmitProps> = ({ buttonText }) => {
 
           await getStatusClosed();
           await postComment(newComment);
+        } else if (buttonText === 'REOPEN') {
+          setIssueInfo((prev) => ({
+            ...prev,
+            status: 'REOPENED',
+            comments: [...prev.comments, newComment],
+          }));
+
+          await getStatusReopened();
+          await postComment(newComment);
+
         }
         break;
 
       case 'dev':
-        if (buttonText === 'ASSIGNED' || buttonText === 'REOPENED') {
+        if (buttonText === 'REOPENED' || buttonText === 'FIXED') {
           setIssueInfo((prev) => ({
             ...prev,
             status: 'FIXED',
