@@ -1,6 +1,6 @@
 import { DevUser, TesterUser, UserWithRole } from './user';
 
-export type IssueStatus = 'NEW' | 'ASSIGNED' | 'FIXED' | 'RESOLVED' | 'CLOSED';
+export type IssueStatus = 'NEW' | 'ASSIGNED' | 'FIXED' | 'RESOLVED' | 'CLOSED' | 'REOPENED';
 
 export type IssuePriority = 'BLOCKER' | 'CRITICAL' | 'MAJOR' | 'MINOR' | 'TRIVIAL';
 
@@ -27,4 +27,11 @@ export interface Comments {
   text: string;
   issueId: number;
   createdAt: string;
+}
+
+export interface TesterIssue {
+  title: string;
+  description: string;
+  projectId: number;
+  priority: IssuePriority;
 }

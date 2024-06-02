@@ -77,10 +77,12 @@ const IssueLabel = styled(Label)<{ priority: IssuePriority }>`
 }};
 `;
 
-const IssueTitle = styled.h3`
+const IssueTitle = styled.text`
     flex-grow: 1;
     text-align: left;
-    font-size: 18px;
+    font-size: 24pX;
+    margin-top: 12px;
+    font-weight: bolder;
 `;
 
 export default IssueHeaderItem;

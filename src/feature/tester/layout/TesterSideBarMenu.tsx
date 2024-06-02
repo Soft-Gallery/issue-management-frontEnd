@@ -10,7 +10,6 @@ const TesterSideBarMenu = (): JSX.Element => {
 
   const handleButtonClick = (view: string) => {
     setCurrentView(view);
-    console.log(view);
   };
 
   return(

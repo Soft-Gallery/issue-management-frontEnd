@@ -1,11 +1,9 @@
 import { useNavigate } from "react-router-dom";
 import React from 'react';
 import styled from 'styled-components';
-import ElementContainer from '../shared/components/ElementContainer';
 import { useRecoilValue } from 'recoil';
 import { adminPageViewState } from '../recoil/admin/atom';
 import AddProjectItem from '../feature/admin/components/addproject/AddProjectItem';
-import ProjectDetailItem from '../feature/admin/components/projectdetail/ProjectDetailItem';
 import { CURRENT_VIEW_STATES } from '../recoil/admin/constants/constants';
 
 

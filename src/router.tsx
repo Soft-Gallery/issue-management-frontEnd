@@ -12,6 +12,7 @@ import DevPage from './pages/DevPage';
 import LayoutWithoutSideBar from './shared/components/Layout/LayoutWithoutSideBar';
 import IssuePage from './pages/IssuePage';
 import StatisticPage from './pages/StatisticPage';
+import TesterIssueDetail from './feature/tester/componenets/TesterIssueDetail';
 
 const routes: RouteObject[] = [
   {
@@ -76,7 +77,7 @@ const routes: RouteObject[] = [
         path: "tester/issue/:issueIndex",
         element: (
           <ProtectedRoute allowedRoles={['tester']}>
-            <TesterPage />
+            <TesterIssueDetail />
           </ProtectedRoute>
         ),
       },

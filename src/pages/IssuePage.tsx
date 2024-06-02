@@ -36,9 +36,11 @@ const IssuePage: React.FC = () => {
         if (plViewState === PL_ISSUE_CURRENT_VIEW_STATES.VIEW_ALL_ISSUE) {
           response = await client.get(`/issue/searching/${userPageInfo.projectId}/all`, headerData());
           console.log(response);
+          console.log('모든 이슈 패치 완료');
         } else if (plViewState === PL_ISSUE_CURRENT_VIEW_STATES.VIEW_NEW_ISSUE) {
           response = await client.get(`/issue/searching/${userPageInfo.projectId}/state/NEW`, headerData());
           console.log(response);
+          console.log('newIssue냐?');
         }
       } else if (userRole === 'dev') {
         if (devViewState === DEV_ISSUE_CURRENT_VIEW_STATES.VIEW_ALL_ISSUE) {

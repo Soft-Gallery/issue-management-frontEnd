@@ -7,6 +7,8 @@ import { UserWithRole, UserRole, DevUser } from '../../../shared/types/user';
 import { userIdState, userPageState, userRoleState } from '../../../recoil/atom';
 import { assignedDevInfoState, issuePageInfoState } from '../../../recoil/issue/issueAtom';
 import { client } from '../../../shared/remotes/axios';
+import { testerIssueCreateState, testerPageViewState } from '../../../recoil/tester/atom';
+import { TESTER_CURRENT_VIEW_STATES } from '../../../recoil/tester/constants/constants';
 
 interface CommentSubmitProps {
   buttonText: string;
@@ -19,6 +21,8 @@ const CommentSubmit: React.FC<CommentSubmitProps> = ({ buttonText }) => {
   const [issueInfo, setIssueInfo] = useRecoilState(issuePageInfoState);
   const [myComment, setMyComment] = useState<string>('');
   const assignedDev = useRecoilValue(assignedDevInfoState);
+  const [testerViewState, setTesterViewState ] = useRecoilState(testerPageViewState);
+  const testerIssueInfo = useRecoilValue(testerIssueCreateState);
 
   const postComment = async (comment: Partial<Comments>) => {
     try {
@@ -55,19 +59,45 @@ const CommentSubmit: React.FC<CommentSubmitProps> = ({ buttonText }) => {
     }
   };
 
+  const getStatusResolved= async () => {
+    try {
+      await client.get(`/issue/resolving/${userPageInfo.issueId}`, headerData());
+    } catch (error) {
+      console.error('getStatusResolved 에러!!!!!!', error);
+    }
+  };
+
+  const postIssue= async (newComment : {text: string}) => {
+    try {
+      const data = {
+        issue: {
+          ...testerIssueInfo,
+          startDate: new Date().toISOString(),
+        },
+        comment: newComment,
+      };
+
+      await client.post(`/issue/new`, data ,headerData());
+
+    } catch (error) {
+      console.error('postIssue 에러!!!!!!', error);
+    }
+  };
+
   const handleCommentChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     setMyComment(e.target.value);
   };
 
   const handleSubmit = async () => {
-    const newComment = {
-      authorId: myId,
-      text: myComment,
-      issueId: userPageInfo.issueId,
-      createdAt: new Date().toISOString(),
-    };
 
     if (userRole === 'pl') {
+      const newComment = {
+        authorId: myId,
+        text: myComment,
+        issueId: userPageInfo.issueId,
+        createdAt: new Date().toISOString(),
+      };
+
       if (buttonText === 'ASSIGNED') {
         if (myComment.trim() === '' || !assignedDev) return;
 
@@ -79,11 +109,11 @@ const CommentSubmit: React.FC<CommentSubmitProps> = ({ buttonText }) => {
         });
 
         await postDev(assignedDev);
+        await postComment(newComment);
 
       } else if (buttonText === 'CLOSED') {
         if (myComment.trim() === '') return;
 
-        console.log('Setting issueInfo to CLOSED');
         setIssueInfo((prev) => ({
           ...prev,
           status: 'CLOSED',
@@ -91,22 +121,59 @@ const CommentSubmit: React.FC<CommentSubmitProps> = ({ buttonText }) => {
         }));
 
         await getStatusClosed();
-
+        await postComment(newComment);
       }
     }else if(userRole === 'dev'){
       if (myComment.trim() === '') return;
 
-      console.log('Setting issueInfo to CLOSED');
+      const newComment = {
+        authorId: myId,
+        text: myComment,
+        issueId: userPageInfo.issueId,
+        createdAt: new Date().toISOString(),
+      };
       setIssueInfo((prev) => ({
         ...prev,
-        status: 'CLOSED',
+        status: 'FIXED',
         comments: [...prev.comments, newComment],
       }));
 
       await getStatusFixed();
-    }
+      await postComment(newComment);
 
-    await postComment(newComment);
+    }else if(userRole === 'tester'){
+      if(testerViewState === TESTER_CURRENT_VIEW_STATES.ISSUE_CREATE){
+        if (myComment.trim() === '') return;
+
+        const newComment = {
+          text: myComment,
+        };
+
+        await postIssue(newComment);
+        alert('이슈를 생성했습니다!');
+        setTesterViewState(TESTER_CURRENT_VIEW_STATES.ISSUE_BROWSE);
+
+      }else{
+        if (myComment.trim() === '') return;
+
+        const newComment = {
+          authorId: myId,
+          text: myComment,
+          issueId: userPageInfo.issueId,
+          createdAt: new Date().toISOString(),
+        };
+
+        setIssueInfo((prev) => ({
+          ...prev,
+          status: 'RESOLVED',
+          comments: [...prev.comments, newComment],
+        }));
+
+        await getStatusResolved();
+        await postComment(newComment);
+      }
+
+    }
 
     setMyComment('');
   };

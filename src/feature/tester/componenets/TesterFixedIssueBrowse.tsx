@@ -5,17 +5,21 @@ import { client } from '../../../shared/remotes/axios';
 import { headerData } from '../../../shared/components/header';
 import { Issue } from '../../../shared/types/issue';
 import { useRecoilValue } from 'recoil';
-import { userPageState } from '../../../recoil/atom';
+import { userIdState, userPageState } from '../../../recoil/atom';
+import IssueListItem from '../../issue/components/IssueListItem';
 
 const TesterFixedIssueBrowse = () => {
   const [selectedIssue, setSelectedIssue] = useState<number | null>(null);
   const [issues, setIssues] = useState<Issue[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const userPageInfo = useRecoilValue(userPageState);
+  const myId = useRecoilValue(userIdState);
 
   const getIssues = async () => {
     const data = await fetchIssueData();
-    setIssues(data);
+
+    const fixedIssues = data.filter((issue : Issue)=> (issue.reporter.id.toString() === myId)&&(issue.status === 'FIXED'));
+    setIssues(fixedIssues);
     setLoading(false);
   };
 
@@ -27,6 +31,7 @@ const TesterFixedIssueBrowse = () => {
         title: issue.title,
         status: issue.status,
         priority: issue.priority,
+        reporter: issue.reporter,
       }));
       return issueData;
     } catch (error) {
@@ -49,24 +54,22 @@ const TesterFixedIssueBrowse = () => {
 
   return (
     <Container>
-      {loading? (
+      {loading ? (
         <LoadingIndicator>Loading...</LoadingIndicator>
       ) : (
-        <IssueListContainer>
-          {issues.map((issue, index) => (
-            <React.Fragment key={index}>
-              <ElementContainerButton onClick={() => handleIssueClick(index)}>
-                <IssueTitle>{issue.title}</IssueTitle>
-                <IssueDescription>{issue.description}</IssueDescription>
-              </ElementContainerButton>
-              {selectedIssue === index && (
-                <IssueDetailContainer>
-                  <TesterIssueDetail issue={issues[selectedIssue]} />
-                </IssueDetailContainer>
-              )}
-            </React.Fragment>
-          ))}
-        </IssueListContainer>
+        issues.length > 0 ? (
+          issues.map((issue) => (
+            <IssueListItem
+              key={issue.id}
+              id={issue.id!}
+              title={issue.title}
+              status={issue.status}
+              priority={issue.priority}
+            />
+          ))
+        ) : (
+          <NoIssuesMessage>텅~</NoIssuesMessage>
+        )
       )}
     </Container>
   );
@@ -88,64 +91,36 @@ const LoadingIndicator = styled.div`
     margin-top: 50px;
 `;
 
-const IssueListContainer = styled.div`
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
-`;
-
-const IssueTitle = styled.h2`
-  font-size: 18px;
-  margin: 0;
-  padding: 0;
-`;
-
-const IssueDescription = styled.p`
-  font-size: 14px;
-  color: ${({ theme }) => theme.color.gray};
-`;
 
 const ElementContainerButton = styled.button`
-  width: 100%;
-  box-sizing: border-box;
-  padding: 24px;
-  display: flex;
-  border-radius: 12px;
+    width: 100%;
+    box-sizing: border-box;
+    padding: 24px;
+    display: flex;
+    border-radius: 12px;
 
-  flex-direction: column;
-  align-items: flex-start;
-  justify-content: center;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: center;
 
-  border: 1px solid ${({ theme: { color } }) => color.black200};
+    border: 1px solid ${({ theme: { color } }) => color.black200};
 
-  background-color: ${({ theme: { color } }) => color.white};
-  cursor: pointer;
-  text-align: left;
+    background-color: ${({ theme: { color } }) => color.white};
+    cursor: pointer;
+    text-align: left;
 
-  &:hover {
-    background-color: ${({ theme: { color } }) => color.black100};
-  }
+    &:hover {
+        background-color: ${({ theme: { color } }) => color.black100};
+    }
 
-  &:focus {
-    outline: none;
-  }
+    &:focus {
+        outline: none;
+    }
 `;
 
-const IssueDetailContainer = styled.div`
-  width: 100%;
-  box-sizing: border-box;
-  padding: 24px;
-  display: flex;
-  border-radius: 12px;
-
-  flex-direction: column;
-  align-items: flex-start;
-  justify-content: center;
-
-  border: 1px solid ${({ theme: { color } }) => color.black200};
-
-  background-color: ${({ theme: { color } }) => color.white};
+const NoIssuesMessage = styled.div`
+    font-size: 56px;
+    font-weight: bold;
+    margin-top: 50px;
 `;
-
 export default TesterFixedIssueBrowse;
