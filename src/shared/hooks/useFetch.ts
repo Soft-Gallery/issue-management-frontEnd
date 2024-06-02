@@ -14,6 +14,7 @@ const useFetch = <T>(fetcher: () => Promise<T>) => {
     try {
       const data = await fetcher();
       setData(data);
+      console.log(data);
     } catch (error) {
       if (error instanceof AuthError) {
         console.log('인증 오류');

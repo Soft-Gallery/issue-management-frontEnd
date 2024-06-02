@@ -10,6 +10,7 @@ export default function postLogin(id: string, password: string){
   const loginUser = async (userData: FormData)=> {
     try {
       const response = await client.post('/user/signin', userData);
+
       const userToken = response.headers.authorization;
       saveTokenToLocalStorage(userToken);
       return true;

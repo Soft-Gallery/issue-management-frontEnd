@@ -96,6 +96,20 @@ const routes: RouteObject[] = [
     ),
   },
   {
+    path: "/admin",
+    element: (
+      <ProtectedRoute allowedRoles={['admin']}>
+        <Layout />
+      </ProtectedRoute>
+    ),
+    children: [
+      {
+        index: true,
+        element: <AdminPage />,
+      },
+    ],
+  },
+  {
     path: "/statistic",
     element: <StatisticPage />
   }

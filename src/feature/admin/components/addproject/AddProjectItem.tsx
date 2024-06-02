@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';;
 import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
 import getTokenFromLocalStorage from '../../../auth/function/getTokenFromLocalStorage';
@@ -35,6 +35,11 @@ const AddProjectItem = () => {
 
   };
 
+  useEffect(() => {
+    return () => {
+      setStep(1);
+    };
+  }, [setStep]);
   return (
     <Container>
       {step === 1 && (
