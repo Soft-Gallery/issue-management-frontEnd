@@ -1,4 +1,4 @@
-import { createBrowserRouter, RouteObject } from "react-router-dom";
+import { createBrowserRouter, RouteObject, Navigate } from "react-router-dom";
 import Layout from './shared/components/Layout/Layout';
 import React from 'react';
 import AdminPage from './pages/AdminPage';
@@ -15,6 +15,10 @@ import StatisticPage from './pages/StatisticPage';
 import TesterIssueDetail from './feature/tester/componenets/TesterIssueDetail';
 
 const routes: RouteObject[] = [
+  {
+    path: "/",
+    element: <Navigate to="/login" replace />
+  },
   {
     path: "/login",
     element: <LoginPage />,
@@ -84,18 +88,12 @@ const routes: RouteObject[] = [
     ],
   },
   {
-    path: "/",
-    element: <Layout />,
-    children: [
-      {
-        path: "admin",
-        element: (
-          <ProtectedRoute allowedRoles={['admin']}>
-            <AdminPage />
-          </ProtectedRoute>
-        ),
-      },
-    ],
+    path: "/admin",
+    element: (
+      <ProtectedRoute allowedRoles={['admin']}>
+        <AdminPage />
+      </ProtectedRoute>
+    ),
   },
   {
     path: "/statistic",
