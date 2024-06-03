@@ -105,7 +105,7 @@ npm run start
   `ADMIN`, `DEVELOPER`, `TESTER`, `PL` 네가지 `ROLE`을 선택하여 계정을 생성하는 기능을 제공합니다. <br>
   사용자의 아이디, 패스워드 이름, 이메일 주소를 계정 생성 조건에 맞게 입력해주세요.
 
-![signup.png](docs/images/signup.png)
+![signUp.png](docs/images/signUp.png)
 
 <br>
 
