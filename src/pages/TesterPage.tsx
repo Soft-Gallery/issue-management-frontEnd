@@ -12,7 +12,7 @@ const TesterPage = () => {
   const currentView = useRecoilValue(testerPageViewState);
 
   return (
-    <Container>
+    <Container>d
       {currentView === TESTER_CURRENT_VIEW_STATES.ISSUE_CREATE && <TesterIssueCreate />}
       {currentView === TESTER_CURRENT_VIEW_STATES.ISSUE_BROWSE && <TesterIssueBrowse />}
       {currentView === TESTER_CURRENT_VIEW_STATES.FIXED_ISSUE_BROWSE && <TesterFixedIssueBrowse />}
