@@ -40,10 +40,14 @@
 ## 🎍EXECUTION
 
 * **웹 링크** : http://18.205.75.48 <br><br>
+![login.png](docs/images/login.png)
 
-
-현재, 웹사이트와 서버를 aws로 배포한 상태입니다.
-유동적인 배포 상태로 인하여 사이트가 올바르게 작동하지 않을 수 있으니, 문제가 발생할 경우 첨부된 이메일로 연락 주시면 최대한 빨리 해결해드리겠습니다:) sumin1667@cau.ac.kr
+  
+  [ 2024.06.03 기준 ] <br>
+  웹사이트와 서버를 aws로 배포한 상태입니다.
+  유동적인 배포 상태로 인하여 사이트가 올바르게 작동하지 않을 수 있으니, 문제가 발생할 경우 첨부된 이메일로 연락 주시면 최대한 빨리 해결해드리겠습니다:) 
+  <br>
+  sumin1667@cau.ac.kr
 
 <br>
 
@@ -97,74 +101,127 @@ npm run start
 
 ## 🎍KEY_FEATURE
 
-- **계정 생성**  
-  `ADMIN`, `DEVELOPER`, `TESTER`, `PL` 네가지 `ROLE`이 존재하고, 해당 `ROLE`이 접근할 수 있는 엔드 포인트를 제한하고 있습니다.  
-  추가적인 롤이 필요하면 명세에 새로운 `ROLE`의 타입을 기입하고, `USER` 클래스를 상속받아 기능을 구현하여 사용할 수 있습니다.  
-  <br>
+### 계정 생성  
+  `ADMIN`, `DEVELOPER`, `TESTER`, `PL` 네가지 `ROLE`을 선택하여 계정을 생성하는 기능을 제공합니다. <br>
+  사용자의 아이디, 패스워드 이름, 이메일 주소를 계정 생성 조건에 맞게 입력해주세요.
 
-- **프로젝트 생성**  
-  프로젝트의 `생성` 기능을 제공합니다.  
-  `ADMIN`이 프로젝트를 `생성`하면서 해당 프로젝트에 `TESTER`, `PL`, `DEVELOPER`를 `추가` 할 수 있습니다.    
-  <br>
+![signup.png](docs/images/signup.png)
 
-- **이슈 관리**  
-  이슈의 `생성`, `상태 변경`, `해결`, `브라우징` 등의 기능을 제공합니다.
-  이슈의 `title`과 `description`, 이슈를 보고하는 `reporter`, 이슈를 할당받는 `assignee`, 이슈를 해결하는 `fixer` 등 이슈에 대한 정보를 브라우징 할 수 있습니다.   
-  또한 각 `ROLE`에 해당하는 유저들이 상호작용을 통해 해당 이슈의 상태를 `NEW`, `ASSIGNED`, `FIXED`, `RESOLVED`, `CLOSED`, `REOPENED` 등으로 바꾸며 상태 관리를 할 수 있습니다.
-  <br><br>
-
-- **담당자 추천**  
-  `GPT API` 서비스를 이용해 현재 이슈에 가장 어울리는 `Assignee` 추천해 이슈에 개발자를 담당시킬 때 도움을 받을 수 있습니다.  
-  현재 이슈를 해결할 수 있는 이슈가 발생한 프로젝트에 속해 있는 개발자들의 과거 이슈 해결 내역 및 해당 이슈의 중요도 등의 정보와 더불어
-  각 개발자들이 현재 수행중인 이슈들의 개수와 중요도 등을 다방면에서 평가하여 현재 이슈를 담당할 개발자를 추천합니다.  
-  <br>  
-
-- **코멘트**  
-  이슈에 달리는 `Comment`를 보여주는 기능을 제공합니다.  
-  이슈의 상태가 변하는 상황을 포함해 필요한 여러 상황에 협업을 위한 `Comment`를 추가할 수 있습니다.    
-  <br>
-
-- **이슈 통계 분석**  
-  프로젝트의 `이슈`를 분석한 `시각적 통계 기능`을 제공합니다.  
-  프로젝트 내부와 외부에서 수집한 이슈들의 정보와 `수치화 된 데이터`로부터 유의미한 자료를 시각적으로 보여줍니다.
-  <br>
 <br>
 
+### 프로젝트 생성  
+  `ADMIN`의 프로젝트 `생성` 기능을 제공합니다.<br>
+
+![admin_view_projects.png](docs/images/admin_view_projects.png)
+  `ADMIN`이 프로젝트를 `생성`하면서 해당 프로젝트에 `title`, `description`을 입력합니다. 이후, `TESTER`, `PL`, `DEVELOPER`를 프로젝트에 `추가` 할 수 있습니다.    
+
+
+<br>
+
+### 이슈 관리  
+  이슈의 `생성`, `브라우징`, `상태 변경`, 등의 기능을 제공합니다.<br>
+  `TESTER`가 이슈의 `title`, `description` 그리고 이슈 `comment`를 입력하여 이슈를 `생성`합니다.
+  `PL`, `TESTER`, `DEVLOPER`'는 이슈를 보고하는 `reporter`, 이슈를 할당받는 `assignee`, 이슈를 해결하는 `fixer` 등 이슈에 대한 정보를 브라우징 할 수 있습니다.<br>   
+  또한 서로 다른 `ROLE`을 가진 유저들의 상호작용을 통해 해당 이슈의 상태를 `NEW`, `ASSIGNED`, `FIXED`, `RESOLVED`, `CLOSED`, `REOPENED` 등으로 바꾸어 이슈의 상태를 관리 할 수 있습니다.
+
+![view_all_issues.png](docs/images/view_all_issues.png)
+
+<br>
+
+### 담당자 추천  
+  `GPT API` 서비스를 이용해 현재 이슈에 가장 어울리는 `Assignee` 추천하는 기능을 제공합니다.<br>
+  `PL`이 이슈에 개발자를 배정시킬 때 도움을 받을 수 있습니다.<br>  
+  현재 이슈를 해결할 수 있는 이슈가 발생한 프로젝트에 속해 있는 개발자들의 과거 이슈 해결 내역 및 해당 이슈의 중요도 등의 정보와 더불어
+  각 개발자들이 현재 수행중인 이슈들의 개수와 중요도 등을 다방면에서 평가하여 현재 이슈를 담당할 개발자를 추천합니다.<br>
+
+![recommend_dev.png](docs/images/recommend_dev.png)
+
+<br>  
+
+### 코멘트  
+  이슈에 달리는 `Comment`를 보여주는 기능을 제공합니다.  
+  이슈의 상태가 변하는 상황을 포함해 필요한 여러 상황에 협업을 위한 `Comment`를 추가할 수 있습니다.    
+
+![comment.png](docs/images/comment.png)
+
+<br>
+
+### 이슈 통계 분석  
+  프로젝트의 `이슈`를 분석한 `시각적 통계 기능`을 제공합니다.  
+  프로젝트 내부와 외부에서 수집한 이슈들의 정보와 `수치화 된 데이터`로부터 유의미한 자료를 시각적으로 보여줍니다.
+
+![statistics.png](docs/images/statistics.png)
+
+<br><br>
+
 ## 🎍USER_SENARIO
-- `ADMIN` 프로젝트 생성
 
-  그림<br>
-  설명<br>
+- `ADMIN` 프로젝트 생성 <br><br>
 
-- `TESTER` 이슈 생성 및 브라우징
+  ![admin_add_project.png](docs/images/admin_add_project.png)
+  ![admin_add_member.png](docs/images/admin_add_member.png)
 
-  그림<br>
-  설명<br>
+  `ADMIN`은 `project name`, `project description`을 입력하여 프로젝트를 생성하고 프로젝트에 `PL`, `TESTER`, `DEV`를 배정합니다. <br><br><br>
 
-- `PL`의 이슈 담당자 지정 및 이슈 상태 `NEW`에서 `ASSIGNED`로 변경
+
+- `TESTER` 이슈 생성 및 브라우징 <br><br>
+  ![project_card_item.png](docs/images/project_card_item.png)
+
+  `TESTER`는 프로젝트를 선택합니다. <br><br>
+
+  ![tester_issue_create.png](docs/images/tester_issue_create.png)
+
+  `TESTER`는 이슈의 `title`, `description`을 입력하고 `comment`를 달아서 이슈를 생성합니다. <br><br><br>
+
+
+- `PL`의 이슈 `담당자 지정` 및 이슈 상태 `NEW`에서 `ASSIGNED`로 변경<br><br>
+  ![pl_new_issues.png](docs/images/pl_new_issues.png)
+
+  `PL`은 `NEW` 상태의 이슈를 검색할 수 있습니다. <br><br>
+
+  ![pl_1.png](docs/images/pl_1.png)
+  `PL`은 이슈에 지정할 `담당자`를 `추천`받거나 직접 `선택`하고 코멘트를 작성합니다. <br><br>
+
+  ![pl_2.png](docs/images/pl_2.png)
+  `PL`은 이슈의 상태를 `NEW`에서 `ASSIGNED`로 변경합니다. <br><br><br>
+
+- `DEV`는 자신에게 할당된 이슈 브라우징 및 이슈 상태 `ASSIGNED`에서 `FIXED`로 변경<br><br>
+
+  ![dev_assigned_issues.png](docs/images/dev_assigned_issues.png)
+  `DEV`는 자신에게 배정된 이슈를 검색할 수 있습니다. <br><br>
+
+  ![dev_01.png](docs/images/dev_01.png)
+  `DEV`는 해당 이슈를 해결 한 후 이슈에 코멘트를 작성합니다. <br><br>
+
+  ![dev_02.png](docs/images/dev_02.png)
+  `DEV`는 이슈의 상태를 `ASSIGNED`에서 `FIXED`로 변경합닌다. <br><br><br>
   
-  그림<br>
-  설명<br><br>
+- `TESTER`가 자신이 report한 이슈의 상태를 `FIXED`에서 `RESOLVED`로 변경<br><br>
 
-- `DEV`의 자신에게 할당된 이슈 브라우징 및 이슈 상태 `ASSIGNED`에서 `FIXED`로 변경
-  
-  그림<br>
-  설명<br><br>
-  
-- `TESTER`가 자신이 report한 이슈의 상태를 `FIXED`에서 `RESOLVED`로 변경
+  ![tester_fixed_issues.png](docs/images/tester_fixed_issues.png)
+  `TESTER`는 자신이 report한 이슈 중 `FIXED` 상태인 이슈를 검색할 수 있습니다. <br><br>
 
-  그림<br>
-  설명<br><br>
-  
-- `PL`이 `RESOLVED` 이슈를 `CLOSED`로 변경
+  ![tester01.png](docs/images/tester_01.png)
+  `TESTER`는 fix 된 이슈를 확인한 후, 이슈에 코멘트를 작성합니다. <br><br>
 
-  그림<br>
-  설명<br><br>
+  ![tester_02.png](docs/images/tester_02.png)
+  `TESTER`는 이슈의 상태를 `FIXED`에서 `RESOLVED`로 변경합니다. <br><br><br>
   
-- PL이 `CLOSED`된 이슈를 다시 `REOPENED`로 변경
+- `PL`이 `RESOLVED` 이슈를 `CLOSED`로 변경<br><br>
+
+  ![pl_closed_01.png](docs/images/pl_closed_01.png)
+  `PL`은 resolve 된 이슈를 확인한 후, 이슈에 코멘트를 작성합니다. <br><br>
+
+  ![pl_closed_02.png](docs/images/pl_closed_02.png)
+  `PL`는 이슈의 상태를 `RESOLVED`에서 `CLOSED`로 변경합니다. <br><br><br>
   
-  그림<br>
-  설명<br><br>
+- PL이 `CLOSED`된 이슈를 다시 `REOPENED`로 변경<br><br>
+
+  ![pl_reopened_01.png](docs/images/pl_reopened_01.png)
+  `PL`은 close 된 이슈를 확인한 후, 이슈에 코멘트를 작성합니다. <br><br>
+
+  ![pl_reopened_02.png](docs/images/pl_reopened_02.png)
+  `PL`는 이슈의 상태를 `CLOSED`에서 `REOPENED`로 변경합니다. <br><br><br>
 
 
 ## 🎍TECH_STACK
