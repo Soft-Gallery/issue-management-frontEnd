@@ -3,22 +3,18 @@ import styled from 'styled-components';
 import projectPandaImg from '../../../assets/imgs/project_panda.png';
 import { ProjectCardItemType } from '../../../shared/types/project';
 import { useNavigate } from 'react-router-dom';
-import { useRecoilState, useRecoilValue } from 'recoil';
-import { userPageState, userRoleState } from '../../../recoil/atom';
+import { useRecoilState } from 'recoil';
+import { userPageState } from '../../../recoil/atom';
 
 const ProjectCardItem: React.FC<ProjectCardItemType> = ({ id, title, description }) => {
   const navigate = useNavigate();
   const [userPageInfo, setUserPageInfo] = useRecoilState(userPageState);
-  const userRole = useRecoilValue(userRoleState);
 
   const onClickButton = () => {
     setUserPageInfo((prev) => ({
       ...prev,
       projectId: id,
     }));
-
-    console.log('이동하기 전');
-    console.log(userRole);
     navigate(`/project/${id}`);
   };
 

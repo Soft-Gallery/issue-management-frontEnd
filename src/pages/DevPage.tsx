@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import IssueHeaderItem from '../feature/pl/components/IssueHeaderItem';
 import IssueInfoItem from '../feature/pl/components/IssueInfoItem';
+import AssigneeSelectItem from '../feature/pl/components/AssigneeSelectItem';
 import CommentItem from '../feature/CommentItem';
 import CommentSubmit from '../feature/issue/components/CommentSubmit';
 import { useRecoilState, useResetRecoilState, useRecoilValue } from 'recoil';
@@ -54,13 +55,14 @@ const DevPage: React.FC = () => {
   };
 
   const renderCommentSubmit = () => {
-    if (issueInfo.status === 'ASSIGNED' || issueInfo.status === 'REOPENED') {
+    if (issueInfo.status === 'ASSIGNED') {
       if (issueInfo.assignedDev!.id.toString() === myId) {
         const buttonText = 'FIXED';
         return <CommentSubmit buttonText={buttonText} />;
+      } else {
+        return null;
       }
     }
-    return null;
   };
 
   return (

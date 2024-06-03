@@ -1,30 +1,22 @@
-import React, { FC, ReactNode } from 'react';
-import { Navigate } from 'react-router-dom';
+import React from 'react';
 import { useRecoilValue } from 'recoil';
 import { userRoleState } from '../../recoil/atom';
+import { Navigate } from 'react-router-dom';
 
 interface ProtectedRouteProps {
+  children: React.ReactElement;
   allowedRoles: string[];
-  componentMap?: {
-    [key: string]: FC;
-  };
-  defaultComponent?: FC;
-  children?: ReactNode;
+
 }
 
-const ProtectedRoute: FC<ProtectedRouteProps> = ({ allowedRoles, componentMap, defaultComponent, children }) => {
+const ProtectedRoute: React.FC<ProtectedRouteProps> = ({ children, allowedRoles }: ProtectedRouteProps) => {
   const userRole = useRecoilValue(userRoleState);
 
-  if (!allowedRoles.includes(userRole)) {
+  if(!allowedRoles.includes(userRole)) {
     return <Navigate to="/login" />;
   }
 
-  if (componentMap && defaultComponent) {
-    const ComponentToRender = componentMap[userRole] || defaultComponent;
-    return <ComponentToRender />;
-  }
-
-  return <>{children}</>;
-};
+  return children;
+}
 
 export default ProtectedRoute;

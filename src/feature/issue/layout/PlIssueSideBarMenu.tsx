@@ -18,7 +18,7 @@ const PlIssueSideBarMenu = (): JSX.Element => {
         View All Issues
       </StyledButton>
       <StyledButton onClick={() => handleButtonClick(PL_ISSUE_CURRENT_VIEW_STATES.VIEW_NEW_ISSUE)}>
-        New Issues
+        View New Issues
       </StyledButton>
     </div>
   );

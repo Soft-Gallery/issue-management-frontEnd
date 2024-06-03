@@ -1,38 +1,59 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 import ElementContainer from '../../../shared/components/ElementContainer';
 import { devListDummy } from '../../../dummy/devListDummy';
-import { IssuePriority } from '../../../shared/types/issue';
+import { Issue, IssuePriority, IssueStatus } from '../../../shared/types/issue';
 import { DevUser } from '../../../shared/types/user';
-import { useRecoilState, useRecoilValue } from 'recoil';
-import { userPageState } from '../../../recoil/atom';
-import CommentSubmit from '../../issue/components/CommentSubmit';
-import { testerIssueCreateState } from '../../../recoil/tester/atom';
-
+import { Comments } from '../../../shared/types/issue';
 
 const TesterIssueCreate = () => {
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
+  const [status, setStatus] = useState<IssueStatus>('NEW');
   const [priority, setPriority] = useState<IssuePriority>('MAJOR');
+  const [reporter, setReporter] = useState('');
   const [devs, setDevs] = useState<DevUser[]>([]);
-  const userPageInfo = useRecoilValue(userPageState);
-  const [issueInfo, setIssueInfo] = useRecoilState(testerIssueCreateState);
+  const [comments, setComments] = useState<Comments[]>([]);
 
-  useEffect(() => {
-    setIssueInfo((prev) => ({
-      ...prev,
-      title: title,
-      description: description,
-      projectId: userPageInfo.projectId,
-      priority: priority,
-    }));
-  }, [title, description, priority], );
+  const handleSubmit = () => {
+    // const newIssue: Issue = {
+    //   title,
+    //   description,
+    //   status,
+    //   priority,
+    //   reporter,
+    //   devs,
+    //   comments,
+    // };
+    // console.log(newIssue);
+  };
 
+  const handleAssigneeChange = (index: number) => (e: React.ChangeEvent<HTMLSelectElement>) => {
+    const selectedId = parseInt(e.target.value, 10);
+    const selectedAssignee = devListDummy.find(dev => dev.id === selectedId);
+    if (selectedAssignee) {
+      const updatedAssignees = [...devs];
+      updatedAssignees[index] = selectedAssignee;
+      setDevs(updatedAssignees);
+    }
+  };
+
+  const addAssignee = () => {
+    setDevs(prevState => [...prevState, devListDummy[0]]);
+  };
+
+  const removeAssignee = (index: number) => {
+    setDevs(prevState => {
+      const updatedAssignees = [...prevState];
+      updatedAssignees.splice(index, 1);
+      return updatedAssignees;
+    });
+  };
 
   return (
     <Container>
       <ElementContainer>
-        <Label>Issue Title</Label>
+        <Label>Title</Label>
         <Input
           type="text"
           value={title}
@@ -47,6 +68,19 @@ const TesterIssueCreate = () => {
         />
       </ElementContainer>
       <ElementContainer>
+        <Label>Status</Label>
+        <Select
+          value={status}
+          onChange={(e) => setStatus(e.target.value as IssueStatus)}
+        >
+          <option value="NEW">NEW</option>
+          <option value="ASSIGNED">ASSIGNED</option>
+          <option value="FIXED">FIXED</option>
+          <option value="RESOLVED">RESOLVED</option>
+          <option value="CLOSED">CLOSED</option>
+        </Select>
+      </ElementContainer>
+      <ElementContainer>
         <Label>Priority</Label>
         <Select
           value={priority}
@@ -59,7 +93,33 @@ const TesterIssueCreate = () => {
           <option value="TRIVIAL">TRIVIAL</option>
         </Select>
       </ElementContainer>
-      <CommentSubmit buttonText = 'SUBMIT'/>
+      <ElementContainer>
+        <Label>Reporter</Label>
+        <Input
+          type="text"
+          value={reporter}
+          onChange={(e) => setReporter(e.target.value)}
+        />
+      </ElementContainer>
+      <ElementContainer>
+        <ElementTitleText>Assignees</ElementTitleText>
+        {devs.map((dev, index) => (
+          <DropDownContainer key={index}>
+            <UserText>Assignee</UserText>
+            <UserSelect value={dev.id} onChange={handleAssigneeChange(index)}>
+              <option value="">Select Assignee</option>
+              {devListDummy.map(dev => (
+                <option key={dev.id} value={dev.id}>
+                  {dev.name}
+                </option>
+              ))}
+            </UserSelect>
+            <RemoveButton onClick={() => removeAssignee(index)}>Remove</RemoveButton>
+          </DropDownContainer>
+        ))}
+        <AddButton onClick={addAssignee}>Add Assignee</AddButton>
+      </ElementContainer>
+      <Button onClick={handleSubmit}>Create Issue</Button>
     </Container>
   );
 };
